@@ -31,3 +31,5 @@
 *.out
 *.app
 UNO/.idea
+UNO/UNO/x64
+UNO/x64
