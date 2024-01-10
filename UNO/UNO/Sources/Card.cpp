@@ -1,0 +1,2 @@
+﻿#include "../Header/Card.h"
+

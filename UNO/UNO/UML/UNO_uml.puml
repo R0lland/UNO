@@ -1,0 +1,21 @@
+﻿@startuml
+'https://plantuml.com/sequence-diagram
+
+class GameManager {
+ 
+}
+
+class Player {
+ id : int;
+ game;
+}
+
+abstract class Card {
+  Color color: enum
+}
+
+class Hand {
+ Card card : std::vector<Card>
+}
+
+@enduml
