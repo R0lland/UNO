@@ -4,9 +4,12 @@
 class Card
 {
 private:
-    card_color color_ = card_color::NONE;
+    int id_ = 0;
+    int number_ = 0;
+    card_color color_ = card_color::RED;
     
 public:
     Card() = default;
-    Card(card_color new_color);
+    explicit Card(card_color color, int number);
+    card_color GetColor() const;
 };

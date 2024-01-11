@@ -39,4 +39,6 @@ void GameManager::CreatePlayers(const int number_of_players)
 void GameManager::StartGame()
 {
     InitializePlayers();
+    Deck deck{};
+    deck.Generate();
 }

@@ -6,10 +6,11 @@
 
 class Deck
 {
+    typedef std::shared_ptr<std::vector<Card>> cards_map_pointer;
 private:
-    std::shared_ptr<std::vector<Card>> cards_;
+    cards_map_pointer cards_ = std::make_shared<std::vector<Card>>();
 public:
     Deck() = default;
-    void shuffle();
-    void take_cards();
+    void Generate() const;
+    void Shuffle() const;
 };
