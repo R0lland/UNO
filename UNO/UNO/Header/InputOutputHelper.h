@@ -33,7 +33,6 @@ TData InputOutputHelper::force_get_input(const std::string& message)
     std::cin >> std::ws >> input;
     if(std::cin.fail())
     {
-        std::cout << "Please, use a valid input!" << std::endl;
         std::cin.clear();
         std::cin.ignore();
         return force_get_input<TData>(message);
