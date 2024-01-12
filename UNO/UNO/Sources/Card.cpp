@@ -1,9 +1,8 @@
 ﻿#include "../Header/Card.h"
 
-Card::Card(const card_color color, const int number)
+Card::Card(const card_color color) : color_(color)
 {
-    color_ = color;
-    number_ = number;
+    color_ = card_color::RED;
 }
 
 card_color Card::GetColor() const
