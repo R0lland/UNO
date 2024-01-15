@@ -3,8 +3,6 @@
 
 class Card
 {
-private:
-    int id_ = 0;
 protected:
     card_color color_ = card_color::NONE;
 public:
