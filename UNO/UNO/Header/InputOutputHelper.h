@@ -6,23 +6,23 @@ class InputOutputHelper
 {
 public:
     template <typename TData>
-    static TData get_input(const std::string& message);
+    static TData GetInput(const std::string& message);
 
     template <typename TData>
     static TData force_get_input(const std::string& message);
 };
 
 template <typename TData>
-TData InputOutputHelper::get_input(const std::string& message)
+TData InputOutputHelper::GetInput(const std::string& message)
 {
-    TData returnValue;
+    TData return_value;
     std::cout << message;
-    std::cin >> returnValue;
+    std::cin >> return_value;
     std::cout << std::endl;
     std::cin.clear();
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-    return returnValue;
+    return return_value;
 }
 
 template <typename TData>
