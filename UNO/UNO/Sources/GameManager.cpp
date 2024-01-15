@@ -16,7 +16,7 @@ bool NumberOfPlayersIsValid(const int number_of_players)
     return true;
 }
 
-void GameManager::InitializePlayers()
+void GameManager::InitializePlayers() const
 {
     int number_of_players = 0;
     const std::string display_message = "How many player will be joining us? ";
@@ -27,18 +27,17 @@ void GameManager::InitializePlayers()
     CreatePlayers(number_of_players);
 }
 
-void GameManager::CreatePlayers(const int number_of_players)
+void GameManager::CreatePlayers(const int number_of_players) const
 {
     for (int i = 0; i < number_of_players; i++)
     {
         players_->push_back(Player{});
     }
-    std::cout << players_->size();
+    std::cout << players_->size() << std::endl;
 }
 
-void GameManager::StartGame()
+void GameManager::StartGame() const
 {
     InitializePlayers();
-    Deck deck{};
-    deck.Generate();
+    deck_->Generate();
 }

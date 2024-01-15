@@ -11,7 +11,7 @@ private:
     std::shared_ptr<std::vector<Player>> players_ = std::make_shared<std::vector<Player>>();
     
 public:
-    void StartGame();
-    void InitializePlayers();
-    void CreatePlayers(int number_of_players);
+    void StartGame() const;
+    void InitializePlayers() const;
+    void CreatePlayers(int number_of_players) const;
 };

@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "Card.h"
 
-class WildCard final : public Card
+class WildCard : public Card
 {
 public:
     WildCard();

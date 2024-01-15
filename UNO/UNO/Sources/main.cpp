@@ -1,11 +1,9 @@
-#include "../Header/GameManager.h"
-#include "../Header/InputOutputHelper.h"
+#include "GameManager.h"
 
 int main(int argc, char* argv[])
 {
-    GameManager game_manager{};
-    game_manager.StartGame();
-    
+    const auto game_manager = std::make_unique<GameManager>();
+    game_manager->StartGame();
     return 0;
 }
 

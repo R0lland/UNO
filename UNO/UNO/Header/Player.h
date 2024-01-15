@@ -7,8 +7,8 @@
 class Player
 {
 private:
-    std::shared_ptr<std::vector<Card>> cards_ = std::make_shared<std::vector<Card>>();
+    std::vector<std::shared_ptr<Card>> hand_{};
 public:
     Player() = default;
-    void choose_card();
+    void ChooseCard();
 };
