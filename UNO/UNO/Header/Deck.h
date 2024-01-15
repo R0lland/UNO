@@ -13,5 +13,5 @@ public:
     void AddCard(const std::shared_ptr<Card>& card);
     void Generate();
     void GenerateCardsFromColor(card_color color);
-    void Shuffle() const;
+    void Shuffle();
 };

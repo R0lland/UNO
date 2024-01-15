@@ -56,11 +56,11 @@ void Deck::GenerateCardsFromColor(const card_color color)
     }
 }
 
-void Deck::Shuffle() const
+void Deck::Shuffle()
 {
     const unsigned int seed = static_cast<unsigned>(std::chrono::system_clock::now().time_since_epoch().count());
     auto rng = std::default_random_engine {seed};
-    std::shuffle(std::begin(cards_), std::end(cards_), rng);
+    std::shuffle(cards_.begin(), cards_.end(), rng);
 
     std::cout << cards_.size();
 }
