@@ -14,4 +14,5 @@ public:
     void Generate();
     void GenerateCardsFromColor(card_color color);
     void Shuffle();
+    std::shared_ptr<Card> DrawCard();
 };

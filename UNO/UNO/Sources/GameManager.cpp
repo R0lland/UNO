@@ -3,7 +3,7 @@
 #include <Deck.h>
 
 #include "GameConfig.h"
-#include "../Header/InputOutputHelper.h"
+#include "InputOutputHelper.h"
 
 bool NumberOfPlayersIsValid(const int number_of_players)
 {
@@ -16,7 +16,7 @@ bool NumberOfPlayersIsValid(const int number_of_players)
     return true;
 }
 
-void GameManager::InitializePlayers() const
+void GameManager::InitializePlayers()
 {
     int number_of_players = 0;
     const std::string display_message = "How many player will be joining us? ";
@@ -27,17 +27,34 @@ void GameManager::InitializePlayers() const
     CreatePlayers(number_of_players);
 }
 
-void GameManager::CreatePlayers(const int number_of_players) const
+void GameManager::CreatePlayers(const int number_of_players)
 {
     for (int i = 0; i < number_of_players; i++)
     {
-        players_->push_back(Player{});
+        players_.emplace_back(std::make_shared<Player>());
     }
-    std::cout << players_->size() << std::endl;
+    std::cout << players_.size() << std::endl;
 }
 
-void GameManager::StartGame() const
+void GameManager::DealInitialCards() const
+{
+    for (const std::shared_ptr<Player>& player : players_)
+    {
+        DrawCardsForPlayer(player, GameConfig::NUMBER_OF_CARDS_TO_DEAL);
+    }
+}
+
+void GameManager::DrawCardsForPlayer(const std::shared_ptr<Player>& player, const int number_of_cards) const
+{
+    for (int i = 0; i < number_of_cards; i++)
+    {
+        player->AddCardToHand(deck_->DrawCard());
+    }
+}
+
+void GameManager::StartGame()
 {
     InitializePlayers();
     deck_->Generate();
+    DealInitialCards();
 }

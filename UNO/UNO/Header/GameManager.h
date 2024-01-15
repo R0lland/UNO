@@ -8,10 +8,11 @@ class GameManager
 {
 private:
     std::unique_ptr<Deck> deck_ = std::make_unique<Deck>();
-    std::shared_ptr<std::vector<Player>> players_ = std::make_shared<std::vector<Player>>();
-    
+    std::vector<std::shared_ptr<Player>> players_{};
 public:
-    void StartGame() const;
-    void InitializePlayers() const;
-    void CreatePlayers(int number_of_players) const;
+    void StartGame();
+    void InitializePlayers();
+    void CreatePlayers(int number_of_players);
+    void DealInitialCards() const;
+    void DrawCardsForPlayer(const std::shared_ptr<Player>& player, int number_of_cards = 1) const;
 };

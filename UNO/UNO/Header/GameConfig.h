@@ -18,4 +18,7 @@ public:
     static int constexpr NUMBER_OF_WILD_CARDS = 4;
     static int constexpr NUMBER_OF_SKIP_CARDS = 2;
     static int constexpr PLUS_CARD_NUMBER_TO_DRAW = 2;
+
+    //Deal Cards
+    static int constexpr NUMBER_OF_CARDS_TO_DEAL = 7;
 };

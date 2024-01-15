@@ -1,6 +1,5 @@
 ﻿#include <chrono>
 #include <Deck.h>
-#include <iostream>
 #include <random>
 
 #include "CardUtils.h"
@@ -61,8 +60,13 @@ void Deck::Shuffle()
     const unsigned int seed = static_cast<unsigned>(std::chrono::system_clock::now().time_since_epoch().count());
     auto rng = std::default_random_engine {seed};
     std::shuffle(cards_.begin(), cards_.end(), rng);
+}
 
-    std::cout << cards_.size();
+std::shared_ptr<Card> Deck::DrawCard()
+{
+    std::shared_ptr<Card> card = std::move(cards_.back());
+    cards_.pop_back();
+    return card;
 }
 
 
