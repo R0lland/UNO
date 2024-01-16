@@ -54,7 +54,17 @@ void GameManager::DrawCardsForPlayer(const std::shared_ptr<Player>& player, cons
 
 void GameManager::StartGame()
 {
+    const std::shared_ptr<Player>& player = players_[0];
+    for (const std::shared_ptr<Card>& card : player->GetHand())
+    {
+        //std::cout << "Card in player hand: " << card->GetColor() << std::endl;
+    }
+}
+
+void GameManager::InitializeGame()
+{
     InitializePlayers();
     deck_->Generate();
     DealInitialCards();
+    StartGame();
 }

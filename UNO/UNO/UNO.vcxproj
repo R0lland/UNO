@@ -160,7 +160,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Header\CardUtils.cpp" />
+    <ClCompile Include="Header\CardFactory.cpp" />
+    <ClCompile Include="Header\ConsolePrinter.cpp" />
     <ClCompile Include="Sources\Card.cpp">
       <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -1038,7 +1039,9 @@
   <ItemGroup>
     <ClInclude Include="Header\Card.h" />
     <ClInclude Include="Header\CardColor.h" />
-    <ClInclude Include="Header\CardUtils.h" />
+    <ClInclude Include="Header\CardFactory.h" />
+    <ClInclude Include="Header\color.hpp" />
+    <ClInclude Include="Header\ConsolePrinter.h" />
     <ClInclude Include="Header\Deck.h" />
     <ClInclude Include="Header\GameConfig.h" />
     <ClInclude Include="Header\GameManager.h" />

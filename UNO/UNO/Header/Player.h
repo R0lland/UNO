@@ -11,5 +11,5 @@ private:
 public:
     Player() = default;
     void AddCardToHand(const std::shared_ptr<Card>& card);
-    void ChooseCard();
+    std::vector<std::shared_ptr<Card>>& GetHand();
 };

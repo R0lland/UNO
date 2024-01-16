@@ -2,17 +2,11 @@
 #include <Deck.h>
 #include <random>
 
-#include "CardUtils.h"
 #include "GameConfig.h"
-#include "NumberCard.h"
-#include "PlusCard.h"
-#include "ReverseCard.h"
-#include "SkipCard.h"
-#include "WildCard.h"
 
 void Deck::AddCard(const std::shared_ptr<Card>& card)
 {
-    cards_.emplace_back(card);
+    cards_.push_back(card);
 }
 
 void Deck::Generate()
@@ -23,7 +17,7 @@ void Deck::Generate()
     GenerateCardsFromColor(card_color::BLUE);
     for (int i = 0; i < GameConfig::NUMBER_OF_WILD_CARDS; i++)
     {
-        AddCard(CardUtils::GetCardFromChildType<WildCard>());
+        AddCard(card_factory_->CreateWildCard());
     }
     
     Shuffle();
@@ -35,23 +29,23 @@ void Deck::GenerateCardsFromColor(const card_color color)
     {
         for (int j = 0; j < GameConfig::NUMBER_OF_CARDS_EQUALS; j++)
         {
-            AddCard(CardUtils::GetCardFromChildType<NumberCard>(color, i));
+            AddCard(card_factory_->CreateNumberCard(color, i));
         }
     }
 
     for (int i = 0; i < GameConfig::NUMBER_OF_REVERSE_CARDS; i++)
     {
-        AddCard(CardUtils::GetCardFromChildType<ReverseCard>(color));
+        AddCard(card_factory_->CreateReverseCard(color));
     }
 
     for (int i = 0; i < GameConfig::NUMBER_OF_SKIP_CARDS; i++)
     {
-        AddCard(CardUtils::GetCardFromChildType<SkipCard>(color));
+        AddCard(card_factory_->CreateSkipCard(color));
     }
 
     for (int i = 0; i < GameConfig::NUMBER_OF_PLUS_CARDS; i++)
     {
-        AddCard(CardUtils::GetCardFromChildType<PlusCard>(color, GameConfig::PLUS_CARD_NUMBER_TO_DRAW));
+        AddCard(card_factory_->CreatePlusCard(color, i));
     }
 }
 
@@ -62,7 +56,7 @@ void Deck::Shuffle()
     std::shuffle(cards_.begin(), cards_.end(), rng);
 }
 
-std::shared_ptr<Card> Deck::DrawCard()
+std::shared_ptr<Card>& Deck::DrawCard()
 {
     std::shared_ptr<Card> card = std::move(cards_.back());
     cards_.pop_back();
