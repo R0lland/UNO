@@ -7,10 +7,10 @@
 class Player
 {
 private:
-    std::vector<std::shared_ptr<Card>> hand_{};
+    std::vector<std::unique_ptr<Card>> hand_{};
 public:
     Player() = default;
-    void AddCardToHand(const std::shared_ptr<Card>& card);
+    void AddCardToHand(std::unique_ptr<Card> card);
     void PrintHand() const;
-    std::vector<std::shared_ptr<Card>>& GetHand();
+    std::vector<std::unique_ptr<Card>>& GetHand();
 };

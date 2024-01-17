@@ -2,9 +2,9 @@
 
 #include <iostream>
 
-void Player::AddCardToHand(const std::shared_ptr<Card>& card)
+void Player::AddCardToHand(std::unique_ptr<Card> card)
 {
-    hand_.push_back(card);
+    hand_.push_back(std::move(card));
 }
 
 void Player::PrintHand() const
@@ -15,7 +15,7 @@ void Player::PrintHand() const
     }
 }
 
-std::vector<std::shared_ptr<Card>>& Player::GetHand()
+std::vector<std::unique_ptr<Card>>& Player::GetHand()
 {
     return hand_;
 }

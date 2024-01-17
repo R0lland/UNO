@@ -4,9 +4,9 @@
 
 #include "GameConfig.h"
 
-void Deck::AddCard(const std::shared_ptr<Card>& card)
+void Deck::AddCard(std::unique_ptr<Card> card)
 {
-    cards_.push_back(card);
+    cards_.push_back(std::move(card));
 }
 
 void Deck::Generate()
@@ -56,9 +56,9 @@ void Deck::Shuffle()
     std::shuffle(cards_.begin(), cards_.end(), rng);
 }
 
-std::shared_ptr<Card> Deck::DrawCard()
+std::unique_ptr<Card> Deck::DrawCard()
 {
-    std::shared_ptr<Card> card = std::move(cards_.back());
+    std::unique_ptr<Card> card = std::move(cards_.back());
     cards_.pop_back();
     return card;
 }
