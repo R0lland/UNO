@@ -17,7 +17,7 @@ void Deck::Generate()
     GenerateCardsFromColor(card_color::BLUE);
     for (int i = 0; i < GameConfig::NUMBER_OF_WILD_CARDS; i++)
     {
-        AddCard(card_factory_->CreateWildCard());
+        AddCard(card_factory_->CreateWildCard(GameConfig::WILD_CARD_NUMBER_TO_DRAW));
     }
     
     Shuffle();
@@ -45,7 +45,7 @@ void Deck::GenerateCardsFromColor(const card_color color)
 
     for (int i = 0; i < GameConfig::NUMBER_OF_PLUS_CARDS; i++)
     {
-        AddCard(card_factory_->CreatePlusCard(color, i));
+        AddCard(card_factory_->CreatePlusCard(color, GameConfig::PLUS_CARD_NUMBER_TO_DRAW));
     }
 }
 
@@ -56,7 +56,7 @@ void Deck::Shuffle()
     std::shuffle(cards_.begin(), cards_.end(), rng);
 }
 
-std::shared_ptr<Card>& Deck::DrawCard()
+std::shared_ptr<Card> Deck::DrawCard()
 {
     std::shared_ptr<Card> card = std::move(cards_.back());
     cards_.pop_back();

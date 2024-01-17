@@ -6,9 +6,9 @@
 #include "SkipCard.h"
 #include "WildCard.h"
 
-std::unique_ptr<Card> CardFactory::CreateWildCard() const
+std::unique_ptr<Card> CardFactory::CreateWildCard(int cards_to_draw) const
 {
-    return std::make_unique<WildCard>();
+    return std::make_unique<WildCard>(cards_to_draw);
 }
 
 std::unique_ptr<Card> CardFactory::CreateNumberCard(card_color color, int number) const

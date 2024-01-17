@@ -9,7 +9,6 @@ bool NumberOfPlayersIsValid(const int number_of_players)
 {
     if (number_of_players < GameConfig::MIN_PLAYERS || number_of_players > GameConfig::MAX_PLAYERS)
     {
-        std::cout << "You cannot add that amount of players, it needs to be between " << GameConfig::MIN_PLAYERS << " and " << GameConfig::MAX_PLAYERS << std::endl;
         return false;
     }
 
@@ -19,7 +18,7 @@ bool NumberOfPlayersIsValid(const int number_of_players)
 void GameManager::InitializePlayers()
 {
     int number_of_players = 0;
-    const std::string display_message = "How many player will be joining us? ";
+    const std::string display_message = "How many player will be joining us? [" + std::to_string(GameConfig::MIN_PLAYERS) + "-" + std::to_string(GameConfig::MAX_PLAYERS) + "]\n";
     while (!NumberOfPlayersIsValid(number_of_players))
     {
         number_of_players = InputOutputHelper::force_get_input<int>(display_message);
@@ -54,10 +53,10 @@ void GameManager::DrawCardsForPlayer(const std::shared_ptr<Player>& player, cons
 
 void GameManager::StartGame()
 {
-    const std::shared_ptr<Player>& player = players_[0];
-    for (const std::shared_ptr<Card>& card : player->GetHand())
+    for (const std::shared_ptr<Player>& player : players_)
     {
-        //std::cout << "Card in player hand: " << card->GetColor() << std::endl;
+        player->PrintHand();
+        std::cout << std::endl;
     }
 }
 
