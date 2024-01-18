@@ -2,6 +2,7 @@
 #include <memory>
 
 #include "Deck.h"
+#include "NameGenerator.h"
 #include "Player.h"
 
 class GameManager
@@ -9,6 +10,7 @@ class GameManager
 private:
     std::unique_ptr<Deck> deck_ = std::make_unique<Deck>();
     std::vector<std::unique_ptr<Player>> players_{};
+    std::unique_ptr<NameGenerator> name_generator_ = std::make_unique<NameGenerator>();
 public:
     void InitializeGame();
     void InitializePlayers();

@@ -30,9 +30,8 @@ void GameManager::CreatePlayers(const int number_of_players)
 {
     for (int i = 0; i < number_of_players; i++)
     {
-        players_.emplace_back(std::make_unique<Player>());
+        players_.emplace_back(std::make_unique<Player>(name_generator_->GetName()));
     }
-    std::cout << players_.size() << std::endl;
 }
 
 void GameManager::DealInitialCards() const
@@ -55,6 +54,7 @@ void GameManager::StartGame()
 {
     for (const std::unique_ptr<Player>& player : players_)
     {
+        std::cout << player->GetName() << std::endl;
         player->PrintHand();
         std::cout << std::endl;
     }
