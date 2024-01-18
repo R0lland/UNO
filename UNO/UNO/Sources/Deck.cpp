@@ -11,6 +11,8 @@ void Deck::AddCard(std::unique_ptr<Card> card)
 
 void Deck::Generate()
 {
+    cards_.reserve(GameConfig::TOTAL_CARDS);
+    
     GenerateCardsFromColor(card_color::RED);
     GenerateCardsFromColor(card_color::YELLOW);
     GenerateCardsFromColor(card_color::GREEN);

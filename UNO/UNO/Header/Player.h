@@ -15,4 +15,6 @@ public:
     void PrintHand() const;
     std::string& GetName();
     std::vector<std::unique_ptr<Card>>& GetHand();
+    int GetHandSize() const;
+    void ChooseCard();
 };

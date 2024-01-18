@@ -9,7 +9,9 @@ public:
     static TData GetInput(const std::string& message);
 
     template <typename TData>
-    static TData force_get_input(const std::string& message);
+    static TData ForceGetInput(const std::string& message);
+
+    static bool InputNumberInRange(int min, int max, int number);
 };
 
 template <typename TData>
@@ -26,7 +28,7 @@ TData InputOutputHelper::GetInput(const std::string& message)
 }
 
 template <typename TData>
-TData InputOutputHelper::force_get_input(const std::string& message)
+TData InputOutputHelper::ForceGetInput(const std::string& message)
 {
     TData input{};
     std::cout << message;
@@ -35,7 +37,7 @@ TData InputOutputHelper::force_get_input(const std::string& message)
     {
         std::cin.clear();
         std::cin.ignore();
-        return force_get_input<TData>(message);
+        return ForceGetInput<TData>(message);
     }
     return input;
 }

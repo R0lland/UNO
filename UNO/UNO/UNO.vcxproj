@@ -162,6 +162,7 @@
   <ItemGroup>
     <ClCompile Include="Header\CardFactory.cpp" />
     <ClCompile Include="Header\ColorUtils.cpp" />
+    <ClCompile Include="Header\TurnManager.cpp" />
     <ClCompile Include="Sources\Card.cpp">
       <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -1203,6 +1204,7 @@
     <ClInclude Include="Header\PlusCard.h" />
     <ClInclude Include="Header\ReverseCard.h" />
     <ClInclude Include="Header\SkipCard.h" />
+    <ClInclude Include="Header\TurnManager.h" />
     <ClInclude Include="Header\WildCard.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

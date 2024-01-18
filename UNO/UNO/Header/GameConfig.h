@@ -17,9 +17,14 @@ public:
     static int constexpr NUMBER_OF_REVERSE_CARDS = 2;
     static int constexpr NUMBER_OF_WILD_CARDS = 4;
     static int constexpr NUMBER_OF_SKIP_CARDS = 2;
+
+    
     static int constexpr PLUS_CARD_NUMBER_TO_DRAW = 2;
     static int constexpr WILD_CARD_NUMBER_TO_DRAW = 4;
 
     //Deal Cards
     static int constexpr NUMBER_OF_CARDS_TO_DEAL = 7;
+
+    //Total Cards
+    static int constexpr TOTAL_CARDS = ((MAX_NUMBER_CARD+1)*NUMBER_OF_CARDS_EQUALS) + NUMBER_OF_PLUS_CARDS + NUMBER_OF_REVERSE_CARDS + NUMBER_OF_WILD_CARDS + NUMBER_OF_SKIP_CARDS;
 };
