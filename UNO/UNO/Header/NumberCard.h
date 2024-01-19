@@ -8,5 +8,5 @@ private:
 public:
     NumberCard(card_color color, card_type type, int number);
     int GetNumber() const;
-    void Action() override;
+    void InvokeAction(ITurnCardActionHandler* turn_handler) override;
 };

@@ -1,7 +1,10 @@
 ﻿#pragma once
+#include <memory>
 #include <string>
 
 #include "CardData.h"
+
+class ITurnCardActionHandler;
 
 class Card
 {
@@ -15,5 +18,5 @@ public:
     card_type GetType() const;
     void Print();
     void Print(int id);
-    virtual void Action() = 0;
+    virtual void InvokeAction(ITurnCardActionHandler* turn_handler);
 };

@@ -160,6 +160,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Header\ITurnCardActionHandler.cpp" />
     <ClCompile Include="Sources\Card.cpp">
       <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -1420,6 +1421,7 @@
     <ClInclude Include="Header\GameConfig.h" />
     <ClInclude Include="Header\GameManager.h" />
     <ClInclude Include="Header\InputOutputHelper.h" />
+    <ClInclude Include="Header\ITurnCardActionHandler.h" />
     <ClInclude Include="Header\NameGenerator.h" />
     <ClInclude Include="Header\NumberCard.h" />
     <ClInclude Include="Header\Player.h" />

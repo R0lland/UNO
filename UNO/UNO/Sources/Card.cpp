@@ -25,3 +25,8 @@ void Card::Print(int id)
 {
     std::cout << "[" << id << "] " << dye::colorize(ColorUtils::GetColorName(color_), ColorUtils::GetColorDyeId(color_)) << " " << display_card_value_ << std::endl;
 }
+
+void Card::InvokeAction(ITurnCardActionHandler* turn_handler)
+{
+    
+}

@@ -16,5 +16,6 @@ public:
     std::string& GetName();
     std::vector<std::unique_ptr<Card>>& GetHand();
     int GetHandSize() const;
-    void ChooseCard();
+    void ChooseCard(ITurnCardActionHandler* turn_handler);
+    std::unique_ptr<Card> RemoveCardFromHand(int card_id);
 };

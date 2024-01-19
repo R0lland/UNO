@@ -6,6 +6,6 @@ SkipCard::SkipCard(const card_color color, const card_type type)
     display_card_value_ = "Skip";
 }
 
-void SkipCard::Action()
+void SkipCard::InvokeAction(ITurnCardActionHandler* turn_handler)
 {
 }

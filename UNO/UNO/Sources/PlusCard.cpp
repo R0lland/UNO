@@ -6,6 +6,6 @@ PlusCard::PlusCard(card_color color, card_type type, int numberOfCardsToDraw)
     display_card_value_ = "+" + std::to_string(numberOfCardsToDraw);
 }
 
-void PlusCard::Action()
+void PlusCard::InvokeAction(ITurnCardActionHandler* turn_handler)
 {
 }

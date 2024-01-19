@@ -7,5 +7,5 @@ private:
     int number_of_cards_to_draw_ = 0;
 public:
     PlusCard(card_color color, card_type type, int number_of_cards_to_draw);
-    void Action() override;
+    void InvokeAction(ITurnCardActionHandler* turn_handler) override;
 };

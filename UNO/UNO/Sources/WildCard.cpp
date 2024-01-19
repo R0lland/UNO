@@ -6,6 +6,6 @@ WildCard::WildCard(int number_of_cards_to_draw)
     display_card_value_ = "+" + std::to_string(number_of_cards_to_draw_);
 }
 
-void WildCard::Action()
+void WildCard::InvokeAction(ITurnCardActionHandler* turn_handler)
 {
 }

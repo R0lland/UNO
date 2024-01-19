@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "InputOutputHelper.h"
+#include "ITurnCardActionHandler.h"
 
 Player::Player(const std::string name) : name_(name)
 { }
@@ -35,12 +36,26 @@ int Player::GetHandSize() const
     return hand_.size();
 }
 
-void Player::ChooseCard()
+void Player::ChooseCard(ITurnCardActionHandler* turn_handler)
 {
     int card_id = -1;
-    while (!InputOutputHelper::InputNumberInRange(0, hand_.size()-1, card_id))
+    bool cardValidated = false;
+    while (!cardValidated)
     {
-        card_id = InputOutputHelper::ForceGetInput<int>(name_ + ", choose one card from your Deck: ");
+        while (!InputOutputHelper::InputNumberInRange(0, hand_.size()-1, card_id))
+        {
+            card_id = InputOutputHelper::ForceGetInput<int>(name_ + ", choose one card from your Deck: ");
+        }
+        cardValidated = turn_handler->IsCardValidToPlay(hand_[card_id]) ;
     }
-    std::unique_ptr<Card>& card = hand_[card_id];
+    hand_[card_id]->InvokeAction(turn_handler);
+    turn_handler->HandleDiscardCardToPile(RemoveCardFromHand(card_id));
+    turn_handler->HandleMoveToNextPlayer();
+}
+
+std::unique_ptr<Card> Player::RemoveCardFromHand(const int card_id)
+{
+    std::unique_ptr<Card> card = std::move(hand_[card_id]);
+    hand_.erase(hand_.begin() + card_id);
+    return card;
 }
