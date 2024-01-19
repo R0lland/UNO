@@ -3,7 +3,7 @@
 #include <memory>
 #include <string>
 
-#include "CardColor.h"
+#include "CardData.h"
 
 class ColorInfo
 {

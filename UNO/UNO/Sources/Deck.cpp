@@ -31,23 +31,23 @@ void Deck::GenerateCardsFromColor(const card_color color)
     {
         for (int j = 0; j < GameConfig::NUMBER_OF_CARDS_EQUALS; j++)
         {
-            AddCard(card_factory_->CreateNumberCard(color, i));
+            AddCard(card_factory_->CreateNumberCard(color, card_type::NUMBER, i));
         }
     }
 
     for (int i = 0; i < GameConfig::NUMBER_OF_REVERSE_CARDS; i++)
     {
-        AddCard(card_factory_->CreateReverseCard(color));
+        AddCard(card_factory_->CreateReverseCard(color, card_type::REVERSE));
     }
 
     for (int i = 0; i < GameConfig::NUMBER_OF_SKIP_CARDS; i++)
     {
-        AddCard(card_factory_->CreateSkipCard(color));
+        AddCard(card_factory_->CreateSkipCard(color, card_type::SKIP));
     }
 
     for (int i = 0; i < GameConfig::NUMBER_OF_PLUS_CARDS; i++)
     {
-        AddCard(card_factory_->CreatePlusCard(color, GameConfig::PLUS_CARD_NUMBER_TO_DRAW));
+        AddCard(card_factory_->CreatePlusCard(color, card_type::PLUS_TWO, GameConfig::PLUS_CARD_NUMBER_TO_DRAW));
     }
 }
 

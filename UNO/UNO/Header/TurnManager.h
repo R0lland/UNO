@@ -23,11 +23,13 @@ class TurnManager
     void ShowPlayerDirection() const;
 public:
     explicit TurnManager(std::vector<std::unique_ptr<Player>>& players, std::unique_ptr<Deck> deck);
+    bool IsCardValidToPlay(const std::unique_ptr<Card>& card);
     void AddToDiscardPile(std::unique_ptr<Card> card);
     void InitializeTurns();
     void StartTurn(int player_id_turn);
     void SetNextPlayerTurn(int number_of_moves = 1);
     void ChangeGameDirection();
     void AddCardToDiscardPile(std::unique_ptr<Card> card);
+    void DrawCardsForPlayer(const std::unique_ptr<Player>& player, int number_of_cards = 1) const;
     std::unique_ptr<Card>& GetDiscardPileTopCard();
 };

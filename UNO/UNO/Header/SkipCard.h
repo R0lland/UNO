@@ -4,6 +4,6 @@
 class SkipCard : public Card
 {
 public:
-    explicit SkipCard(card_color color);
+    explicit SkipCard(card_color color, card_type type);
     void Action() override;
 };
