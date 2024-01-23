@@ -16,6 +16,11 @@ card_type Card::GetType() const
     return type_;
 }
 
+const std::string& Card::GetDisplayValue()
+{
+    return display_card_value_;
+}
+
 void Card::Print()
 {
     std::cout << dye::colorize(ColorUtils::GetColorName(color_), ColorUtils::GetColorDyeId(color_)) << " " << display_card_value_ << std::endl;
@@ -23,7 +28,7 @@ void Card::Print()
 
 void Card::Print(int id)
 {
-    std::cout << "[" << id << "] " << dye::colorize(ColorUtils::GetColorName(color_), ColorUtils::GetColorDyeId(color_)) << " " << display_card_value_ << std::endl;
+    std::cout << "[" << id << "] " << dye::colorize(ColorUtils::GetColorName(color_), ColorUtils::GetColorDyeId(color_)) << " " << display_card_value_ << " | ";
 }
 
 void Card::InvokeAction(ITurnCardActionHandler* turn_handler)

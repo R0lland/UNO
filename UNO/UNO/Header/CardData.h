@@ -2,7 +2,7 @@
 
 enum class card_color
 {
-    NONE = 0,
+    WILD = 0,
     RED = 1,
     GREEN = 2,
     BLUE = 3,

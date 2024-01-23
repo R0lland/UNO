@@ -19,4 +19,8 @@ public:
     
     static std::string& GetColorName(card_color color);
     static std::string& GetColorDyeId(card_color color);
+    static void PrintAllColors();
+    static void PrintColor(card_color color);
+    static void PrintAllColorsWithId();
+    static void PrintColorWithId(card_color color);
 };

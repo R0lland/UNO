@@ -32,7 +32,7 @@ void GameManager::PrintPlayerHands() const
     {
         std::cout << player->GetName() << std::endl;
         player->PrintHand();
-        std::cout << std::endl;
+        std::cout << std::endl << std::endl;
     }
 }
 

@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include "ConsolePrinter.h"
 #include "InputOutputHelper.h"
 #include "ITurnCardActionHandler.h"
 
@@ -36,18 +37,25 @@ int Player::GetHandSize() const
     return hand_.size();
 }
 
+void Player::YellUno()
+{
+    yelled_uno_ = true;
+}
+
 void Player::ChooseCard(ITurnCardActionHandler* turn_handler)
 {
     int card_id = -1;
-    bool cardValidated = false;
-    while (!cardValidated)
+    bool card_validated = false;
+    while (!card_validated)
     {
+        card_id = -1;
         while (!InputOutputHelper::InputNumberInRange(0, hand_.size()-1, card_id))
         {
             card_id = InputOutputHelper::ForceGetInput<int>(name_ + ", choose one card from your Deck: ");
         }
-        cardValidated = turn_handler->IsCardValidToPlay(hand_[card_id]) ;
+        card_validated = turn_handler->IsCardValidToPlay(hand_[card_id]);
     }
+    turn_handler->HandleSetNewTurnColor(hand_[card_id]->GetColor());
     hand_[card_id]->InvokeAction(turn_handler);
     turn_handler->HandleDiscardCardToPile(RemoveCardFromHand(card_id));
     turn_handler->HandleMoveToNextPlayer();

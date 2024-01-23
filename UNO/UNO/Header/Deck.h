@@ -14,6 +14,7 @@ public:
     Deck() = default;
     void AddCard(std::unique_ptr<Card> card);
     void Generate();
+    int GetSize() const;
     void GenerateCardsFromColor(card_color color);
     void Shuffle();
     std::unique_ptr<Card> DrawCard();

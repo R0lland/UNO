@@ -1,5 +1,7 @@
 ﻿#include "PlusCard.h"
 
+#include "ITurnCardActionHandler.h"
+
 PlusCard::PlusCard(card_color color, card_type type, int numberOfCardsToDraw)
     : Card(color, type), number_of_cards_to_draw_(numberOfCardsToDraw)
 {
@@ -8,4 +10,5 @@ PlusCard::PlusCard(card_color color, card_type type, int numberOfCardsToDraw)
 
 void PlusCard::InvokeAction(ITurnCardActionHandler* turn_handler)
 {
+    turn_handler->HandleDrawCardForNextPlayer(number_of_cards_to_draw_);
 }

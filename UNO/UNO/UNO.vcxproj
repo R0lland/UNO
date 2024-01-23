@@ -1333,7 +1333,7 @@
       <AdditionalIncludeDirectories>Header\</AdditionalIncludeDirectories>
       <LinkCompiled>true</LinkCompiled>
     </ClCompile>
-    <ClCompile Include="Sources\WildCard.cpp">
+    <ClCompile Include="Sources\WildPlusCard.cpp">
       <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <Optimization>Disabled</Optimization>
@@ -1429,7 +1429,7 @@
     <ClInclude Include="Header\ReverseCard.h" />
     <ClInclude Include="Header\SkipCard.h" />
     <ClInclude Include="Header\TurnManager.h" />
-    <ClInclude Include="Header\WildCard.h" />
+    <ClInclude Include="Header\WildPlusCard.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

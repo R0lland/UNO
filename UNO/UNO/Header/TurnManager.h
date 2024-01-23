@@ -18,11 +18,17 @@ class TurnManager : ITurnCardActionHandler
     std::vector<std::unique_ptr<Player>>& players_;
     std::unique_ptr<Deck> deck_{};
     std::stack<std::unique_ptr<Card>> discard_pile_{};
-    int current_player_id_ = 0;
+    card_color current_turn_color_;
     direction current_direction_ = NORMAL;
     
+    int current_player_id_ = 0;
+    int next_player_move_ = 1;
+    int number_of_cards_to_draw_ = 0;
+    
     void ShowPlayerDirection() const;
-    int GetNextPlayerId(int number_of_moves = 1);
+    int GetNextPlayerId() const;
+    void ResetNumberOfMoves();
+    void ResetNumberOfDraws();
 public:
     explicit TurnManager(std::vector<std::unique_ptr<Player>>& players, std::unique_ptr<Deck> deck);
     void InitializeTurns();
@@ -31,9 +37,11 @@ public:
     
     std::unique_ptr<Card>& GetDiscardPileTopCard();
     
-    bool IsCardValidToPlay(std::unique_ptr<Card>& card) override;
+    bool IsCardValidToPlay(std::unique_ptr<Card>&) override;
     void HandleChangeGameDirection() override;
-    void HandleMoveToNextPlayer(int number_of_moves = 1) override;
+    void HandleMoveToNextPlayer() override;
     void HandleDrawCardForNextPlayer(int number_of_cards) override;
     void HandleDiscardCardToPile(std::unique_ptr<Card> card) override;
+    void HandleSetNewTurnColor(card_color color) override;
+    void HandleSkipNextPlayer() override;
 };

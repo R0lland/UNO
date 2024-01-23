@@ -21,6 +21,7 @@ public:
     
     static int constexpr PLUS_CARD_NUMBER_TO_DRAW = 2;
     static int constexpr WILD_CARD_NUMBER_TO_DRAW = 4;
+    static int constexpr SKIP_CARD_NUMBER_TO_SKIP = 2;
 
     //Deal Cards
     static int constexpr NUMBER_OF_CARDS_TO_DEAL = 7;

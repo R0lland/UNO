@@ -4,11 +4,11 @@
 #include "PlusCard.h"
 #include "ReverseCard.h"
 #include "SkipCard.h"
-#include "WildCard.h"
+#include "WildPlusCard.h"
 
 std::unique_ptr<Card> CardFactory::CreateWildCard(int cards_to_draw) const
 {
-    return std::make_unique<WildCard>(cards_to_draw);
+    return std::make_unique<WildPlusCard>(cards_to_draw);
 }
 
 std::unique_ptr<Card> CardFactory::CreateNumberCard(card_color color, card_type type, int number) const

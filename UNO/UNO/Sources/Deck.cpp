@@ -25,6 +25,11 @@ void Deck::Generate()
     Shuffle();
 }
 
+int Deck::GetSize() const
+{
+    return cards_.size();
+}
+
 void Deck::GenerateCardsFromColor(const card_color color)
 {
     for (int i = GameConfig::MIN_NUMBER_CARD; i < GameConfig::MAX_NUMBER_CARD + 1; i++)

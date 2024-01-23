@@ -1,5 +1,7 @@
 ﻿#include "SkipCard.h"
 
+#include "ITurnCardActionHandler.h"
+
 SkipCard::SkipCard(const card_color color, const card_type type)
     : Card(color, type)
 {
@@ -8,4 +10,5 @@ SkipCard::SkipCard(const card_color color, const card_type type)
 
 void SkipCard::InvokeAction(ITurnCardActionHandler* turn_handler)
 {
+    turn_handler->HandleSkipNextPlayer();
 }

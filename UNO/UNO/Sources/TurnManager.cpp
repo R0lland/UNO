@@ -2,12 +2,16 @@
 
 #include <iostream>
 
+#include "ColorUtils.h"
+#include "GameConfig.h"
+
 TurnManager::TurnManager(std::vector<std::unique_ptr<Player>>& players, std::unique_ptr<Deck> deck) : players_(players), deck_(std::move(deck))
 {}
 
 bool TurnManager::IsCardValidToPlay(std::unique_ptr<Card>& card)
 {
-   if (card->GetColor() == GetDiscardPileTopCard()->GetColor() || card->GetType() == GetDiscardPileTopCard()->GetType() || card->GetType() == card_type::WILD)
+   if (card->GetColor() == current_turn_color_ || card->GetDisplayValue() == GetDiscardPileTopCard()->GetDisplayValue() ||
+       card->GetType() == card_type::WILD || current_turn_color_ == card_color::WILD)
    {
        return true;
    }
@@ -17,16 +21,21 @@ bool TurnManager::IsCardValidToPlay(std::unique_ptr<Card>& card)
 void TurnManager::InitializeTurns()
 {
     HandleDiscardCardToPile(deck_->DrawCard());
+    HandleSetNewTurnColor(GetDiscardPileTopCard()->GetColor());
     StartTurn(0);
 }
 
 void TurnManager::StartTurn(const int player_id_turn)
 {
+    ResetNumberOfMoves();
     current_player_id_ = player_id_turn;
+    std::cout << std::endl;
     ShowPlayerDirection();
     players_[current_player_id_]->PrintHand();
+    std::cout << std::endl << "DECK: " << deck_->GetSize() << std::endl;
     std::cout << "PILE: ";
-    GetDiscardPileTopCard()->Print();
+    ColorUtils::PrintColor(current_turn_color_);
+    std::cout << " " << GetDiscardPileTopCard()->GetDisplayValue() << std::endl;
     players_[current_player_id_]->ChooseCard(this);
     std::cout << std::endl;
 }
@@ -47,9 +56,9 @@ void TurnManager::ShowPlayerDirection() const
     std::cout << std::endl;
 }
 
-int TurnManager::GetNextPlayerId(const int number_of_moves)
+int TurnManager::GetNextPlayerId() const
 {
-    int new_player_id = current_player_id_ + (number_of_moves * current_direction_);
+    int new_player_id = current_player_id_ + (next_player_move_ * current_direction_);
     if (new_player_id < 0)
     {
         new_player_id = new_player_id + players_.size();
@@ -61,19 +70,40 @@ int TurnManager::GetNextPlayerId(const int number_of_moves)
     return new_player_id; 
 }
 
-void TurnManager::HandleMoveToNextPlayer(const int number_of_moves)
+void TurnManager::ResetNumberOfMoves()
 {
-    StartTurn(GetNextPlayerId(number_of_moves));
+    next_player_move_ = 1;
+}
+
+void TurnManager::ResetNumberOfDraws()
+{
+    number_of_cards_to_draw_ = 0;
+}
+
+void TurnManager::HandleMoveToNextPlayer()
+{
+    StartTurn(GetNextPlayerId());
 }
 
 void TurnManager::HandleDrawCardForNextPlayer(const int number_of_cards)
 {
     DrawCardsForPlayer(players_[GetNextPlayerId()], number_of_cards);
+    //number_of_cards_to_draw_ += number_of_cards;
 }
 
 void TurnManager::HandleDiscardCardToPile(std::unique_ptr<Card> card)
 {
     discard_pile_.push(std::move(card));
+}
+
+void TurnManager::HandleSetNewTurnColor(const card_color color)
+{
+    current_turn_color_ = color;
+}
+
+void TurnManager::HandleSkipNextPlayer()
+{
+    next_player_move_ = GameConfig::SKIP_CARD_NUMBER_TO_SKIP;
 }
 
 void TurnManager::HandleChangeGameDirection()
