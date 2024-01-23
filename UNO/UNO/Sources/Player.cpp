@@ -27,11 +27,6 @@ std::string& Player::GetName()
     return name_;
 }
 
-std::vector<std::unique_ptr<Card>>& Player::GetHand()
-{
-    return hand_;
-}
-
 int Player::GetHandSize() const
 {
     return hand_.size();
@@ -40,6 +35,11 @@ int Player::GetHandSize() const
 void Player::YellUno()
 {
     yelled_uno_ = true;
+}
+
+bool Player::HasCards() const
+{
+    return hand_.empty();
 }
 
 void Player::ChooseCard(ITurnCardActionHandler* turn_handler)
@@ -53,10 +53,11 @@ void Player::ChooseCard(ITurnCardActionHandler* turn_handler)
         {
             card_id = InputOutputHelper::ForceGetInput<int>(name_ + ", choose one card from your Deck: ");
         }
-        card_validated = turn_handler->IsCardValidToPlay(hand_[card_id]);
+        card_validated = turn_handler->IsCardValidToPlay(*hand_[card_id]);
     }
-    turn_handler->HandleSetNewTurnColor(hand_[card_id]->GetColor());
-    hand_[card_id]->InvokeAction(turn_handler);
+    Card& chosen_card = *hand_[card_id];
+    turn_handler->HandleSetNewTurnColor(chosen_card.GetColor());
+    chosen_card.InvokeAction(turn_handler);
     turn_handler->HandleDiscardCardToPile(RemoveCardFromHand(card_id));
     turn_handler->HandleMoveToNextPlayer();
 }

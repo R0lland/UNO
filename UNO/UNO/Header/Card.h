@@ -15,7 +15,7 @@ public:
     explicit Card(card_color color, card_type type);
     card_color GetColor() const;
     card_type GetType() const;
-    const std::string& GetDisplayValue();
+    std::string GetDisplayValue() const;
     void Print();
     void Print(int id);
     virtual void InvokeAction(ITurnCardActionHandler* turn_handler);

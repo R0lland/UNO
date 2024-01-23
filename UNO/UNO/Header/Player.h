@@ -15,9 +15,9 @@ public:
     void AddCardToHand(std::unique_ptr<Card> card);
     void PrintHand() const;
     std::string& GetName();
-    std::vector<std::unique_ptr<Card>>& GetHand();
     int GetHandSize() const;
     void YellUno();
+    bool HasCards() const;
     void ChooseCard(ITurnCardActionHandler* turn_handler);
     std::unique_ptr<Card> RemoveCardFromHand(int card_id);
 };

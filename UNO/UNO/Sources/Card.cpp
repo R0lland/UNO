@@ -16,7 +16,7 @@ card_type Card::GetType() const
     return type_;
 }
 
-const std::string& Card::GetDisplayValue()
+std::string Card::GetDisplayValue() const
 {
     return display_card_value_;
 }

@@ -8,10 +8,10 @@
 TurnManager::TurnManager(std::vector<std::unique_ptr<Player>>& players, std::unique_ptr<Deck> deck) : players_(players), deck_(std::move(deck))
 {}
 
-bool TurnManager::IsCardValidToPlay(std::unique_ptr<Card>& card)
+bool TurnManager::IsCardValidToPlay(const Card& card)
 {
-   if (card->GetColor() == current_turn_color_ || card->GetDisplayValue() == GetDiscardPileTopCard()->GetDisplayValue() ||
-       card->GetType() == card_type::WILD || current_turn_color_ == card_color::WILD)
+   if (card.GetColor() == current_turn_color_ || card.GetDisplayValue() == GetDiscardPileTopCard().GetDisplayValue() ||
+       card.GetType() == card_type::WILD || current_turn_color_ == card_color::WILD)
    {
        return true;
    }
@@ -21,22 +21,23 @@ bool TurnManager::IsCardValidToPlay(std::unique_ptr<Card>& card)
 void TurnManager::InitializeTurns()
 {
     HandleDiscardCardToPile(deck_->DrawCard());
-    HandleSetNewTurnColor(GetDiscardPileTopCard()->GetColor());
+    HandleSetNewTurnColor(GetDiscardPileTopCard().GetColor());
     StartTurn(0);
 }
 
 void TurnManager::StartTurn(const int player_id_turn)
 {
     ResetNumberOfMoves();
+    Player& current_player = *players_[current_player_id_];
     current_player_id_ = player_id_turn;
     std::cout << std::endl;
     ShowPlayerDirection();
-    players_[current_player_id_]->PrintHand();
+    current_player.PrintHand();
     std::cout << std::endl << "DECK: " << deck_->GetSize() << std::endl;
     std::cout << "PILE: ";
     ColorUtils::PrintColor(current_turn_color_);
-    std::cout << " " << GetDiscardPileTopCard()->GetDisplayValue() << std::endl;
-    players_[current_player_id_]->ChooseCard(this);
+    std::cout << " " << GetDiscardPileTopCard().GetDisplayValue() << std::endl;
+    current_player.ChooseCard(this);
     std::cout << std::endl;
 }
 
@@ -87,8 +88,7 @@ void TurnManager::HandleMoveToNextPlayer()
 
 void TurnManager::HandleDrawCardForNextPlayer(const int number_of_cards)
 {
-    DrawCardsForPlayer(players_[GetNextPlayerId()], number_of_cards);
-    //number_of_cards_to_draw_ += number_of_cards;
+    DrawCardsForPlayer(*players_[GetNextPlayerId()], number_of_cards);
 }
 
 void TurnManager::HandleDiscardCardToPile(std::unique_ptr<Card> card)
@@ -111,15 +111,15 @@ void TurnManager::HandleChangeGameDirection()
     current_direction_ = current_direction_ == NORMAL ? REVERTED : NORMAL;
 }
 
-void TurnManager::DrawCardsForPlayer(const std::unique_ptr<Player>& player, const int number_of_cards) const
+void TurnManager::DrawCardsForPlayer(Player& player, const int number_of_cards) const
 {
     for (int i = 0; i < number_of_cards; i++)
     {
-        player->AddCardToHand(deck_->DrawCard());
+        player.AddCardToHand(deck_->DrawCard());
     }
 }
 
-std::unique_ptr<Card>& TurnManager::GetDiscardPileTopCard()
+Card& TurnManager::GetDiscardPileTopCard()
 {
-    return discard_pile_.top();
+    return *discard_pile_.top();
 }

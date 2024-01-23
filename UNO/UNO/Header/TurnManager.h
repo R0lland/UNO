@@ -33,11 +33,11 @@ public:
     explicit TurnManager(std::vector<std::unique_ptr<Player>>& players, std::unique_ptr<Deck> deck);
     void InitializeTurns();
     void StartTurn(int player_id_turn);
-    void DrawCardsForPlayer(const std::unique_ptr<Player>& player, int number_of_cards = 1) const;
+    void DrawCardsForPlayer(Player& player, int number_of_cards = 1) const;
     
-    std::unique_ptr<Card>& GetDiscardPileTopCard();
+    Card& GetDiscardPileTopCard();
     
-    bool IsCardValidToPlay(std::unique_ptr<Card>&) override;
+    bool IsCardValidToPlay(const Card&) override;
     void HandleChangeGameDirection() override;
     void HandleMoveToNextPlayer() override;
     void HandleDrawCardForNextPlayer(int number_of_cards) override;
