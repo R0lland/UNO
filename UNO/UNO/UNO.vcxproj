@@ -161,6 +161,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Header\ITurnCardActionHandler.cpp" />
+    <ClCompile Include="Header\SpecialActionData.cpp" />
     <ClCompile Include="Sources\Card.cpp">
       <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -1428,6 +1429,7 @@
     <ClInclude Include="Header\PlusCard.h" />
     <ClInclude Include="Header\ReverseCard.h" />
     <ClInclude Include="Header\SkipCard.h" />
+    <ClInclude Include="Header\SpecialActionData.h" />
     <ClInclude Include="Header\TurnManager.h" />
     <ClInclude Include="Header\WildPlusCard.h" />
   </ItemGroup>

@@ -15,4 +15,5 @@ public:
     virtual void HandleDiscardCardToPile(std::unique_ptr<Card> card) = 0;
     virtual void HandleSetNewTurnColor(card_color color, bool show_message) = 0;
     virtual void HandleSkipNextPlayer() = 0;
+    virtual void PrintCurrentTurn(Player& player) = 0;
 };

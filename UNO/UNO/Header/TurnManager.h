@@ -48,4 +48,5 @@ public:
     void HandleSetNewTurnColor(card_color color, bool show_message) override;
     void HandleSkipNextPlayer() override;
     void HandleDrawCardForCurrentPlayer(int number_of_cards) override;
+    void PrintCurrentTurn(Player& player) override;
 };

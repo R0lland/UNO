@@ -33,7 +33,6 @@ void TurnManager::StartTurn(const int player_id_turn)
 {
     std::cout << std::endl;
     current_turn_++;
-    ColorUtils::PrintTextWithColor("- START TURN " + std::to_string(current_turn_), "grey");
     ResetNumberOfMoves();
     current_player_id_ = player_id_turn;
     Player& current_player = *players_[current_player_id_];
@@ -136,7 +135,7 @@ void TurnManager::HandleMoveToNextPlayer(Player& current_player)
 
 void TurnManager::HandleDrawCardForNextPlayer(const int number_of_cards)
 {
-    std::cout << players_[GetNextPlayerId()]->GetName() << " Draws " << number_of_cards << " card" << std::endl;
+    std::cout << players_[GetNextPlayerId()]->GetName() << " Draws " << number_of_cards << " cards" << std::endl;
     DrawCardsForPlayer(*players_[GetNextPlayerId()], number_of_cards);
 }
 
@@ -166,6 +165,11 @@ void TurnManager::HandleDrawCardForCurrentPlayer(int number_of_cards)
     DrawCardsForPlayer(*players_[current_player_id_], number_of_cards);
 }
 
+void TurnManager::PrintCurrentTurn(Player& player)
+{
+    PrintPlayerTurn(player);
+}
+
 void TurnManager::HandleChangeGameDirection()
 {
     ConsolePrinter::ShowMessage("Game direction has been changed");
@@ -187,6 +191,7 @@ void TurnManager::DrawCardsForPlayer(Player& player, int number_of_cards)
 
 void TurnManager::PrintPlayerTurn(const Player& player)
 {
+    ColorUtils::PrintTextWithColor("- START TURN " + std::to_string(current_turn_), "grey");
     std::cout << std::endl;
     ShowPlayerDirection();
     std::cout << "DECK: " << deck_->GetSize() << std::endl;
@@ -197,6 +202,11 @@ void TurnManager::PrintPlayerTurn(const Player& player)
     player.PrintHand();
     std::cout << std::endl;
     std::cout << "SPECIAL ACTIONS: ";
+    player.ShowSpecialActions(special_action::DRAW_CARD);
+    std::cout << " | ";
+    player.ShowSpecialActions(special_action::CLEAR_CONSOLE);
+    std::cout << " | ";
+    player.ShowSpecialActions(special_action::YELL_UNO);
     std::cout << std::endl;
 }
 

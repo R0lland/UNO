@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "Card.h"
+#include "SpecialActionData.h"
 
 class Player
 {
@@ -26,5 +27,6 @@ public:
     void ClearConsole(ITurnCardActionHandler* turn_handler);
     void DrawCard(ITurnCardActionHandler* turn_handler);
     void YellUno(ITurnCardActionHandler* turn_handler);
-    
+    void ShowSpecialActions(special_action action) const;
+    void UseSpecialAction(special_action action, ITurnCardActionHandler* turn_handler);
 };
