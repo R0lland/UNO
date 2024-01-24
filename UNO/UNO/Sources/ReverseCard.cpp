@@ -15,5 +15,4 @@ ReverseCard::ReverseCard(const card_color color, const card_type type)
 void ReverseCard::InvokeAction(ITurnCardActionHandler* turn_handler)
 {
         turn_handler->HandleChangeGameDirection();
-        ConsolePrinter::ShowMessage("Game direction has been changed");
 }

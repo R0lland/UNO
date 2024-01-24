@@ -11,4 +11,5 @@ PlusCard::PlusCard(card_color color, card_type type, int numberOfCardsToDraw)
 void PlusCard::InvokeAction(ITurnCardActionHandler* turn_handler)
 {
     turn_handler->HandleDrawCardForNextPlayer(number_of_cards_to_draw_);
+    turn_handler->HandleSkipNextPlayer();
 }

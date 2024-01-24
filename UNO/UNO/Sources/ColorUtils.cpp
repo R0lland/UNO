@@ -16,26 +16,28 @@ std::string& ColorUtils::GetColorDyeId(card_color color)
     return colors_info_[color]->color_dye_id;
 }
 
-void ColorUtils::PrintAllColors()
-{
-    PrintColorWithId(card_color::RED);
-    PrintColorWithId(card_color::BLUE);
-    PrintColorWithId(card_color::YELLOW);
-    PrintColorWithId(card_color::GREEN);
-}
-
-void ColorUtils::PrintColor(card_color color)
+void ColorUtils::PrintColor(const card_color color)
 {
     std::cout << dye::colorize(GetColorName(color), GetColorDyeId(color));
 }
 
 void ColorUtils::PrintAllColorsWithId()
 {
+    PrintColorWithId(card_color::RED);
+    PrintColorWithId(card_color::GREEN);
+    PrintColorWithId(card_color::BLUE);
+    PrintColorWithId(card_color::YELLOW);
+    std::cout << std::endl;
 }
 
 void ColorUtils::PrintColorWithId(card_color color)
 {
     std::cout << "[" << static_cast<int>(color) << "] " << dye::colorize(GetColorName(color), GetColorDyeId(color)) << " | ";
+}
+
+void ColorUtils::PrintTextWithColor(const std::string& message, const std::string color_id)
+{
+    std::cout <<  dye::colorize(message, color_id);
 }
 
 std::map<card_color, std::shared_ptr<ColorInfo>> ColorUtils::colors_info_{

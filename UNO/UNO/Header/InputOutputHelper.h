@@ -14,19 +14,6 @@ public:
     static bool InputNumberInRange(int min, int max, int number);
 };
 
-// template <typename TData>
-// TData InputOutputHelper::GetInput(const std::string& message)
-// {
-//     TData return_value;
-//     std::cout << message;
-//     std::cin >> return_value;
-//     std::cout << std::endl;
-//     std::cin.clear();
-//     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-//
-//     return return_value;
-// }
-
 template <typename TData>
 TData InputOutputHelper::ForceGetInput(const std::string& message)
 {

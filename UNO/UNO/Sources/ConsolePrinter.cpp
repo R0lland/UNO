@@ -21,3 +21,8 @@ void ConsolePrinter::ShowMessage(const std::vector<std::string>& lines)
 
     ShowMessage(fullMessage);
 }
+
+void ConsolePrinter::ClearConsole()
+{
+    system("CLS");
+}

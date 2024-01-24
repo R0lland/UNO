@@ -16,8 +16,9 @@ void WildPlusCard::InvokeAction(ITurnCardActionHandler* turn_handler)
     int color_id = -1;
     while (!InputOutputHelper::InputNumberInRange(1, 4, color_id))
     {
-        color_id = InputOutputHelper::ForceGetInput<int>("Choose one of the colors");
+        color_id = InputOutputHelper::ForceGetInput<int>("Choose one of the colors: ");
     }
-    turn_handler->HandleSetNewTurnColor(static_cast<card_color>(color_id));
+    turn_handler->HandleSetNewTurnColor(static_cast<card_color>(color_id), true);
     turn_handler->HandleDrawCardForNextPlayer(number_of_cards_to_draw_);
+    turn_handler->HandleSkipNextPlayer();
 }
