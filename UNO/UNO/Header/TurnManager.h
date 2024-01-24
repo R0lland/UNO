@@ -22,7 +22,7 @@ class TurnManager : ITurnCardActionHandler
     direction current_direction_ = NORMAL;
     
     int current_player_id_ = 0;
-    int current_turn_ = 1;
+    int current_turn_ = 0;
     int next_player_move_ = 1;
     int number_of_cards_to_draw_ = 0;
     
@@ -31,20 +31,21 @@ class TurnManager : ITurnCardActionHandler
     void ResetNumberOfMoves();
     void ResetNumberOfDraws();
     void SetTurnColor(card_color color);
+    void ReShuffleDeckWithDiscardPile();
 public:
     explicit TurnManager(std::vector<std::unique_ptr<Player>>& players, std::unique_ptr<Deck> deck);
     void InitializeTurns();
     void StartTurn(int player_id_turn);
-    void DrawCardsForPlayer(Player& player, int number_of_cards = 1) const;
+    void DrawCardsForPlayer(Player& player, int number_of_cards = 1);
     void PrintPlayerTurn(const Player& player);
     Card& GetDiscardPileTopCard();
     
     bool IsCardValidToPlay(const Card&) override;
     void HandleChangeGameDirection() override;
-    void HandleMoveToNextPlayer() override;
+    void HandleMoveToNextPlayer(Player& current_player) override;
     void HandleDrawCardForNextPlayer(int number_of_cards) override;
     void HandleDiscardCardToPile(std::unique_ptr<Card> card) override;
     void HandleSetNewTurnColor(card_color color, bool show_message) override;
     void HandleSkipNextPlayer() override;
-    void HandleDrawCardForCurrentPlayer() override;
+    void HandleDrawCardForCurrentPlayer(int number_of_cards) override;
 };

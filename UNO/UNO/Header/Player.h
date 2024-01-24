@@ -11,7 +11,7 @@ private:
     std::vector<std::unique_ptr<Card>> hand_{};
     bool yelled_uno_ = false;
 
-    bool CanYellUno();
+    bool CanYellUno() const;
     void PlayCard(int card_id, ITurnCardActionHandler* turn_handler); 
 public:
     explicit Player(std::string name);
@@ -19,10 +19,11 @@ public:
     void PrintHand() const;
     std::string& GetName();
     int GetHandSize() const;
-    bool HasCards() const;
+    bool HandIsEmpty() const;
+    bool HasYelledUno() const;
     void ChooseAction(ITurnCardActionHandler* turn_handler);
     std::unique_ptr<Card> RemoveCardFromHand(int card_id);
-    void ClearConsole();
+    void ClearConsole(ITurnCardActionHandler* turn_handler);
     void DrawCard(ITurnCardActionHandler* turn_handler);
     void YellUno(ITurnCardActionHandler* turn_handler);
     

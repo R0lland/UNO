@@ -7,18 +7,18 @@
 #include "InputOutputHelper.h"
 #include "ITurnCardActionHandler.h"
 
-bool Player::CanYellUno()
+bool Player::CanYellUno() const
 {
-    return hand_.size() <= 2;
+    return hand_.size() == 2;
 }
 
-void Player::PlayCard(int card_id, ITurnCardActionHandler* turn_handler)
+void Player::PlayCard(const int card_id, ITurnCardActionHandler* turn_handler)
 {
     Card& chosen_card = *hand_[card_id];
     turn_handler->HandleSetNewTurnColor(chosen_card.GetColor(), false);
     chosen_card.InvokeAction(turn_handler);
     turn_handler->HandleDiscardCardToPile(RemoveCardFromHand(card_id));
-    turn_handler->HandleMoveToNextPlayer();
+    turn_handler->HandleMoveToNextPlayer(*this);
 }
 
 Player::Player(const std::string name) : name_(name)
@@ -27,11 +27,12 @@ Player::Player(const std::string name) : name_(name)
 void Player::AddCardToHand(std::unique_ptr<Card> card)
 {
     hand_.push_back(std::move(card));
+    yelled_uno_ = false;
 }
 
 void Player::PrintHand() const
 {
-    for (int i = 0; i < hand_.size(); i++)
+    for (int i = 0; i < GetHandSize(); i++)
     {
         hand_[i]->Print(i);
         if (i > 0 && i % 8 == 0)
@@ -48,22 +49,26 @@ std::string& Player::GetName()
 
 int Player::GetHandSize() const
 {
-    return hand_.size();
+    return static_cast<int>(hand_.size());
 }
 
-bool Player::HasCards() const
+bool Player::HandIsEmpty() const
 {
     return hand_.empty();
 }
 
+bool Player::HasYelledUno() const
+{
+    return yelled_uno_;
+}
+
 void Player::ChooseAction(ITurnCardActionHandler* turn_handler)
 {
-    int action_id = -1;
     bool action_validated = false;
     while (!action_validated)
     {
-        action_id = -1;
-        while (!InputOutputHelper::InputNumberInRange(0, hand_.size()-1, action_id) || !InputOutputHelper::InputNumberInRange(100, 103, action_id))
+        int action_id = -1;
+        while (!InputOutputHelper::InputNumberInRange(0, GetHandSize()-1, action_id))
         {
             action_id = InputOutputHelper::ForceGetInput<int>(name_ + ", choose one card from your Deck or a special action: ");
         }
@@ -79,17 +84,28 @@ std::unique_ptr<Card> Player::RemoveCardFromHand(const int card_id)
     return card;
 }
 
-void Player::ClearConsole()
+void Player::ClearConsole(ITurnCardActionHandler* turn_handler)
 {
     ConsolePrinter::ClearConsole();
+    ChooseAction(turn_handler);
 }
 
 void Player::DrawCard(ITurnCardActionHandler* turn_handler)
 {
-    turn_handler->HandleDrawCardForCurrentPlayer();
+    turn_handler->HandleDrawCardForCurrentPlayer(1);
+    turn_handler->HandleMoveToNextPlayer(*this);
 }
 
 void Player::YellUno(ITurnCardActionHandler* turn_handler)
 {
-    yelled_uno_ = true;
+    if (CanYellUno())
+    {
+        ConsolePrinter::ShowMessage(name_ + " has yelled UNO!");
+        yelled_uno_ = true;
+    }
+    else
+    {
+        ConsolePrinter::ShowMessage("You don't meet the requirements to yell UNO yet");
+    }
+    ChooseAction(turn_handler);
 }

@@ -25,6 +25,7 @@ public:
 
     //Deal Cards
     static int constexpr NUMBER_OF_CARDS_TO_DEAL = 7;
+    static int constexpr NUMBER_OF_CARDS_TO_DRAW_IF_PLAYER_DIDNT_SHOUT_UNO = 2;
 
     //Total Cards
     static int constexpr TOTAL_CARDS = ((MAX_NUMBER_CARD+1)*NUMBER_OF_CARDS_EQUALS) + NUMBER_OF_PLUS_CARDS + NUMBER_OF_REVERSE_CARDS + NUMBER_OF_WILD_CARDS + NUMBER_OF_SKIP_CARDS;
