@@ -162,7 +162,10 @@ void TurnManager::HandleSetNewTurnColor(const card_color color, const bool show_
 {
     if (show_message)
     {
-        ConsolePrinter::ShowActionMessage(players_[current_player_id_]->GetName() + " has set the Color to " + ColorUtils::GetColorName(color));
+        //ConsolePrinter::ShowActionMessage(players_[current_player_id_]->GetName() + " has set the Color to " + ColorUtils::GetColorName(color), false);
+        ConsolePrinter::ShowActionMessage(players_[current_player_id_]->GetName() + " has set the Color to ", false);
+        ColorUtils::PrintColor(color);
+        ConsolePrinter::BreakLine();
     }
     SetTurnColor(color);
 }
@@ -212,10 +215,10 @@ void TurnManager::PrintPlayerTurn(const Player& player)
     std::cout << "PILE: ";
     ColorUtils::PrintColor(current_turn_color_);
     std::cout << " " << GetDiscardPileTopCard().GetDisplayValue() << std::endl << std::endl;
-    std::cout << "CARDS: ";
+    ColorUtils::PrintTextWithColor("CARDS: ", "aqua");
     player.PrintHand();
     std::cout << std::endl;
-    std::cout << "SPECIAL ACTIONS: ";
+    ColorUtils::PrintTextWithColor("ACTIONS: ", "aqua");
     player.ShowSpecialActions(special_action::DRAW_CARD);
     std::cout << " | ";
     player.ShowSpecialActions(special_action::CLEAR_CONSOLE);

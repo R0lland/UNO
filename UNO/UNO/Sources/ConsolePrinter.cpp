@@ -5,14 +5,19 @@
 
 class Player;
 
-void ConsolePrinter::ShowMessage(std::string message)
+void ConsolePrinter::ShowMessage(std::string message, const bool break_line)
 {
-    std::cout << message << std::endl;
+    std::cout << message;
+    if (break_line)
+    {
+        BreakLine();
+    }
 }
 
-void ConsolePrinter::ShowActionMessage(std::string message)
+void ConsolePrinter::ShowActionMessage(std::string message, const bool break_line)
 {
-    std::cout << "- " << message << std::endl;
+    std::cout << "- ";
+    ShowMessage(message, break_line);
 }
 
 void ConsolePrinter::ShowMessage(const std::vector<std::string>& lines)
@@ -25,6 +30,11 @@ void ConsolePrinter::ShowMessage(const std::vector<std::string>& lines)
     }
 
     ShowMessage(fullMessage);
+}
+
+void ConsolePrinter::BreakLine()
+{
+    std::cout << std::endl;
 }
 
 void ConsolePrinter::ClearConsole()

@@ -5,8 +5,9 @@
 class ConsolePrinter
 {
 public:
-    static void ShowMessage(std::string message);
-    static void ShowActionMessage(std::string message);
+    static void ShowMessage(std::string message, const bool break_line = true);
+    static void ShowActionMessage(std::string message, bool break_line = true);
     static void ShowMessage(const std::vector<std::string>& lines);
+    static void BreakLine();
     static void ClearConsole();
 };

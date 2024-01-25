@@ -18,7 +18,15 @@ std::string& ColorUtils::GetColorDyeId(card_color color)
 
 void ColorUtils::PrintColor(const card_color color)
 {
-    std::cout << dye::colorize(GetColorName(color), GetColorDyeId(color));
+    if (color == card_color::WILD)
+    {
+        std::cout << dye::colorize("W", GetColorDyeId(card_color::RED)) << dye::colorize("i", GetColorDyeId(card_color::GREEN)) <<
+            dye::colorize("l", GetColorDyeId(card_color::YELLOW)) << dye::colorize("d", GetColorDyeId(card_color::BLUE));
+    }
+    else
+    {
+        std::cout << dye::colorize(GetColorName(color), GetColorDyeId(color));
+    }
 }
 
 void ColorUtils::PrintAllColorsWithId()
@@ -32,7 +40,9 @@ void ColorUtils::PrintAllColorsWithId()
 
 void ColorUtils::PrintColorWithId(card_color color)
 {
-    std::cout << "[" << static_cast<int>(color) << "] " << dye::colorize(GetColorName(color), GetColorDyeId(color)) << " | ";
+    std::cout << "[" << static_cast<int>(color) << "] ";
+    PrintColor(color);
+    std::cout << " | ";
 }
 
 void ColorUtils::PrintTextWithColor(const std::string& message, const std::string color_id)

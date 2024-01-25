@@ -15,6 +15,9 @@ bool Player::CanYellUno() const
 void Player::PlayCard(const int card_id, ITurnCardActionHandler* turn_handler)
 {
     Card& chosen_card = *hand_[card_id];
+    ConsolePrinter::ShowActionMessage(name_ + " has used the card: ", false);
+    chosen_card.Print();
+    ConsolePrinter::BreakLine();
     turn_handler->HandleSetNewTurnColor(chosen_card.GetColor(), false);
     chosen_card.InvokeAction(turn_handler);
     turn_handler->HandleDiscardCardToPile(RemoveCardFromHand(card_id));
@@ -35,11 +38,11 @@ void Player::PrintHand() const
 {
     for (int i = 0; i < GetHandSize(); i++)
     {
-        hand_[i]->Print(i);
         if (i > 0 && i % 8 == 0)
         {
-            std::cout << std::endl;
+            std::cout << std::endl << "       ";
         }
+        hand_[i]->Print(i);
     }
 }
 

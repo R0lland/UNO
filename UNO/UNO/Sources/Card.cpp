@@ -2,6 +2,7 @@
 
 #include "color.hpp"
 #include "ColorUtils.h"
+#include "ConsolePrinter.h"
 
 Card::Card(const card_color color, const card_type type) : color_(color), type_(type)
 {}
@@ -23,12 +24,15 @@ std::string Card::GetDisplayValue() const
 
 void Card::Print()
 {
-    std::cout << dye::colorize(ColorUtils::GetColorName(color_), ColorUtils::GetColorDyeId(color_)) << " " << display_card_value_ << std::endl;
+    ColorUtils::PrintColor(color_);
+    ConsolePrinter::ShowMessage(" " + display_card_value_, false);
 }
 
 void Card::Print(int id)
 {
-    std::cout << "[" << id << "] " << dye::colorize(ColorUtils::GetColorName(color_), ColorUtils::GetColorDyeId(color_)) << " " << display_card_value_ << " | ";
+    ConsolePrinter::ShowMessage("[" + std::to_string(id) + "] ", false);
+    ColorUtils::PrintColor(color_);
+    ConsolePrinter::ShowMessage(" " + display_card_value_ + " | ", false);
 }
 
 void Card::InvokeAction(ITurnCardActionHandler* turn_handler)
