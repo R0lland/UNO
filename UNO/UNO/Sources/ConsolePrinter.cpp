@@ -10,6 +10,11 @@ void ConsolePrinter::ShowMessage(std::string message)
     std::cout << message << std::endl;
 }
 
+void ConsolePrinter::ShowActionMessage(std::string message)
+{
+    std::cout << "- " << message << std::endl;
+}
+
 void ConsolePrinter::ShowMessage(const std::vector<std::string>& lines)
 {
     std::string fullMessage { };

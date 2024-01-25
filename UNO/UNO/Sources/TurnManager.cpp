@@ -43,7 +43,7 @@ void TurnManager::StartTurn(const int player_id_turn)
 void TurnManager::ShowPlayerDirection() const
 {
     std::string direction_arrow = current_direction_ == NORMAL ? "->" : "<-";
-    std::string player_name = "";
+    std::string player_name;
     for (int i = 0; i < players_.size(); i++)
     {
         if (i >= players_.size() - 1)
@@ -112,30 +112,44 @@ void TurnManager::ReShuffleDeckWithDiscardPile()
     deck_->Shuffle();
 }
 
+void TurnManager::GameOver(Player& winner)
+{
+    std::cout << std::endl;
+    ConsolePrinter::ShowActionMessage(winner.GetName() + " used the last card and has shouted UNO");
+    ConsolePrinter::ShowMessage(winner.GetName() + " WINS");
+    players_.clear();
+    deck_->ClearDeck();
+    while (!discard_pile_.empty())
+    {
+        discard_pile_.pop();
+    }
+    ConsolePrinter::ShowMessage("Press any button to Quit");
+    int input;
+    std::cin >> std::ws >> input;
+}
+
 void TurnManager::HandleMoveToNextPlayer(Player& current_player)
 {
-    ColorUtils::PrintTextWithColor("- END TURN " + std::to_string(current_turn_), "grey");
-    std::cout << std::endl;
-
     if (current_player.HandIsEmpty())
     {
         if (current_player.HasYelledUno())
         {
-            ConsolePrinter::ShowMessage(current_player.GetName() + " WINS");
+            GameOver(current_player);
+            
             return;
         }
-        else
-        {
-            DrawCardsForPlayer(current_player, GameConfig::NUMBER_OF_CARDS_TO_DRAW_IF_PLAYER_DIDNT_SHOUT_UNO);
-        }
+        ConsolePrinter::ShowActionMessage(current_player.GetName() + " forgot to shout UNO");
+        HandleDrawCardForCurrentPlayer(GameConfig::NUMBER_OF_CARDS_TO_DRAW_IF_PLAYER_DIDNT_SHOUT_UNO);
     }
     
+    ColorUtils::PrintTextWithColor("- END TURN " + std::to_string(current_turn_), "grey");
+    std::cout << std::endl;
     StartTurn(GetNextPlayerId());
 }
 
 void TurnManager::HandleDrawCardForNextPlayer(const int number_of_cards)
 {
-    std::cout << players_[GetNextPlayerId()]->GetName() << " Draws " << number_of_cards << " cards" << std::endl;
+    ConsolePrinter::ShowActionMessage(players_[GetNextPlayerId()]->GetName() + " Draws " + std::to_string(number_of_cards) + " cards");
     DrawCardsForPlayer(*players_[GetNextPlayerId()], number_of_cards);
 }
 
@@ -148,20 +162,20 @@ void TurnManager::HandleSetNewTurnColor(const card_color color, const bool show_
 {
     if (show_message)
     {
-        std::cout << players_[current_player_id_]->GetName() << " has set the Color to " << ColorUtils::GetColorName(color) << std::endl;
+        ConsolePrinter::ShowActionMessage(players_[current_player_id_]->GetName() + " has set the Color to " + ColorUtils::GetColorName(color));
     }
     SetTurnColor(color);
 }
 
 void TurnManager::HandleSkipNextPlayer()
 {
-    std::cout << "Skipping " << players_[GetNextPlayerId()]->GetName() << " turn" << std::endl;
+    ConsolePrinter::ShowActionMessage("Skipping " + players_[GetNextPlayerId()]->GetName() + " turn");
     next_player_move_ = GameConfig::SKIP_CARD_NUMBER_TO_SKIP;
 }
 
 void TurnManager::HandleDrawCardForCurrentPlayer(int number_of_cards)
 {
-    std::cout << players_[current_player_id_]->GetName() << " Draws " << number_of_cards << " card" << std::endl;
+    ConsolePrinter::ShowActionMessage( players_[current_player_id_]->GetName() + " Draws " + std::to_string(number_of_cards) + " card");
     DrawCardsForPlayer(*players_[current_player_id_], number_of_cards);
 }
 
@@ -172,7 +186,7 @@ void TurnManager::PrintCurrentTurn(Player& player)
 
 void TurnManager::HandleChangeGameDirection()
 {
-    ConsolePrinter::ShowMessage("Game direction has been changed");
+    ConsolePrinter::ShowActionMessage("Game direction has been changed");
     current_direction_ = current_direction_ == NORMAL ? REVERTED : NORMAL;
 }
 

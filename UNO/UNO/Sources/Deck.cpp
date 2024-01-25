@@ -63,6 +63,11 @@ void Deck::Shuffle()
     std::shuffle(cards_.begin(), cards_.end(), rng);
 }
 
+void Deck::ClearDeck()
+{
+    cards_.clear();
+}
+
 std::unique_ptr<Card> Deck::DrawCard()
 {
     std::unique_ptr<Card> card = std::move(cards_.back());

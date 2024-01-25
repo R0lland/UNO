@@ -32,6 +32,7 @@ class TurnManager : ITurnCardActionHandler
     void ResetNumberOfDraws();
     void SetTurnColor(card_color color);
     void ReShuffleDeckWithDiscardPile();
+    void GameOver(Player& winner);
 public:
     explicit TurnManager(std::vector<std::unique_ptr<Player>>& players, std::unique_ptr<Deck> deck);
     void InitializeTurns();

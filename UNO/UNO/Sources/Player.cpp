@@ -114,7 +114,7 @@ void Player::YellUno(ITurnCardActionHandler* turn_handler)
 {
     if (CanYellUno() && !HasYelledUno())
     {
-        ConsolePrinter::ShowMessage(name_ + " has yelled UNO!");
+        ConsolePrinter::ShowActionMessage(name_ + " has yelled UNO!");
         yelled_uno_ = true;
     }
     ChooseAction(turn_handler);
