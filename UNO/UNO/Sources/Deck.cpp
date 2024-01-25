@@ -19,7 +19,12 @@ void Deck::Generate()
     GenerateCardsFromColor(card_color::BLUE);
     for (int i = 0; i < GameConfig::NUMBER_OF_WILD_CARDS; i++)
     {
-        AddCard(card_factory_->CreateWildCard(GameConfig::WILD_CARD_NUMBER_TO_DRAW));
+        AddCard(card_factory_->CreateWildPlusCard(GameConfig::WILD_CARD_NUMBER_TO_DRAW));
+    }
+
+    for (int i = 0; i < GameConfig::NUMBER_OF_WILD_CARDS; i++)
+    {
+        AddCard(card_factory_->CreateWildCard());
     }
     
     Shuffle();

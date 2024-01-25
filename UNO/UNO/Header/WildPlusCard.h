@@ -1,7 +1,7 @@
 ﻿#pragma once
-#include "Card.h"
+#include "WildCard.h"
 
-class WildPlusCard : public Card
+class WildPlusCard : public WildCard
 {
 private:
     int number_of_cards_to_draw_ = 0;
