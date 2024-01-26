@@ -12,24 +12,24 @@ std::unique_ptr<Card> CardFactory::CreateWildPlusCard(int cards_to_draw) const
     return std::make_unique<WildPlusCard>(cards_to_draw);
 }
 
-std::unique_ptr<Card> CardFactory::CreateNumberCard(card_color color, card_type type, int number) const
+std::unique_ptr<Card> CardFactory::CreateNumberCard(card_color color, int number) const
 {
-    return std::make_unique<NumberCard>(color, type, number);
+    return std::make_unique<NumberCard>(color, number);
 }
 
-std::unique_ptr<Card> CardFactory::CreateReverseCard(card_color color, card_type type) const
+std::unique_ptr<Card> CardFactory::CreateReverseCard(card_color color) const
 {
-    return std::make_unique<ReverseCard>(color, type);
+    return std::make_unique<ReverseCard>(color);
 }
 
-std::unique_ptr<Card> CardFactory::CreatePlusCard(card_color color, card_type type, int cards_to_draw) const
+std::unique_ptr<Card> CardFactory::CreatePlusCard(card_color color, int cards_to_draw) const
 {
-    return std::make_unique<PlusCard>(color, type,cards_to_draw);
+    return std::make_unique<PlusCard>(color,cards_to_draw);
 }
 
-std::unique_ptr<Card> CardFactory::CreateSkipCard(card_color color, card_type type) const
+std::unique_ptr<Card> CardFactory::CreateSkipCard(card_color color) const
 {
-    return std::make_unique<SkipCard>(color, type);
+    return std::make_unique<SkipCard>(color);
 }
 
 std::unique_ptr<Card> CardFactory::CreateWildCard() const

@@ -4,6 +4,6 @@
 class ReverseCard : public Card
 {
 public:
-    explicit ReverseCard(card_color color, card_type type);
+    explicit ReverseCard(card_color color);
     void InvokeAction(ITurnCardActionHandler* turn_handler) override;
 };

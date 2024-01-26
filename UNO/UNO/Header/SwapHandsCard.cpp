@@ -2,7 +2,7 @@
 
 #include "ITurnCardActionHandler.h"
 
-SwapHandsCard::SwapHandsCard() : Card(card_color::NONE, card_type::SWAP)
+SwapHandsCard::SwapHandsCard() : Card(card_color::NONE)
 {
     display_card_value_ = "Swap";
     can_be_used_any_turn_ = true;

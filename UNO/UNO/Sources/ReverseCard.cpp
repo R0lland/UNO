@@ -6,8 +6,8 @@
 #include "ITurnCardActionHandler.h"
 
 
-ReverseCard::ReverseCard(const card_color color, const card_type type) 
-        : Card(color, type)
+ReverseCard::ReverseCard(const card_color color) 
+        : Card(color)
 {
         display_card_value_ = "Reverse";
 }

@@ -4,17 +4,12 @@
 #include "ColorUtils.h"
 #include "ConsolePrinter.h"
 
-Card::Card(const card_color color, const card_type type) : color_(color), type_(type)
+Card::Card(const card_color color) : color_(color)
 {}
 
 card_color Card::GetColor() const
 {
     return color_;
-}
-
-card_type Card::GetType() const
-{
-    return type_;
 }
 
 bool Card::GetCanBeUsedAnyTurn() const

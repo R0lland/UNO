@@ -2,8 +2,8 @@
 
 #include "ITurnCardActionHandler.h"
 
-SkipCard::SkipCard(const card_color color, const card_type type)
-    : Card(color, type)
+SkipCard::SkipCard(const card_color color)
+    : Card(color)
 {
     display_card_value_ = "Skip";
 }
