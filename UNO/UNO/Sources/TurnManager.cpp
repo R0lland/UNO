@@ -6,6 +6,7 @@
 #include "ColorUtils.h"
 #include "ConsolePrinter.h"
 #include "GameConfig.h"
+#include "InputOutputHelper.h"
 
 TurnManager::TurnManager(std::vector<std::unique_ptr<Player>>& players, std::unique_ptr<Deck> deck) : players_(players), deck_(std::move(deck))
 {
@@ -13,8 +14,8 @@ TurnManager::TurnManager(std::vector<std::unique_ptr<Player>>& players, std::uni
 
 bool TurnManager::IsCardValidToPlay(const Card& card)
 {
-   if (card.GetColor() == current_turn_color_ || card.GetDisplayValue() == GetDiscardPileTopCard().GetDisplayValue() ||
-       card.GetType() == card_type::WILD || current_turn_color_ == card_color::WILD)
+   if (card.GetCanBeUsedAnyTurn() || card.GetColor() == current_turn_color_ || card.GetDisplayValue() == GetDiscardPileTopCard().GetDisplayValue() ||
+       current_turn_color_ == card_color::WILD ||  current_turn_color_ == card_color::NONE)
    {
        return true;
    }
@@ -128,6 +129,31 @@ void TurnManager::GameOver(Player& winner)
     std::cin >> std::ws >> input;
 }
 
+void TurnManager::ShowPlayersAvailableToSwapHands()
+{
+    for (int i = 0; i < players_.size(); i++)
+    {
+        if (i == current_player_id_)
+        {
+            continue;
+        }
+        ConsolePrinter::ShowMessage("[" + std::to_string(i) + "] ", false);
+        ConsolePrinter::ShowMessage(players_[i]->GetName() + " | ", false);
+    }
+    ConsolePrinter::BreakLine();
+}
+
+void TurnManager::SwapHandsBetweenPlayers(Player& player1, Player& player2)
+{
+    ConsolePrinter::ShowActionMessage(player1.GetName() + " is swapping hand with " + player2.GetName());
+
+    std::vector<std::unique_ptr<Card>> hand_player1 = player1.MoveHand();
+    std::vector<std::unique_ptr<Card>> hand_player2 = player2.MoveHand();
+
+    player1.SwapHand(std::move(hand_player2));
+    player2.SwapHand(std::move(hand_player1));
+}
+
 void TurnManager::HandleMoveToNextPlayer(Player& current_player)
 {
     if (current_player.HandIsEmpty())
@@ -162,7 +188,6 @@ void TurnManager::HandleSetNewTurnColor(const card_color color, const bool show_
 {
     if (show_message)
     {
-        //ConsolePrinter::ShowActionMessage(players_[current_player_id_]->GetName() + " has set the Color to " + ColorUtils::GetColorName(color), false);
         ConsolePrinter::ShowActionMessage(players_[current_player_id_]->GetName() + " has set the Color to ", false);
         ColorUtils::PrintColor(color);
         ConsolePrinter::BreakLine();
@@ -185,6 +210,18 @@ void TurnManager::HandleDrawCardForCurrentPlayer(int number_of_cards)
 void TurnManager::PrintCurrentTurn(Player& player)
 {
     PrintPlayerTurn(player);
+}
+
+void TurnManager::HandleSwapHands()
+{
+    Player& current_player = *players_[current_player_id_];
+    ShowPlayersAvailableToSwapHands();
+    int player_to_swap_with_id= -1;
+    while (!InputOutputHelper::InputNumberInRange(0, players_.size() - 1, player_to_swap_with_id) && player_to_swap_with_id != current_player_id_)
+    {
+        player_to_swap_with_id = InputOutputHelper::ForceGetInput<int>(current_player.GetName() + ", choose one player to swap hands with: ");
+    }
+    SwapHandsBetweenPlayers(current_player, *players_[player_to_swap_with_id]);
 }
 
 void TurnManager::HandleChangeGameDirection()

@@ -14,13 +14,14 @@ bool Player::CanYellUno() const
 
 void Player::PlayCard(const int card_id, ITurnCardActionHandler* turn_handler)
 {
-    Card& chosen_card = *hand_[card_id];
+    std::unique_ptr<Card> chosen_card_in_hand = RemoveCardFromHand(card_id);
+    Card& chosen_card = *chosen_card_in_hand;
     ConsolePrinter::ShowActionMessage(name_ + " has used the card: ", false);
     chosen_card.Print();
     ConsolePrinter::BreakLine();
     turn_handler->HandleSetNewTurnColor(chosen_card.GetColor(), false);
     chosen_card.InvokeAction(turn_handler);
-    turn_handler->HandleDiscardCardToPile(RemoveCardFromHand(card_id));
+    turn_handler->HandleDiscardCardToPile(std::move(chosen_card_in_hand));
     turn_handler->HandleMoveToNextPlayer(*this);
 }
 
@@ -46,9 +47,19 @@ void Player::PrintHand() const
     }
 }
 
+std::vector<std::unique_ptr<Card>> Player::MoveHand()
+{
+    return std::move(hand_);
+}
+
 std::string& Player::GetName()
 {
     return name_;
+}
+
+void Player::SwapHand(std::vector<std::unique_ptr<Card>> hand)
+{
+    hand_ = std::move(hand);
 }
 
 int Player::GetHandSize() const

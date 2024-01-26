@@ -2,11 +2,12 @@
 
 enum class card_color
 {
-    WILD = 0,
+    NONE = 0,
     RED = 1,
     GREEN = 2,
     BLUE = 3,
-    YELLOW = 4
+    YELLOW = 4,
+    WILD = 5
 };
 
 enum class card_type
@@ -15,7 +16,8 @@ enum class card_type
     PLUS_TWO = 1,
     SKIP = 2,
     REVERSE = 3,
-    WILD = 4
+    WILD = 4,
+    SWAP = 5
 };
 
 static card_color IntToEnumColor(int color_id);

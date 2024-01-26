@@ -55,4 +55,5 @@ std::map<card_color, std::shared_ptr<ColorInfo>> ColorUtils::colors_info_{
                         {card_color::YELLOW, std::make_shared<ColorInfo>("Yellow", "Yellow")},
                         {card_color::GREEN, std::make_shared<ColorInfo>("Green", "Green")},
                         {card_color::BLUE, std::make_shared<ColorInfo>("Blue", "Blue")},
-                        {card_color::WILD, std::make_shared<ColorInfo>("Wild", "White")}};
+                        {card_color::WILD, std::make_shared<ColorInfo>("Wild", "White")},
+                        {card_color::NONE, std::make_shared<ColorInfo>("", "White")}};

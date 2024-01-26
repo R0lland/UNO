@@ -18,7 +18,9 @@ public:
     explicit Player(std::string name);
     void AddCardToHand(std::unique_ptr<Card> card);
     void PrintHand() const;
+    std::vector<std::unique_ptr<Card>> MoveHand();
     std::string& GetName();
+    void SwapHand(std::vector<std::unique_ptr<Card>> hand);
     int GetHandSize() const;
     bool HandIsEmpty() const;
     bool HasYelledUno() const;

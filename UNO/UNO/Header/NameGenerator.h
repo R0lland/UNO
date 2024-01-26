@@ -8,7 +8,6 @@ class NameGenerator
         "Mateus",
         "Tony",
         "Jason",
-        "Vivek",
         "Sebastian",
         "Malenia",
         "Tabares",

@@ -7,6 +7,7 @@
 WildCard::WildCard() : Card(card_color::WILD, card_type::WILD)
 {
     display_card_value_ = "";
+    can_be_used_any_turn_ = true;
 }
 
 void WildCard::InvokeAction(ITurnCardActionHandler* turn_handler)

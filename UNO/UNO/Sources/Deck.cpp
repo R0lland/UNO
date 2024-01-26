@@ -26,6 +26,11 @@ void Deck::Generate()
     {
         AddCard(card_factory_->CreateWildCard());
     }
+
+    for (int i = 0; i < GameConfig::NUMBER_OF_WILD_CARDS; i++)
+    {
+        AddCard(card_factory_->CreateSwapCard());
+    }
     
     Shuffle();
 }

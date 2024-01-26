@@ -33,6 +33,8 @@ class TurnManager : ITurnCardActionHandler
     void SetTurnColor(card_color color);
     void ReShuffleDeckWithDiscardPile();
     void GameOver(Player& winner);
+    void ShowPlayersAvailableToSwapHands();
+    void SwapHandsBetweenPlayers(Player& player1, Player& player2);
 public:
     explicit TurnManager(std::vector<std::unique_ptr<Player>>& players, std::unique_ptr<Deck> deck);
     void InitializeTurns();
@@ -50,4 +52,5 @@ public:
     void HandleSkipNextPlayer() override;
     void HandleDrawCardForCurrentPlayer(int number_of_cards) override;
     void PrintCurrentTurn(Player& player) override;
+    void HandleSwapHands() override;
 };

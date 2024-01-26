@@ -4,6 +4,7 @@
 #include "PlusCard.h"
 #include "ReverseCard.h"
 #include "SkipCard.h"
+#include "SwapHandsCard.h"
 #include "WildPlusCard.h"
 
 std::unique_ptr<Card> CardFactory::CreateWildPlusCard(int cards_to_draw) const
@@ -34,4 +35,9 @@ std::unique_ptr<Card> CardFactory::CreateSkipCard(card_color color, card_type ty
 std::unique_ptr<Card> CardFactory::CreateWildCard() const
 {
     return std::make_unique<WildCard>();
+}
+
+std::unique_ptr<Card> CardFactory::CreateSwapCard() const
+{
+    return std::make_unique<SwapHandsCard>();
 }
