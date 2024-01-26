@@ -1,5 +1,6 @@
 ﻿#include "CardFactory.h"
 
+#include "DiscardPlusCard.h"
 #include "NumberCard.h"
 #include "PlusCard.h"
 #include "ReverseCard.h"
@@ -25,6 +26,11 @@ std::unique_ptr<Card> CardFactory::CreateReverseCard(card_color color) const
 std::unique_ptr<Card> CardFactory::CreatePlusCard(card_color color, int cards_to_draw) const
 {
     return std::make_unique<PlusCard>(color,cards_to_draw);
+}
+
+std::unique_ptr<Card> CardFactory::CreateDiscardPlusCard(card_color color, int cards_to_draw) const
+{
+    return std::make_unique<DiscardPlusCard>(color,cards_to_draw);
 }
 
 std::unique_ptr<Card> CardFactory::CreateSkipCard(card_color color) const

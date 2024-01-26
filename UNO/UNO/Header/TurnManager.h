@@ -17,7 +17,7 @@ class TurnManager : ITurnCardActionHandler
 {
     std::vector<std::unique_ptr<Player>> players_;
     std::unique_ptr<Deck> deck_{};
-    std::stack<std::unique_ptr<Card>> discard_pile_{};
+    std::vector<std::unique_ptr<Card>> discard_pile_{};
     card_color current_turn_color_;
     direction current_direction_ = NORMAL;
     
@@ -26,7 +26,7 @@ class TurnManager : ITurnCardActionHandler
     int next_player_move_ = 1;
     int number_of_cards_to_draw_ = 0;
     
-    void ShowPlayerDirection() const;
+    void ShowPlayers() const;
     int GetNextPlayerId() const;
     void ResetNumberOfMoves();
     void ResetNumberOfDraws();
@@ -35,6 +35,7 @@ class TurnManager : ITurnCardActionHandler
     void GameOver(Player& winner);
     void ShowPlayersAvailableToSwapHands();
     void SwapHandsBetweenPlayers(Player& player1, Player& player2);
+    void DrawCardsFromDiscardPileForPlayer(Player& player, int number_of_cards = 1);
 public:
     explicit TurnManager(std::vector<std::unique_ptr<Player>> players, std::unique_ptr<Deck> deck);
     void InitializeTurns();
@@ -53,4 +54,5 @@ public:
     void HandleDrawCardForCurrentPlayer(int number_of_cards) override;
     void PrintCurrentTurn(Player& player) override;
     void HandleSwapHands() override;
+    void HandleDrawFromDiscardPileForNextPlayer(int draw_from_pile) override;
 };
