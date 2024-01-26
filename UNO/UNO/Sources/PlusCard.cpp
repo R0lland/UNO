@@ -2,10 +2,10 @@
 
 #include "ITurnCardActionHandler.h"
 
-PlusCard::PlusCard(card_color color, int numberOfCardsToDraw)
-    : Card(color), number_of_cards_to_draw_(numberOfCardsToDraw)
+PlusCard::PlusCard(card_color color, const int number_of_cards_to_draw)
+    : Card(color), number_of_cards_to_draw_(number_of_cards_to_draw)
 {
-    display_card_value_ = "+" + std::to_string(numberOfCardsToDraw);
+    display_card_value_ = "+" + std::to_string(number_of_cards_to_draw);
 }
 
 void PlusCard::InvokeAction(ITurnCardActionHandler* turn_handler)

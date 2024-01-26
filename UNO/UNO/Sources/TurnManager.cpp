@@ -8,7 +8,7 @@
 #include "GameConfig.h"
 #include "InputOutputHelper.h"
 
-TurnManager::TurnManager(std::vector<std::unique_ptr<Player>>& players, std::unique_ptr<Deck> deck) : players_(players), deck_(std::move(deck))
+TurnManager::TurnManager(std::vector<std::unique_ptr<Player>> players, std::unique_ptr<Deck> deck) : players_(std::move(players)), deck_(std::move(deck))
 {
 }
 

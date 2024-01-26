@@ -2,7 +2,6 @@
 
 #include <iostream>
 
-#include "ConsolePrinter.h"
 #include "ITurnCardActionHandler.h"
 
 

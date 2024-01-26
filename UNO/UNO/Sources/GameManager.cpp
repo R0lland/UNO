@@ -58,7 +58,7 @@ void GameManager::StartGame()
 
     ConsolePrinter::ShowMessage("------GAME STARTED-------");
     
-    turn_manager_ = std::make_unique<TurnManager>(players_,  std::move(deck_));
+    turn_manager_ = std::make_unique<TurnManager>(std::move(players_),  std::move(deck_));
     turn_manager_->InitializeTurns();
 }
 
