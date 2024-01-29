@@ -1,15 +1,15 @@
 ﻿#pragma once
 #include <memory>
-#include <vector>
 
 #include "Card.h"
+#include "CardCollection.h"
 #include "SpecialActionData.h"
 
 class Player
 {
 private:
     std::string name_;
-    std::vector<std::unique_ptr<Card>> hand_{};
+    std::unique_ptr<CardCollection> hand_ = std::make_unique<CardCollection>();
     bool yelled_uno_ = false;
 
     bool CanYellUno() const;
@@ -20,14 +20,13 @@ public:
     explicit Player(std::string name);
     void AddCardToHand(std::unique_ptr<Card> card);
     void PrintHand() const;
-    std::vector<std::unique_ptr<Card>> MoveHand();
+    std::unique_ptr<CardCollection> MoveHand();
     std::string& GetName();
-    void SwapHand(std::vector<std::unique_ptr<Card>> hand);
+    void SwapHand(std::unique_ptr<CardCollection> hand);
     int GetHandSize() const;
     bool HandIsEmpty() const;
     bool HasYelledUno() const;
     void ChooseAction(ITurnCardActionHandler* turn_handler);
-    std::unique_ptr<Card> RemoveCardFromHand(int card_id);
     void ClearConsole(ITurnCardActionHandler* turn_handler);
     void ShowSpecialActions(special_action action) const;
     void UseSpecialAction(special_action action, ITurnCardActionHandler* turn_handler);

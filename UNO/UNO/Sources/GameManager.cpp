@@ -48,7 +48,7 @@ void GameManager::DrawCardsForPlayer(const std::unique_ptr<Player>& player, cons
 {
     for (int i = 0; i < number_of_cards; i++)
     {
-        player->AddCardToHand(deck_->DrawCard());
+        player->AddCardToHand(deck_->DrawTopCard());
     }
 }
 

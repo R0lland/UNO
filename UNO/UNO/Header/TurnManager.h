@@ -17,7 +17,7 @@ class TurnManager : ITurnCardActionHandler
 {
     std::vector<std::unique_ptr<Player>> players_;
     std::unique_ptr<Deck> deck_{};
-    std::vector<std::unique_ptr<Card>> discard_pile_{};
+    std::unique_ptr<CardCollection> discard_pile_{};
     card_color current_turn_color_;
     direction current_direction_ = NORMAL;
     
@@ -37,7 +37,7 @@ class TurnManager : ITurnCardActionHandler
     void CheckForReplayGame();
     void ShowPlayersAvailableToSwapHands() const;
     void SwapHandsBetweenPlayers(Player& player1, Player& player2) const;
-    void DrawCardsFromDiscardPileForPlayer(Player& player, int number_of_cards = 1);
+    void DrawCardsFromDiscardPileForPlayer(Player& player, int number_of_cards = 1) const;
     
 public:
     explicit TurnManager();

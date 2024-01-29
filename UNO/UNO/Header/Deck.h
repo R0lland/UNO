@@ -1,23 +1,15 @@
 ﻿#pragma once
 #include <memory>
-#include <vector>
 
 #include "Card.h"
+#include "CardCollection.h"
 #include "CardFactory.h"
 
-class Deck
+class Deck : public CardCollection
 {
 private:
-    std::vector<std::unique_ptr<Card>> cards_{};
-    std::unique_ptr<CardFactory> card_factory_;
+    std::unique_ptr<CardFactory> card_factory_ = std::make_unique<CardFactory>();
 public:
-    Deck();
-    void AddCard(std::unique_ptr<Card> card);
     void Generate();
-    int GetSize() const;
     void GenerateCardsFromColor(card_color color);
-    void Shuffle();
-    bool IsEmpty() const;
-    void ClearDeck();
-    std::unique_ptr<Card> DrawCard();
 };

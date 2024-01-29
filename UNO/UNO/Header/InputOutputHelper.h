@@ -6,9 +6,6 @@ class InputOutputHelper
 {
 public:
     template <typename TData>
-    static TData GetInput(const std::string& message);
-
-    template <typename TData>
     static TData ForceGetInput(const std::string& message);
 
     static bool InputNumberInRange(int min, int max, int number);

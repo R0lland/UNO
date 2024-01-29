@@ -26,7 +26,7 @@ void TurnManager::Initialize(std::vector<std::unique_ptr<Player>> players, std::
 {
     players_ = std::move(players);
     deck_ = std::move(deck);
-    DiscardCardToPile(deck_->DrawCard());
+    DiscardCardToPile(deck_->DrawTopCard());
     SetTurnColor(GetDiscardPileTopCard().GetColor());
     current_turn_ = 0;
     StartTurn(0);
@@ -108,12 +108,11 @@ void TurnManager::SetTurnColor(const card_color color)
 
 void TurnManager::ReShuffleDeckWithDiscardPile()
 {
-    std::unique_ptr<Card> last_card = std::move(discard_pile_.back());
-    const int total_cards_in_pile = static_cast<int>(discard_pile_.size());
+    std::unique_ptr<Card> last_card = discard_pile_->DrawTopCard();
+    const int total_cards_in_pile = discard_pile_->GetSize();
     for (int i = 0; i < total_cards_in_pile; i++)
     {
-        deck_->AddCard(std::move(discard_pile_.back()));
-        discard_pile_.pop_back();
+        deck_->AddCard(discard_pile_->DrawTopCard());
     }
     DiscardCardToPile(std::move(last_card));
     deck_->Shuffle();
@@ -126,8 +125,8 @@ void TurnManager::GameOver(Player& winner)
     ColorUtils::PrintTextWithColor("AND THE WINNER IS: " + winner.GetName(), "green");
     ConsolePrinter::BreakLine(2);
     players_.clear();
-    deck_->ClearDeck();
-    discard_pile_.clear();
+    deck_->ClearCollection();
+    discard_pile_->ClearCollection();
     CheckForReplayGame();
 }
 
@@ -166,22 +165,19 @@ void TurnManager::SwapHandsBetweenPlayers(Player& player1, Player& player2) cons
 {
     ConsolePrinter::ShowActionMessage(player1.GetName() + " is swapping hand with " + player2.GetName());
 
-    std::vector<std::unique_ptr<Card>> hand_player1 = player1.MoveHand();
-    std::vector<std::unique_ptr<Card>> hand_player2 = player2.MoveHand();
+    std::unique_ptr<CardCollection> hand_player1 = player1.MoveHand();
+    std::unique_ptr<CardCollection> hand_player2 = player2.MoveHand();
 
     player1.SwapHand(std::move(hand_player2));
     player2.SwapHand(std::move(hand_player1));
 }
 
-void TurnManager::DrawCardsFromDiscardPileForPlayer(Player& player, const int number_of_cards)
+void TurnManager::DrawCardsFromDiscardPileForPlayer(Player& player, const int number_of_cards) const
 {
     ConsolePrinter::ShowActionMessage(player.GetName() + " is drawing " + std::to_string(number_of_cards) + " random cards from the discard pile");
     for (int i = 0; i < number_of_cards; i++)
     {
-        const int card_id = rand() % discard_pile_.size();
-        std::unique_ptr<Card> card = std::move(discard_pile_[card_id]);
-        discard_pile_.erase(discard_pile_.begin() + card_id);
-        player.AddCardToHand(std::move(card));
+        player.AddCardToHand(discard_pile_->DrawRandomCard());
     }
 }
 
@@ -218,7 +214,7 @@ void TurnManager::HandleDrawCardForNextPlayer(const int number_of_cards)
 
 void TurnManager::DiscardCardToPile(std::unique_ptr<Card> card)
 {
-    discard_pile_.push_back(std::move(card));
+    discard_pile_->AddCard(std::move(card));
 }
 
 void TurnManager::HandleSetNewTurnColor(const card_color color, const bool show_message)
@@ -271,7 +267,7 @@ void TurnManager::HandleSwapHands()
 void TurnManager::HandleDrawFromDiscardPileForNextPlayer(int draw_from_pile)
 {
     Player& player = *players_[GetNextPlayerId()];
-    const int discard_pile_size = static_cast<int>(discard_pile_.size());
+    const int discard_pile_size = discard_pile_->GetSize();
     int draw_from_deck = 0;
     if (draw_from_pile > discard_pile_size)
     {
@@ -303,7 +299,7 @@ void TurnManager::DrawCardsForPlayer(Player& player, const int number_of_cards)
 
         if (!deck_->IsEmpty())
         {
-            player.AddCardToHand(deck_->DrawCard());
+            player.AddCardToHand(deck_->DrawTopCard());
         }
     }
 }
@@ -314,7 +310,7 @@ void TurnManager::PrintPlayerTurn(const Player& player) const
     ConsolePrinter::BreakLine();
     ShowPlayers();
     ConsolePrinter::ShowMessage("DECK SIZE: " + std::to_string(deck_->GetSize()));
-    ConsolePrinter::ShowMessage("PILE SIZE: " + std::to_string(discard_pile_.size()));
+    ConsolePrinter::ShowMessage("PILE SIZE: " + std::to_string(discard_pile_->GetSize()));
     ConsolePrinter::ShowMessage("PILE TOP: ", false);
     ColorUtils::PrintColor(current_turn_color_);
     ConsolePrinter::ShowMessage(" " + GetDiscardPileTopCard().GetDisplayValue());
@@ -331,7 +327,7 @@ void TurnManager::PrintPlayerTurn(const Player& player) const
 
 Card& TurnManager::GetDiscardPileTopCard() const
 {
-    return *discard_pile_.back();
+    return discard_pile_->GetTopCard();
 }
 
 bool TurnManager::GetGameEnded() const

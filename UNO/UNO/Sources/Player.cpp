@@ -9,12 +9,12 @@
 
 bool Player::CanYellUno() const
 {
-    return hand_.size() == 2;
+    return hand_->GetSize() == 2;
 }
 
 void Player::PlayCard(const int card_id, ITurnCardActionHandler* turn_handler)
 {
-    std::unique_ptr<Card> chosen_card_in_hand = RemoveCardFromHand(card_id);
+    std::unique_ptr<Card> chosen_card_in_hand = hand_->DrawCard(card_id);
     Card& chosen_card = *chosen_card_in_hand;
     ConsolePrinter::ShowActionMessage(name_ + " has used the card: ", false);
     chosen_card.Print();
@@ -28,7 +28,7 @@ Player::Player(const std::string name) : name_(name)
 
 void Player::AddCardToHand(std::unique_ptr<Card> card)
 {
-    hand_.push_back(std::move(card));
+    hand_->AddCard(std::move(card));
     yelled_uno_ = false;
 }
 
@@ -40,11 +40,11 @@ void Player::PrintHand() const
         {
             std::cout << std::endl << "       ";
         }
-        hand_[i]->Print(i);
+        hand_->GetCard(i).Print();
     }
 }
 
-std::vector<std::unique_ptr<Card>> Player::MoveHand()
+std::unique_ptr<CardCollection> Player::MoveHand()
 {
     return std::move(hand_);
 }
@@ -54,7 +54,7 @@ std::string& Player::GetName()
     return name_;
 }
 
-void Player::SwapHand(std::vector<std::unique_ptr<Card>> hand)
+void Player::SwapHand(std::unique_ptr<CardCollection> hand)
 {
     hand_ = std::move(hand);
     if (GetHandSize() <= 1)
@@ -65,12 +65,12 @@ void Player::SwapHand(std::vector<std::unique_ptr<Card>> hand)
 
 int Player::GetHandSize() const
 {
-    return static_cast<int>(hand_.size());
+    return hand_->GetSize();
 }
 
 bool Player::HandIsEmpty() const
 {
-    return hand_.empty();
+    return hand_->IsEmpty();
 }
 
 bool Player::HasYelledUno() const
@@ -96,20 +96,13 @@ void Player::ChooseAction(ITurnCardActionHandler* turn_handler)
         }
         else
         {
-            action_validated = turn_handler->IsCardValidToPlay(*hand_[action_id]);
+            action_validated = turn_handler->IsCardValidToPlay(hand_->GetCard(action_id));
             if (action_validated)
             {
                 PlayCard(action_id, turn_handler);
             }
         }
     }
-}
-
-std::unique_ptr<Card> Player::RemoveCardFromHand(const int card_id)
-{
-    std::unique_ptr<Card> card = std::move(hand_[card_id]);
-    hand_.erase(hand_.begin() + card_id);
-    return card;
 }
 
 void Player::ClearConsole(ITurnCardActionHandler* turn_handler)
