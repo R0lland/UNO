@@ -35,9 +35,8 @@ class TurnManager : ITurnCardActionHandler
     void ReShuffleDeckWithDiscardPile();
     void GameOver(Player& winner);
     void CheckForReplayGame();
-    void EndTurn();
     void ShowPlayersAvailableToSwapHands();
-    void SwapHandsBetweenPlayers(Player& player1, Player& player2);
+    void SwapHandsBetweenPlayers(Player& player1, Player& player2) const;
     void DrawCardsFromDiscardPileForPlayer(Player& player, int number_of_cards = 1);
     
 public:
@@ -48,16 +47,18 @@ public:
     void PrintPlayerTurn(const Player& player);
     Card& GetDiscardPileTopCard();
     bool GetGameEnded() const;
+    void DiscardCardToPile(std::unique_ptr<Card> card);
+    std::unique_ptr<Deck> ReturnMovedDeck();
+    
     bool IsCardValidToPlay(const Card&) override;
     void HandleChangeGameDirection() override;
-    void HandleMoveToNextPlayer(Player& current_player) override;
     void HandleDrawCardForNextPlayer(int number_of_cards) override;
-    void HandleDiscardCardToPile(std::unique_ptr<Card> card) override;
     void HandleSetNewTurnColor(card_color color, bool show_message) override;
+    void HandleEndTurn() override;
     void HandleSkipNextPlayer() override;
     void HandleDrawCardForCurrentPlayer(int number_of_cards) override;
     void PrintCurrentTurn(Player& player) override;
     void HandleSwapHands() override;
     void HandleDrawFromDiscardPileForNextPlayer(int draw_from_pile) override;
-    std::unique_ptr<Deck> ReturnMovedDeck();
+    void HandlePlayerUsedCard(Player& player, std::unique_ptr<Card> card) override;
 };

@@ -28,7 +28,7 @@ public:
     std::unique_ptr<Card> RemoveCardFromHand(int card_id);
     void ClearConsole(ITurnCardActionHandler* turn_handler);
     void DrawCard(ITurnCardActionHandler* turn_handler);
-    void YellUno(ITurnCardActionHandler* turn_handler);
+    void YellUno();
     void ShowSpecialActions(special_action action) const;
     void UseSpecialAction(special_action action, ITurnCardActionHandler* turn_handler);
 };

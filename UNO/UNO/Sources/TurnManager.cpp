@@ -26,7 +26,7 @@ void TurnManager::Initialize(std::vector<std::unique_ptr<Player>> players, std::
 {
     players_ = std::move(players);
     deck_ = std::move(deck);
-    HandleDiscardCardToPile(deck_->DrawCard());
+    DiscardCardToPile(deck_->DrawCard());
     SetTurnColor(GetDiscardPileTopCard().GetColor());
     current_turn_ = 0;
     StartTurn(0);
@@ -146,13 +146,6 @@ void TurnManager::CheckForReplayGame()
     ConsolePrinter::ClearConsole();
 }
 
-void TurnManager::EndTurn()
-{
-    ColorUtils::PrintTextWithColor("END TURN " + std::to_string(current_turn_) + " ----------------------------------------------------------------", "grey");
-    std::cout << std::endl;
-    StartTurn(GetNextPlayerId());
-}
-
 void TurnManager::ShowPlayersAvailableToSwapHands()
 {
     for (int i = 0; i < players_.size(); i++)
@@ -167,7 +160,7 @@ void TurnManager::ShowPlayersAvailableToSwapHands()
     ConsolePrinter::BreakLine();
 }
 
-void TurnManager::SwapHandsBetweenPlayers(Player& player1, Player& player2)
+void TurnManager::SwapHandsBetweenPlayers(Player& player1, Player& player2) const
 {
     ConsolePrinter::ShowActionMessage(player1.GetName() + " is swapping hand with " + player2.GetName());
 
@@ -195,26 +188,24 @@ std::unique_ptr<Deck> TurnManager::ReturnMovedDeck()
     return std::move(deck_);
 }
 
-void TurnManager::HandleMoveToNextPlayer(Player& current_player)
+void TurnManager::HandlePlayerUsedCard(Player& player, std::unique_ptr<Card> card)
 {
-    if (current_player.HandIsEmpty())
+    if (player.HandIsEmpty() && player.HasYelledUno())
     {
-        if (current_player.HasYelledUno())
-        {
-            GameOver(current_player);
-        }
-        else
-        {
-            ConsolePrinter::ShowActionMessage(current_player.GetName() + " forgot to shout UNO");
-            HandleDrawCardForCurrentPlayer(GameConfig::NUMBER_OF_CARDS_TO_DRAW_IF_PLAYER_DIDNT_SHOUT_UNO);
-            EndTurn();
-        }
+        GameOver(player);
     }
     else
     {
-        EndTurn();   
+        if (player.HandIsEmpty())
+        {
+            ConsolePrinter::ShowActionMessage(player.GetName() + " forgot to shout UNO");
+            HandleDrawCardForCurrentPlayer(GameConfig::NUMBER_OF_CARDS_TO_DRAW_IF_PLAYER_DIDNT_SHOUT_UNO);
+        }
+        HandleSetNewTurnColor(card->GetColor(), false);
+        card->InvokeAction(this);
+        DiscardCardToPile(std::move(card));
+        HandleEndTurn();
     }
-    
 }
 
 void TurnManager::HandleDrawCardForNextPlayer(const int number_of_cards)
@@ -223,7 +214,7 @@ void TurnManager::HandleDrawCardForNextPlayer(const int number_of_cards)
     DrawCardsForPlayer(*players_[GetNextPlayerId()], number_of_cards);
 }
 
-void TurnManager::HandleDiscardCardToPile(std::unique_ptr<Card> card)
+void TurnManager::DiscardCardToPile(std::unique_ptr<Card> card)
 {
     discard_pile_.push_back(std::move(card));
 }
@@ -237,6 +228,13 @@ void TurnManager::HandleSetNewTurnColor(const card_color color, const bool show_
         ConsolePrinter::BreakLine();
     }
     SetTurnColor(color);
+}
+
+void TurnManager::HandleEndTurn()
+{
+    ColorUtils::PrintTextWithColor("END TURN " + std::to_string(current_turn_) + " ----------------------------------------------------------------", "grey");
+    std::cout << std::endl;
+    StartTurn(GetNextPlayerId());
 }
 
 void TurnManager::HandleSkipNextPlayer()

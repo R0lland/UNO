@@ -19,15 +19,7 @@ void Player::PlayCard(const int card_id, ITurnCardActionHandler* turn_handler)
     ConsolePrinter::ShowActionMessage(name_ + " has used the card: ", false);
     chosen_card.Print();
     ConsolePrinter::BreakLine();
-    if (HandIsEmpty() && HasYelledUno())
-    {
-        turn_handler->HandleMoveToNextPlayer(*this);
-        return;
-    }
-    turn_handler->HandleSetNewTurnColor(chosen_card.GetColor(), false);
-    chosen_card.InvokeAction(turn_handler);
-    turn_handler->HandleDiscardCardToPile(std::move(chosen_card_in_hand));
-    turn_handler->HandleMoveToNextPlayer(*this);
+    turn_handler->HandlePlayerUsedCard(*this, std::move(chosen_card_in_hand));
 }
 
 Player::Player(const std::string name) : name_(name)
@@ -65,6 +57,10 @@ std::string& Player::GetName()
 void Player::SwapHand(std::vector<std::unique_ptr<Card>> hand)
 {
     hand_ = std::move(hand);
+    if (GetHandSize() <= 1)
+    {
+        YellUno();
+    }
 }
 
 int Player::GetHandSize() const
@@ -126,17 +122,16 @@ void Player::ClearConsole(ITurnCardActionHandler* turn_handler)
 void Player::DrawCard(ITurnCardActionHandler* turn_handler)
 {
     turn_handler->HandleDrawCardForCurrentPlayer(1);
-    turn_handler->HandleMoveToNextPlayer(*this);
+    turn_handler->HandleEndTurn();
 }
 
-void Player::YellUno(ITurnCardActionHandler* turn_handler)
+void Player::YellUno()
 {
     if (CanYellUno() && !HasYelledUno())
     {
         ConsolePrinter::ShowActionMessage(name_ + " has yelled UNO!");
         yelled_uno_ = true;
     }
-    ChooseAction(turn_handler);
 }
 
 void Player::ShowSpecialActions(const special_action action) const
@@ -172,7 +167,8 @@ void Player::UseSpecialAction(const special_action action, ITurnCardActionHandle
     case special_action::YELL_UNO:
         if (CanYellUno())
         {
-            YellUno(turn_handler);
+            YellUno();
+            ChooseAction(turn_handler);
         }
         break;
     }
