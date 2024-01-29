@@ -32,9 +32,12 @@ void ConsolePrinter::ShowMessage(const std::vector<std::string>& lines)
     ShowMessage(fullMessage);
 }
 
-void ConsolePrinter::BreakLine()
+void ConsolePrinter::BreakLine(const int lines_to_break)
 {
-    std::cout << std::endl;
+    for (int i = 0; i < lines_to_break; i++)
+    {
+        std::cout << std::endl;
+    }
 }
 
 void ConsolePrinter::ClearConsole()

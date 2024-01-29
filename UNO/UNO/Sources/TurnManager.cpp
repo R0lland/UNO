@@ -8,7 +8,7 @@
 #include "GameConfig.h"
 #include "InputOutputHelper.h"
 
-TurnManager::TurnManager(std::vector<std::unique_ptr<Player>> players, std::unique_ptr<Deck> deck) : players_(std::move(players)), deck_(std::move(deck))
+TurnManager::TurnManager()
 {
 }
 
@@ -22,8 +22,10 @@ bool TurnManager::IsCardValidToPlay(const Card& card)
     return false;
 }
 
-void TurnManager::InitializeTurns()
+void TurnManager::Initialize(std::vector<std::unique_ptr<Player>> players, std::unique_ptr<Deck> deck)
 {
+    players_ = std::move(players);
+    deck_ = std::move(deck);
     HandleDiscardCardToPile(deck_->DrawCard());
     SetTurnColor(GetDiscardPileTopCard().GetColor());
     current_turn_ = 0;
@@ -117,18 +119,38 @@ void TurnManager::ReShuffleDeckWithDiscardPile()
 
 void TurnManager::GameOver(Player& winner)
 {
-    std::cout << std::endl;
     ConsolePrinter::ShowActionMessage(winner.GetName() + " used the last card and has shouted UNO");
-    ConsolePrinter::ShowMessage(winner.GetName() + " WINS");
+    ConsolePrinter::BreakLine();
+    ColorUtils::PrintTextWithColor("AND THE WINNER IS: " + winner.GetName(), "green");
+    ConsolePrinter::BreakLine(2);
     players_.clear();
     deck_->ClearDeck();
-    while (!discard_pile_.empty())
+    discard_pile_.clear();
+    CheckForReplayGame();
+}
+
+void TurnManager::CheckForReplayGame()
+{
+    int play_again = -1;
+    const std::string display_message = "[0] NO | [1] YES \nWould you like to play again? ";
+    while (!InputOutputHelper::InputNumberInRange(0, 1, play_again))
     {
-        discard_pile_.pop_back();
+        play_again = InputOutputHelper::ForceGetInput<int>(display_message);
     }
-    ConsolePrinter::ShowMessage("Press any button to Quit");
-    int input;
-    std::cin >> std::ws >> input;
+
+    if (play_again == 0)
+    {
+        game_ended_ = true;
+    }
+
+    ConsolePrinter::ClearConsole();
+}
+
+void TurnManager::EndTurn()
+{
+    ColorUtils::PrintTextWithColor("END TURN " + std::to_string(current_turn_) + " ----------------------------------------------------------------", "grey");
+    std::cout << std::endl;
+    StartTurn(GetNextPlayerId());
 }
 
 void TurnManager::ShowPlayersAvailableToSwapHands()
@@ -168,6 +190,11 @@ void TurnManager::DrawCardsFromDiscardPileForPlayer(Player& player, const int nu
     }
 }
 
+std::unique_ptr<Deck> TurnManager::ReturnMovedDeck()
+{
+    return std::move(deck_);
+}
+
 void TurnManager::HandleMoveToNextPlayer(Player& current_player)
 {
     if (current_player.HandIsEmpty())
@@ -175,16 +202,19 @@ void TurnManager::HandleMoveToNextPlayer(Player& current_player)
         if (current_player.HasYelledUno())
         {
             GameOver(current_player);
-            
-            return;
         }
-        ConsolePrinter::ShowActionMessage(current_player.GetName() + " forgot to shout UNO");
-        HandleDrawCardForCurrentPlayer(GameConfig::NUMBER_OF_CARDS_TO_DRAW_IF_PLAYER_DIDNT_SHOUT_UNO);
+        else
+        {
+            ConsolePrinter::ShowActionMessage(current_player.GetName() + " forgot to shout UNO");
+            HandleDrawCardForCurrentPlayer(GameConfig::NUMBER_OF_CARDS_TO_DRAW_IF_PLAYER_DIDNT_SHOUT_UNO);
+            EndTurn();
+        }
+    }
+    else
+    {
+        EndTurn();   
     }
     
-    ColorUtils::PrintTextWithColor("END TURN " + std::to_string(current_turn_) + " ----------------------------------------------------------------", "grey");
-    std::cout << std::endl;
-    StartTurn(GetNextPlayerId());
 }
 
 void TurnManager::HandleDrawCardForNextPlayer(const int number_of_cards)
@@ -290,9 +320,7 @@ void TurnManager::PrintPlayerTurn(const Player& player)
     std::cout << std::endl;
     ColorUtils::PrintTextWithColor("ACTIONS: ", "aqua");
     player.ShowSpecialActions(special_action::DRAW_CARD);
-    std::cout << " | ";
     player.ShowSpecialActions(special_action::CLEAR_CONSOLE);
-    std::cout << " | ";
     player.ShowSpecialActions(special_action::YELL_UNO);
     std::cout << std::endl;
 }
@@ -300,4 +328,9 @@ void TurnManager::PrintPlayerTurn(const Player& player)
 Card& TurnManager::GetDiscardPileTopCard()
 {
     return *discard_pile_.back();
+}
+
+bool TurnManager::GetGameEnded() const
+{
+    return game_ended_;
 }

@@ -11,3 +11,21 @@ std::string NameGenerator::GetName()
     names_.erase(names_.begin() + name_id);
     return name;
 }
+
+void NameGenerator::GenerateNames()
+{
+    names_.clear();
+    names_ = {
+        "Mateus",
+        "Tony",
+        "Jason",
+        "Sebastian",
+        "Malenia",
+        "Tabares",
+        "Breno",
+        "Joao",
+        "Peter",
+        "Nave",
+        "Rofli"
+    };
+}

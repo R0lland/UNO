@@ -19,7 +19,7 @@ void GameManager::InitializePlayers()
 
 void GameManager::CreatePlayers(const int number_of_players)
 {
-    players_.reserve(number_of_players);
+    name_generator_->GenerateNames();
     for (int i = 0; i < number_of_players; i++)
     {
         players_.emplace_back(std::make_unique<Player>(name_generator_->GetName()));
@@ -58,14 +58,22 @@ void GameManager::StartGame()
 
     ConsolePrinter::ShowMessage("------GAME STARTED-------");
     
-    turn_manager_ = std::make_unique<TurnManager>(std::move(players_),  std::move(deck_));
-    turn_manager_->InitializeTurns();
+    turn_manager_->Initialize(std::move(players_),  std::move(deck_));
 }
 
-void GameManager::InitializeGame()
+void GameManager::InitializeData()
 {
     InitializePlayers();
     deck_->Generate();
     DealInitialCards();
-    StartGame();
+}
+
+void GameManager::InitializeGame()
+{
+    while (!turn_manager_->GetGameEnded())
+    {
+        InitializeData();
+        StartGame();
+        deck_ = turn_manager_->ReturnMovedDeck();
+    }
 }

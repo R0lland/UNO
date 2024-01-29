@@ -19,6 +19,11 @@ void Player::PlayCard(const int card_id, ITurnCardActionHandler* turn_handler)
     ConsolePrinter::ShowActionMessage(name_ + " has used the card: ", false);
     chosen_card.Print();
     ConsolePrinter::BreakLine();
+    if (HandIsEmpty() && HasYelledUno())
+    {
+        turn_handler->HandleMoveToNextPlayer(*this);
+        return;
+    }
     turn_handler->HandleSetNewTurnColor(chosen_card.GetColor(), false);
     chosen_card.InvokeAction(turn_handler);
     turn_handler->HandleDiscardCardToPile(std::move(chosen_card_in_hand));
@@ -143,12 +148,12 @@ void Player::ShowSpecialActions(const special_action action) const
         std::cout << "[" + id + "]" + " Draw Card";
         break;
     case special_action::CLEAR_CONSOLE:
-        std::cout << "[" + id + "]" + " Clear Console";
+        std::cout << " | [" + id + "]" + " Clear Console";
         break;
     case special_action::YELL_UNO:
         if (CanYellUno() && !HasYelledUno())
         {
-            std::cout << "[" + id + "]" + " Yell UNO";
+            std::cout << " | [" + id + "]" + " Yell UNO";
         }
         break;
     }

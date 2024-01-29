@@ -20,14 +20,13 @@ public:
     static int constexpr NUMBER_OF_SWAP_CARDS = 2;
     static int constexpr NUMBER_OF_SKIP_CARDS = 2;
     static int constexpr NUMBER_OF_DISCARD_PLUS_CARDS = 1;
-
     
     static int constexpr PLUS_CARD_NUMBER_TO_DRAW = 2;
     static int constexpr WILD_CARD_NUMBER_TO_DRAW = 4;
     static int constexpr SKIP_CARD_NUMBER_TO_SKIP = 2;
 
     //Deal Cards
-    static int constexpr NUMBER_OF_CARDS_TO_DEAL = 7;
+    static int constexpr NUMBER_OF_CARDS_TO_DEAL = 2;
     static int constexpr NUMBER_OF_CARDS_TO_DRAW_IF_PLAYER_DIDNT_SHOUT_UNO = 2;
 
     //Total Cards

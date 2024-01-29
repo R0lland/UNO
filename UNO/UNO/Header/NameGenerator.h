@@ -4,20 +4,9 @@
 
 class NameGenerator
 {
-    std::vector<std::string> names_{
-        "Mateus",
-        "Tony",
-        "Jason",
-        "Sebastian",
-        "Malenia",
-        "Tabares",
-        "Breno",
-        "Joao",
-        "Peter",
-        "Nave",
-        "Rofli"
-    };
+    std::vector<std::string> names_{};
 public:
     NameGenerator();
     std::string GetName();
+    void GenerateNames();
 };
