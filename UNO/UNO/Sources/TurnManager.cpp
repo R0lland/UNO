@@ -34,7 +34,7 @@ void TurnManager::Initialize(std::vector<std::unique_ptr<Player>> players, std::
 
 void TurnManager::StartTurn(const int player_id_turn)
 {
-    std::cout << std::endl;
+    ConsolePrinter::BreakLine();
     current_turn_++;
     ResetNumberOfMoves();
     current_player_id_ = player_id_turn;
@@ -65,16 +65,16 @@ void TurnManager::ShowPlayers() const
         
         if (current_player_id_ != i)
         {
-            std::cout << player_name << " " << direction_arrow << " ";
+            ConsolePrinter::ShowMessage(player_name + " " + direction_arrow + " ", false);
         }
         else
         {
             player_name = "[" +  player_name + "]";
             ColorUtils::PrintTextWithColor(player_name, "aqua");
-            std::cout << " " << direction_arrow << " ";
+            ConsolePrinter::ShowMessage(" " + direction_arrow + " ", false);
         }
     }
-    std::cout << std::endl;
+    ConsolePrinter::BreakLine();
 }
 
 int TurnManager::GetNextPlayerId() const
@@ -235,7 +235,7 @@ void TurnManager::HandleSetNewTurnColor(const card_color color, const bool show_
 void TurnManager::HandleEndTurn()
 {
     ConsolePrinter::ShowCenterMessage(" END TURN " + std::to_string(current_turn_) + " ");
-    std::cout << std::endl;
+    ConsolePrinter::BreakLine();
     StartTurn(GetNextPlayerId());
 }
 
@@ -311,21 +311,22 @@ void TurnManager::DrawCardsForPlayer(Player& player, const int number_of_cards)
 void TurnManager::PrintPlayerTurn(const Player& player)
 {
     ConsolePrinter::ShowCenterMessage("START TURN " + std::to_string(current_turn_));
-    std::cout << std::endl;
+    ConsolePrinter::BreakLine();
     ShowPlayers();
-    std::cout << "DECK SIZE: " << deck_->GetSize() << std::endl;
-    std::cout << "PILE SIZE: " <<  discard_pile_.size() << std::endl;
-    std::cout << "PILE TOP: ";
+    ConsolePrinter::ShowMessage("DECK SIZE: " + std::to_string(deck_->GetSize()));
+    ConsolePrinter::ShowMessage("PILE SIZE: " + std::to_string(discard_pile_.size()));
+    ConsolePrinter::ShowMessage("PILE TOP: ", false);
     ColorUtils::PrintColor(current_turn_color_);
-    std::cout << " " << GetDiscardPileTopCard().GetDisplayValue() << std::endl << std::endl;
+    ConsolePrinter::ShowMessage(" " + GetDiscardPileTopCard().GetDisplayValue());
+    ConsolePrinter::BreakLine();
     ColorUtils::PrintTextWithColor("CARDS: ", "aqua");
     player.PrintHand();
-    std::cout << std::endl;
+    ConsolePrinter::BreakLine();
     ColorUtils::PrintTextWithColor("ACTIONS: ", "aqua");
     player.ShowSpecialActions(special_action::DRAW_CARD);
     player.ShowSpecialActions(special_action::CLEAR_CONSOLE);
     player.ShowSpecialActions(special_action::YELL_UNO);
-    std::cout << std::endl;
+    ConsolePrinter::BreakLine();
 }
 
 Card& TurnManager::GetDiscardPileTopCard()
