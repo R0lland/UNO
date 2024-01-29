@@ -13,7 +13,9 @@ private:
     bool yelled_uno_ = false;
 
     bool CanYellUno() const;
-    void PlayCard(int card_id, ITurnCardActionHandler* turn_handler); 
+    void PlayCard(int card_id, ITurnCardActionHandler* turn_handler);
+    void DrawCard(ITurnCardActionHandler* turn_handler);
+    void YellUno();
 public:
     explicit Player(std::string name);
     void AddCardToHand(std::unique_ptr<Card> card);
@@ -27,8 +29,6 @@ public:
     void ChooseAction(ITurnCardActionHandler* turn_handler);
     std::unique_ptr<Card> RemoveCardFromHand(int card_id);
     void ClearConsole(ITurnCardActionHandler* turn_handler);
-    void DrawCard(ITurnCardActionHandler* turn_handler);
-    void YellUno();
     void ShowSpecialActions(special_action action) const;
     void UseSpecialAction(special_action action, ITurnCardActionHandler* turn_handler);
 };

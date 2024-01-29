@@ -148,7 +148,7 @@ void TurnManager::CheckForReplayGame()
     ConsolePrinter::ClearConsole();
 }
 
-void TurnManager::ShowPlayersAvailableToSwapHands()
+void TurnManager::ShowPlayersAvailableToSwapHands() const
 {
     for (int i = 0; i < players_.size(); i++)
     {
@@ -308,7 +308,7 @@ void TurnManager::DrawCardsForPlayer(Player& player, const int number_of_cards)
     }
 }
 
-void TurnManager::PrintPlayerTurn(const Player& player)
+void TurnManager::PrintPlayerTurn(const Player& player) const
 {
     ConsolePrinter::ShowCenterMessage("START TURN " + std::to_string(current_turn_));
     ConsolePrinter::BreakLine();
@@ -329,7 +329,7 @@ void TurnManager::PrintPlayerTurn(const Player& player)
     ConsolePrinter::BreakLine();
 }
 
-Card& TurnManager::GetDiscardPileTopCard()
+Card& TurnManager::GetDiscardPileTopCard() const
 {
     return *discard_pile_.back();
 }

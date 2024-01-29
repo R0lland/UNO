@@ -9,7 +9,3 @@ enum class card_color
     YELLOW = 4,
     WILD = 5
 };
-
-static card_color IntToEnumColor(int color_id);
-
-static bool ColorEquals(const card_color color1, const card_color color2);
