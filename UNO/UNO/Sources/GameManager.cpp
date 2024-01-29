@@ -55,8 +55,6 @@ void GameManager::DrawCardsForPlayer(const std::unique_ptr<Player>& player, cons
 void GameManager::StartGame()
 {
     PrintPlayerHands();
-
-    ConsolePrinter::ShowMessage("------GAME STARTED-------");
     
     turn_manager_->Initialize(std::move(players_),  std::move(deck_));
 }

@@ -234,7 +234,7 @@ void TurnManager::HandleSetNewTurnColor(const card_color color, const bool show_
 
 void TurnManager::HandleEndTurn()
 {
-    ColorUtils::PrintTextWithColor("END TURN " + std::to_string(current_turn_) + " ----------------------------------------------------------------", "grey");
+    ConsolePrinter::ShowCenterMessage(" END TURN " + std::to_string(current_turn_) + " ");
     std::cout << std::endl;
     StartTurn(GetNextPlayerId());
 }
@@ -310,7 +310,7 @@ void TurnManager::DrawCardsForPlayer(Player& player, const int number_of_cards)
 
 void TurnManager::PrintPlayerTurn(const Player& player)
 {
-    ColorUtils::PrintTextWithColor("- START TURN " + std::to_string(current_turn_) + " ----------------------------------------------------------------", "grey");
+    ConsolePrinter::ShowCenterMessage("START TURN " + std::to_string(current_turn_));
     std::cout << std::endl;
     ShowPlayers();
     std::cout << "DECK SIZE: " << deck_->GetSize() << std::endl;

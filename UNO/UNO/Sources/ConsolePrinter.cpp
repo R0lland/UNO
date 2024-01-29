@@ -3,6 +3,8 @@
 #include <iostream>
 #include <vector>
 
+#include "ColorUtils.h"
+
 class Player;
 
 void ConsolePrinter::ShowMessage(std::string message, const bool break_line)
@@ -30,6 +32,13 @@ void ConsolePrinter::ShowMessage(const std::vector<std::string>& lines)
     }
 
     ShowMessage(fullMessage);
+}
+
+void ConsolePrinter::ShowCenterMessage(std::string turn_message)
+{
+    std::string dots = "---------------------------------------------------";
+    std::string full_message = dots + " " + turn_message + " " + dots;
+    ColorUtils::PrintTextWithColor(full_message, "grey");
 }
 
 void ConsolePrinter::BreakLine(const int lines_to_break)
