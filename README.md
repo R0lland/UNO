@@ -1,2 +1,2 @@
 # UNO
-UNO Game
+UNO Game by Mateus Trombetta.
