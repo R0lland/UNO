@@ -108,12 +108,14 @@ void TurnManager::SetTurnColor(const card_color color)
 
 void TurnManager::ReShuffleDeckWithDiscardPile()
 {
-    const int total_cards_in_pile = discard_pile_.size();
+    std::unique_ptr<Card> last_card = std::move(discard_pile_.back());
+    const int total_cards_in_pile = static_cast<int>(discard_pile_.size());
     for (int i = 0; i < total_cards_in_pile; i++)
     {
         deck_->AddCard(std::move(discard_pile_.back()));
         discard_pile_.pop_back();
     }
+    DiscardCardToPile(std::move(last_card));
     deck_->Shuffle();
 }
 
@@ -173,7 +175,7 @@ void TurnManager::SwapHandsBetweenPlayers(Player& player1, Player& player2) cons
 
 void TurnManager::DrawCardsFromDiscardPileForPlayer(Player& player, const int number_of_cards)
 {
-    ConsolePrinter::ShowActionMessage(player.GetName() + " is drawing " + std::to_string(number_of_cards) + " from the discard pile");
+    ConsolePrinter::ShowActionMessage(player.GetName() + " is drawing " + std::to_string(number_of_cards) + " random cards from the discard pile");
     for (int i = 0; i < number_of_cards; i++)
     {
         const int card_id = rand() % discard_pile_.size();
@@ -294,12 +296,15 @@ void TurnManager::DrawCardsForPlayer(Player& player, const int number_of_cards)
 {
     for (int i = 0; i < number_of_cards; i++)
     {
-        if (deck_->GetSize() <= 0)
+        if (deck_->IsEmpty())
         {
             ReShuffleDeckWithDiscardPile();
         }
-        
-        player.AddCardToHand(deck_->DrawCard());
+
+        if (!deck_->IsEmpty())
+        {
+            player.AddCardToHand(deck_->DrawCard());
+        }
     }
 }
 

@@ -83,6 +83,11 @@ void Deck::Shuffle()
     std::shuffle(cards_.begin(), cards_.end(), rng);
 }
 
+bool Deck::IsEmpty() const
+{
+    return cards_.empty();
+}
+
 void Deck::ClearDeck()
 {
     cards_.clear();

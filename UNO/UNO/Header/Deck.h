@@ -17,6 +17,7 @@ public:
     int GetSize() const;
     void GenerateCardsFromColor(card_color color);
     void Shuffle();
+    bool IsEmpty() const;
     void ClearDeck();
     std::unique_ptr<Card> DrawCard();
 };
