@@ -1,4 +1,4 @@
-# UNO
+## UNO
 UNO Game in C++ by Mateus Trombetta.
 
 # Cards available
@@ -17,10 +17,21 @@ UNO Game in C++ by Mateus Trombetta.
 - UNO: The player can shout Uno when he has 2 cards in hands. Does not change turn.   
 
 # How to play:
-The game starts by asking how many player will play the game, the number of player must be between 2 and 10.
-The game will display all the player cards and start the turn.
-Each turn, the player must choose between a card or an action, they are choosen using an id for each item.
-For example: `[0] yellow 7`
-`[0]` - represents the id you must put in the console.
-`yellow` - indicates the card color
-`7` - display value of the card
+The game starts by asking how many player will play the game, the number of player must be between 2 and 10.   
+The game will display all the player cards and start the turn.   
+Each turn, the player must choose between a card or an action, they are choosen using an id for each item.   
+
+Choosing Cards:   
+Example: `[0] yellow 7`   
+`[0]` - represents the id you must put in the console.   
+`yellow` - indicates the card color.  
+`7` - display value of the card.   
+
+Choosing Actions:   
+Example: `[100] Draw Card`   
+`[100]` - represents the id you must put in the console. Special actions ids are over 100.   
+`Draw Card` - indicates the action you will perform.
+
+When one player wins, the game can be replayed if desired.
+
+Coloring System used: https://github.com/aafulei/color-console
