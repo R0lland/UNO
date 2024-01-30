@@ -1,21 +1,304 @@
 ﻿@startuml
 'https://plantuml.com/sequence-diagram
 
-class GameManager {
- 
+class Card {
+      - color_ : card_color
+      - display_card_value_ : std::string
+      - can_be_used_any_turn_ : bool
+
+      + Card(card_color color)
+      + card_color GetColor() const
+      + bool GetCanBeUsedAnyTurn() const
+      + std::string GetDisplayValue() const
+      + void Print()
+      + void Print(int id)
+      + virtual void InvokeAction(ITurnCardActionHandler* turn_handler)
 }
+
+class CardCollection {
+    - cards_ : std::vector<std::unique_ptr<Card>>
+    + void AddCard(std::unique_ptr<Card> card)
+    + std::unique_ptr<Card> DrawTopCard()
+    + std::unique_ptr<Card> DrawRandomCard()
+    + std::unique_ptr<Card> DrawCard(int id)
+    + Card& GetCard(int id)
+    + Card& GetTopCard()
+    + void Shuffle()
+    + void ClearCollection()
+    + int GetSize() const
+    + bool IsEmpty() const
+}
+
+class Deck {
+    - card_factory_ : std::unique_ptr<CardFactory>
+    
+    + void Generate()
+    + void GenerateCardsFromColor(card_color color)
+}
+
+class Deck extends CardCollection
+
+class CardFactory{
+    + std::unique_ptr<Card> CreateWildPlusCard(int cards_to_draw) const
+    + std::unique_ptr<Card> CreateNumberCard(card_color color, int number) const
+    + std::unique_ptr<Card> CreateReverseCard(card_color color) const
+    + std::unique_ptr<Card> CreatePlusCard(card_color color, int cards_to_draw) const
+    + std::unique_ptr<Card> CreateDiscardPlusCard(card_color color, int cards_to_draw) const
+    + std::unique_ptr<Card> CreateSkipCard(card_color color) const
+    + std::unique_ptr<Card> CreateWildCard() const
+    + std::unique_ptr<Card> CreateSwapCard() const
+}
+
+class WildCard {
+    + WildCard()
+    + void InvokeAction(ITurnCardActionHandler* turn_handler) override
+}
+
+class SwapHandCard{
+    + SwapHandsCard()
+    + void InvokeAction(ITurnCardActionHandler* turn_handler) override
+}
+
+class WildPlusCard{
+    - number_of_cards_to_draw_ : int
+    + WildPlusCard()
+    + void InvokeAction(ITurnCardActionHandler* turn_handler) override
+}
+
+class PlusCard {
+    - number_of_cards_to_draw_ : int;
+    + PlusCard(card_color color, int number_of_cards_to_draw)
+    + void InvokeAction(ITurnCardActionHandler* turn_handler) override
+}
+
+class ReverseCard {
+     + ReverseCard(card_color color)
+     + void InvokeAction(ITurnCardActionHandler* turn_handler) override
+}
+
+class NumberCard {
+    - number_ : int
+    + NumberCard(card_color color, int number)
+    + int GetNumber() const
+    + void InvokeAction(ITurnCardActionHandler* turn_handler) override
+}
+
+class DiscardPlusCard {
+    - number_of_cards_to_draw_ : int
+    + DiscardPlusCard(card_color color, int number_of_cards_to_draw)
+    + void InvokeAction(ITurnCardActionHandler* turn_handler) override
+}
+
+class DiscardPlusCard extends Card
+class NumberCard extends Card
+class ReverseCard extends Card
+class WildPlusCard extends WildCard
+class WildCard extends Card
+class SwapHandCard extends Card
+class PlusCard extends Card
+
+class SpecialActions {
+    - id_ : int
+    - display_value_ : std::string
+    + SpecialAction(int id, std::string display_value)
+    + int GetId() const
+    + void Print() const
+    + virtual bool IsActionValidToUse(Player& player)
+    + virtual void InvokeAction(ITurnCardActionHandler* turn_handler)
+}
+
+class ShoutUnoAction {
+    + ShoutUnoAction(int id, std::string display_value)
+    + bool IsActionValidToUse(Player& player) override
+    + void InvokeAction(ITurnCardActionHandler* turn_handler) override
+}
+
+class DrawCardAction {
+    + DrawCardAction(int id, std::string display_value)
+    + bool IsActionValidToUse(Player& player) override
+    + void InvokeAction(ITurnCardActionHandler* turn_handler) override
+}
+
+class ClearConsoleAction {
+     + ClearConsoleAction(int id, std::string display_value)
+     + bool IsActionValidToUse(Player& player) override
+     + void InvokeAction(ITurnCardActionHandler* turn_handler) override
+}
+
+
+class ShoutUnoAction extends SpecialActions
+class ClearConsoleAction extends SpecialActions
+class DrawCardAction extends SpecialActions
 
 class Player {
- id : int;
- game;
+    - name_ : std::string
+    - hand_ : std::unique_ptr<CardCollection>
+    - special_actions_ : std::unique_ptr<SpecialActionsCollection>
+    - shout_uno_ : bool
+    - void PlayCard(int card_id, ITurnCardActionHandler* turn_handler)
+    + Player(std::string name)
+    + void AddCardToHand(std::unique_ptr<Card> card)
+    + void PrintHand() const
+    + std::unique_ptr<CardCollection> MoveHand()
+    + std::string& GetName()
+    + void SwapHand(std::unique_ptr<CardCollection> hand)
+    + int GetHandSize() const
+    + bool HandIsEmpty() const
+    + bool HasShoutedUno() const
+    + void ChooseAction(ITurnCardActionHandler* turn_handler)
+    + void ShowSpecialActions()
+    + bool CanShoutUno() const
+    + void ShoutUno()
 }
 
-abstract class Card {
-  Color color: enum
+class GameManager {
+    - deck_ : std::unique_ptr<Deck> 
+    - players_ : std::vector<std::unique_ptr<Player>>
+    - name_generator_ : std::unique_ptr<NameGenerator> 
+    - turn_manager_ : std::unique_ptr<TurnManager>
+    - game_ended_ : bool;
+
+    - void PrintPlayerHands() const
+    - void InitializePlayers()
+    - void CreatePlayers(int number_of_players)
+    - void DealInitialCards() const
+    - void DrawCardsForPlayer(const std::unique_ptr<Player>& player, int number_of_cards = 1) const
+    - void StartGame()
+    - void InitializeData()
+    
+    + void InitializeGame()
 }
 
-class Hand {
- Card card : std::vector<Card>
+class TurnManager {
+    - players_ : std::vector<std::unique_ptr<Player>>
+    - deck_ : std::unique_ptr<Deck> 
+    - discard_pile_ : std::unique_ptr<CardCollection> 
+    - current_turn_color_ : card_color
+    - current_direction_ = direction
+    
+    - current_player_id_ : int;
+    - current_turn_ : int;
+    - next_player_move_ : int;
+    - number_of_cards_to_draw_ : int;
+    - game_ended_ : bool;
+    
+    - void ShowPlayers() const;
+    - int GetNextPlayerId() const;
+    - void ResetNumberOfMoves();
+    - void ResetNumberOfDraws();
+    - void SetTurnColor(card_color color);
+    - void ReShuffleDeckWithDiscardPile() const;
+    - void GameOver(Player& winner);
+    - void CheckForReplayGame();
+    - void ShowPlayersAvailableToSwapHands() const;
+    - void SwapHandsBetweenPlayers(Player& player1, Player& player2) const;
+    - void DrawCardsFromDiscardPileForPlayer(Player& player, int number_of_cards = 1) const;
+    
+    + TurnManager();
+    + void Initialize(std::vector<std::unique_ptr<Player>> players, std::unique_ptr<Deck> deck);
+    + void StartTurn(int player_id_turn);
+    + void DrawCardsForPlayer(Player& player, int number_of_cards = 1);
+    + void PrintPlayerTurn(Player& player) const;
+    + Card& GetDiscardPileTopCard() const;
+    + bool GetGameEnded() const;
+    + void DiscardCardToPile(std::unique_ptr<Card> card) const;
+    + std::unique_ptr<Deck> ReturnMovedDeck();
+    + bool IsCardValidToPlay(const Card&) override;
+    + void HandleChangeGameDirection() override;
+    + void HandleDrawCardForNextPlayer(int number_of_cards) override;
+    + void HandleSetNewTurnColor(card_color color, bool show_message) override;
+    + void HandleEndTurn() override;
+    + void HandleSkipNextPlayer() override;
+    + void HandleDrawCardForCurrentPlayer(int number_of_cards) override;
+    + void PrintCurrentTurn(Player& player) override;
+    + void HandleSwapHands() override;
+    + void HandleDrawFromDiscardPileForNextPlayer(int draw_from_pile) override;
+    + void HandlePlayerUsedCard(Player& player, std::unique_ptr<Card> card) override;
+    + void HandleClearConsole() override;
+    + void HandleShoutUno() override;
 }
 
+interface ITurnCardActionHandler {
+    + virtual bool IsCardValidToPlay(const Card&) = 0;
+    + virtual void HandleChangeGameDirection() = 0;
+    + virtual void HandleEndTurn() = 0;
+    + virtual void HandlePlayerUsedCard(Player& player, std::unique_ptr<Card> card) = 0;
+    + virtual void HandleDrawCardForNextPlayer(int number_of_cards) = 0;
+    + virtual void HandleDrawCardForCurrentPlayer(int number_of_cards) = 0;
+    + virtual void HandleSetNewTurnColor(card_color color, bool show_message) = 0;
+    + virtual void HandleSkipNextPlayer() = 0;
+    + virtual void HandleSwapHands() = 0;
+    + virtual void HandleDrawFromDiscardPileForNextPlayer(int number_of_cards) = 0;
+    + virtual void PrintCurrentTurn(Player& player) = 0;
+    + virtual void HandleClearConsole() = 0;
+    + virtual void HandleShoutUno() = 0;
+}
+
+class TurnManager extends ITurnCardActionHandler
+
+class NameGenerator {
+    - names_ : std::vector<std::string>;
+    + NameGenerator();
+    + std::string GetName();
+    + void GenerateNames();
+}
+
+enum card_color {
+    NONE = 0,
+    RED = 1,
+    GREEN = 2,
+    BLUE = 3,
+    YELLOW = 4,
+    WILD = 5
+}
+
+enum direction {
+    NORMAL = 1,
+    REVERTED = -1
+}
+
+Card -- ITurnCardActionHandler
+SpecialActions -- ITurnCardActionHandler
+Card - card_color
+
+TurnManager -- direction
+
+GameManager --- TurnManager
+
+CardFactory - Deck
+
+Deck - TurnManager
+
+
+
+'https://plantuml.com/class-diagram
+'
+'abstract class AbstractList
+'abstract AbstractCollection
+'interface List
+'interface Collection
+'
+'List <|-- AbstractList
+'Collection <|-- AbstractCollection
+'
+'Collection <|----- List
+'AbstractCollection <|- AbstractList
+'AbstractList <|-- ArrayList
+'
+'class ArrayList {
+'Object[] elementData
+'size()
+'}
+'
+'enum TimeUnit {
+'DAYS
+'HOURS
+'MINUTES
+'}
+
+'class Parent
+'class Child
+'interface Interface
+'Parent<|--Child
+'Interface<|..Child
 @enduml
