@@ -57,7 +57,7 @@ void TurnManager::ShowPlayers() const
 
         player_name += ":" + std::to_string(players_[i]->GetHandSize());
         
-        if (players_[i]->HasYelledUno())
+        if (players_[i]->HasShoutedUno())
         {
             player_name += " (UNO)";
         }
@@ -78,14 +78,15 @@ void TurnManager::ShowPlayers() const
 
 int TurnManager::GetNextPlayerId() const
 {
+    const int players_size = static_cast<int>(players_.size());
     int new_player_id = current_player_id_ + (next_player_move_ * current_direction_);
     if (new_player_id < 0)
     {
-        new_player_id = new_player_id + players_.size();
+        new_player_id = new_player_id + players_size;
     }
-    else if (new_player_id >= players_.size())
+    else if (new_player_id >= players_size)
     {
-        new_player_id = new_player_id - players_.size();
+        new_player_id = new_player_id - players_size;
     }
     return new_player_id; 
 }
@@ -105,7 +106,7 @@ void TurnManager::SetTurnColor(const card_color color)
     current_turn_color_ = color;
 }
 
-void TurnManager::ReShuffleDeckWithDiscardPile()
+void TurnManager::ReShuffleDeckWithDiscardPile() const
 {
     std::unique_ptr<Card> last_card = discard_pile_->DrawTopCard();
     const int total_cards_in_pile = discard_pile_->GetSize();
@@ -187,7 +188,7 @@ std::unique_ptr<Deck> TurnManager::ReturnMovedDeck()
 
 void TurnManager::HandlePlayerUsedCard(Player& player, std::unique_ptr<Card> card)
 {
-    if (player.HandIsEmpty() && player.HasYelledUno())
+    if (player.HandIsEmpty() && player.HasShoutedUno())
     {
         GameOver(player);
     }
@@ -205,13 +206,27 @@ void TurnManager::HandlePlayerUsedCard(Player& player, std::unique_ptr<Card> car
     }
 }
 
+void TurnManager::HandleClearConsole()
+{
+    ConsolePrinter::ClearConsole();
+    Player& player = *players_[current_player_id_];
+    PrintCurrentTurn(player);
+    player.ChooseAction(this);
+}
+
+void TurnManager::HandleShoutUno()
+{
+    players_[current_player_id_]->ShoutUno();
+    players_[current_player_id_]->ChooseAction(this);
+}
+
 void TurnManager::HandleDrawCardForNextPlayer(const int number_of_cards)
 {
     ConsolePrinter::ShowActionMessage(players_[GetNextPlayerId()]->GetName() + " Draws " + std::to_string(number_of_cards) + " cards");
     DrawCardsForPlayer(*players_[GetNextPlayerId()], number_of_cards);
 }
 
-void TurnManager::DiscardCardToPile(std::unique_ptr<Card> card)
+void TurnManager::DiscardCardToPile(std::unique_ptr<Card> card) const
 {
     discard_pile_->AddCard(std::move(card));
 }
@@ -254,9 +269,10 @@ void TurnManager::PrintCurrentTurn(Player& player)
 void TurnManager::HandleSwapHands()
 {
     Player& current_player = *players_[current_player_id_];
+    const int players_size = static_cast<int>(players_.size());
     ShowPlayersAvailableToSwapHands();
     int player_to_swap_with_id= -1;
-    while (!InputOutputHelper::InputNumberInRange(0, players_.size() - 1, player_to_swap_with_id) && player_to_swap_with_id != current_player_id_)
+    while (!InputOutputHelper::InputNumberInRange(0, players_size - 1, player_to_swap_with_id) && player_to_swap_with_id != current_player_id_)
     {
         player_to_swap_with_id = InputOutputHelper::ForceGetInput<int>(current_player.GetName() + ", choose one player to swap hands with: ");
     }
@@ -303,7 +319,7 @@ void TurnManager::DrawCardsForPlayer(Player& player, const int number_of_cards)
     }
 }
 
-void TurnManager::PrintPlayerTurn(const Player& player) const
+void TurnManager::PrintPlayerTurn(Player& player) const
 {
     ConsolePrinter::ShowCenterMessage("START TURN " + std::to_string(current_turn_));
     ConsolePrinter::BreakLine();
@@ -318,9 +334,7 @@ void TurnManager::PrintPlayerTurn(const Player& player) const
     player.PrintHand();
     ConsolePrinter::BreakLine();
     ColorUtils::PrintTextWithColor("ACTIONS: ", "aqua");
-    player.ShowSpecialActions(special_action::DRAW_CARD);
-    player.ShowSpecialActions(special_action::CLEAR_CONSOLE);
-    player.ShowSpecialActions(special_action::YELL_UNO);
+    player.ShowSpecialActions();
     ConsolePrinter::BreakLine();
 }
 

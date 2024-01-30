@@ -10,7 +10,7 @@ std::string& ColorUtils::GetColorName(const card_color color)
     return colors_info_[color]->name;
 }
 
-std::string& ColorUtils::GetColorDyeId(card_color color)
+std::string& ColorUtils::GetColorDyeId(const card_color color)
 {
     colors_info_.find(color);
     return colors_info_[color]->color_dye_id;

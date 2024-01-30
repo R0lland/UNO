@@ -32,7 +32,7 @@ class TurnManager : ITurnCardActionHandler
     void ResetNumberOfMoves();
     void ResetNumberOfDraws();
     void SetTurnColor(card_color color);
-    void ReShuffleDeckWithDiscardPile();
+    void ReShuffleDeckWithDiscardPile() const;
     void GameOver(Player& winner);
     void CheckForReplayGame();
     void ShowPlayersAvailableToSwapHands() const;
@@ -44,10 +44,10 @@ public:
     void Initialize(std::vector<std::unique_ptr<Player>> players, std::unique_ptr<Deck> deck);
     void StartTurn(int player_id_turn);
     void DrawCardsForPlayer(Player& player, int number_of_cards = 1);
-    void PrintPlayerTurn(const Player& player) const;
+    void PrintPlayerTurn(Player& player) const;
     Card& GetDiscardPileTopCard() const;
     bool GetGameEnded() const;
-    void DiscardCardToPile(std::unique_ptr<Card> card);
+    void DiscardCardToPile(std::unique_ptr<Card> card) const;
     std::unique_ptr<Deck> ReturnMovedDeck();
     
     bool IsCardValidToPlay(const Card&) override;
@@ -61,4 +61,6 @@ public:
     void HandleSwapHands() override;
     void HandleDrawFromDiscardPileForNextPlayer(int draw_from_pile) override;
     void HandlePlayerUsedCard(Player& player, std::unique_ptr<Card> card) override;
+    void HandleClearConsole() override;
+    void HandleShoutUno() override;
 };

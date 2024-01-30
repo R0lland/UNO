@@ -4,10 +4,11 @@
 #include <memory>
 
 #include "ConsolePrinter.h"
+#include "GameConfig.h"
 #include "InputOutputHelper.h"
 #include "ITurnCardActionHandler.h"
 
-bool Player::CanYellUno() const
+bool Player::CanShoutUno() const
 {
     return hand_->GetSize() == 2;
 }
@@ -23,13 +24,12 @@ void Player::PlayCard(const int card_id, ITurnCardActionHandler* turn_handler)
 }
 
 Player::Player(const std::string name) : name_(name)
-{
-}
+{}
 
 void Player::AddCardToHand(std::unique_ptr<Card> card)
 {
     hand_->AddCard(std::move(card));
-    yelled_uno_ = false;
+    shout_uno_ = false;
 }
 
 void Player::PrintHand() const
@@ -59,7 +59,7 @@ void Player::SwapHand(std::unique_ptr<CardCollection> hand)
     hand_ = std::move(hand);
     if (GetHandSize() <= 1)
     {
-        YellUno();
+        ShoutUno();
     }
 }
 
@@ -73,9 +73,9 @@ bool Player::HandIsEmpty() const
     return hand_->IsEmpty();
 }
 
-bool Player::HasYelledUno() const
+bool Player::HasShoutedUno() const
 {
-    return yelled_uno_;
+    return shout_uno_;
 }
 
 void Player::ChooseAction(ITurnCardActionHandler* turn_handler)
@@ -84,15 +84,16 @@ void Player::ChooseAction(ITurnCardActionHandler* turn_handler)
     while (!action_validated)
     {
         int action_id = -1;
-        while (!InputOutputHelper::InputNumberInRange(0, GetHandSize() - 1, action_id) && !InputOutputHelper::InputNumberInRange(100, 102, action_id))
+        while (!InputOutputHelper::InputNumberInRange(0, GetHandSize() - 1, action_id) &&
+            !InputOutputHelper::InputNumberInRange(special_actions_->GetStartingSpecialActionsId(), special_actions_->GetLastSpecialActionsId(), action_id))
         {
             action_id = InputOutputHelper::ForceGetInput<int>(
                 name_ + ", choose one card from your Deck or a special action: ");
         }
-        if (action_id >= 100)
+        if (action_id >= special_actions_->GetStartingSpecialActionsId())
         {
             action_validated = true;
-            UseSpecialAction(static_cast<special_action>(action_id), turn_handler);
+            special_actions_->UseAction(turn_handler, action_id);
         }
         else
         {
@@ -105,64 +106,16 @@ void Player::ChooseAction(ITurnCardActionHandler* turn_handler)
     }
 }
 
-void Player::ClearConsole(ITurnCardActionHandler* turn_handler)
+void Player::ShoutUno()
 {
-    ConsolePrinter::ClearConsole();
-    turn_handler->PrintCurrentTurn(*this);
-    ChooseAction(turn_handler);
-}
-
-void Player::DrawCard(ITurnCardActionHandler* turn_handler)
-{
-    turn_handler->HandleDrawCardForCurrentPlayer(1);
-    turn_handler->HandleEndTurn();
-}
-
-void Player::YellUno()
-{
-    if (CanYellUno() && !HasYelledUno())
+    if (CanShoutUno() && !HasShoutedUno())
     {
-        ConsolePrinter::ShowActionMessage(name_ + " has yelled UNO!");
-        yelled_uno_ = true;
+        ConsolePrinter::ShowActionMessage(name_ + " has shouted UNO!");
+        shout_uno_ = true;
     }
 }
 
-void Player::ShowSpecialActions(const special_action action) const
+void Player::ShowSpecialActions()
 {
-    const std::string id = std::to_string(static_cast<int>(action));
-    switch (action)
-    {
-    case special_action::DRAW_CARD:
-        std::cout << "[" + id + "]" + " Draw Card";
-        break;
-    case special_action::CLEAR_CONSOLE:
-        std::cout << " | [" + id + "]" + " Clear Console";
-        break;
-    case special_action::YELL_UNO:
-        if (CanYellUno() && !HasYelledUno())
-        {
-            std::cout << " | [" + id + "]" + " Yell UNO";
-        }
-        break;
-    }
-}
-
-void Player::UseSpecialAction(const special_action action, ITurnCardActionHandler* turn_handler)
-{
-    switch (action)
-    {
-    case special_action::DRAW_CARD:
-        DrawCard(turn_handler);
-        break;
-    case special_action::CLEAR_CONSOLE:
-        ClearConsole(turn_handler);
-        break;
-    case special_action::YELL_UNO:
-        if (CanYellUno())
-        {
-            YellUno();
-            ChooseAction(turn_handler);
-        }
-        break;
-    }
+    special_actions_->PrintActions(*this);
 }
