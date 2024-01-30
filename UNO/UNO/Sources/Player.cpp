@@ -40,7 +40,7 @@ void Player::PrintHand() const
         {
             std::cout << std::endl << "       ";
         }
-        hand_->GetCard(i).Print();
+        hand_->GetCard(i).Print(i);
     }
 }
 

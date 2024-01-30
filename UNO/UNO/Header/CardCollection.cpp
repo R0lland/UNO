@@ -12,7 +12,7 @@ std::unique_ptr<Card> CardCollection::DrawTopCard()
 {
     std::unique_ptr<Card> card = std::move(cards_.back());
     cards_.pop_back();
-    return std::move(card);
+    return card;
 }
 
 std::unique_ptr<Card> CardCollection::DrawRandomCard()

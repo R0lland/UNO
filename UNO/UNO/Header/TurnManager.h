@@ -16,8 +16,8 @@ enum direction
 class TurnManager : ITurnCardActionHandler
 {
     std::vector<std::unique_ptr<Player>> players_;
-    std::unique_ptr<Deck> deck_{};
-    std::unique_ptr<CardCollection> discard_pile_{};
+    std::unique_ptr<Deck> deck_ = std::make_unique<Deck>();
+    std::unique_ptr<CardCollection> discard_pile_ = std::make_unique<CardCollection>();
     card_color current_turn_color_;
     direction current_direction_ = NORMAL;
     
@@ -40,7 +40,7 @@ class TurnManager : ITurnCardActionHandler
     void DrawCardsFromDiscardPileForPlayer(Player& player, int number_of_cards = 1) const;
     
 public:
-    explicit TurnManager();
+    TurnManager();
     void Initialize(std::vector<std::unique_ptr<Player>> players, std::unique_ptr<Deck> deck);
     void StartTurn(int player_id_turn);
     void DrawCardsForPlayer(Player& player, int number_of_cards = 1);

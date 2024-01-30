@@ -9,8 +9,7 @@
 #include "InputOutputHelper.h"
 
 TurnManager::TurnManager()
-{
-}
+{}
 
 bool TurnManager::IsCardValidToPlay(const Card& card)
 {
