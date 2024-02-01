@@ -7,10 +7,10 @@
 class ITurnActionHandler
 {
 public:
-    virtual bool IsCardValidToPlay(const Card&) = 0;
+    virtual bool IsCardValidToPlay(std::shared_ptr<Card> card) = 0;
     virtual void HandleChangeGameDirection() = 0;
     virtual void HandleEndTurn() = 0;
-    virtual void HandlePlayerUsedCard(Player& player, std::unique_ptr<Card> card) = 0;
+    virtual void HandlePlayerUsedCard(Player& player, std::shared_ptr<Card> card) = 0;
     virtual void HandleDrawCardForNextPlayer(int number_of_cards) = 0;
     virtual void HandleDrawCardForCurrentPlayer(int number_of_cards) = 0;
     virtual void HandleSetNewTurnColor(card_color color, bool show_message) = 0;

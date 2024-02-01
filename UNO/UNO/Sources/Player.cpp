@@ -15,7 +15,7 @@ bool Player::CanShoutUno() const
 
 void Player::PlayCard(const int card_id, ITurnActionHandler* turn_handler)
 {
-    std::unique_ptr<Card> chosen_card_in_hand = hand_->DrawCard(card_id);
+    std::shared_ptr<Card> chosen_card_in_hand = hand_->DrawCard(card_id);
     ConsolePrinter::ShowActionMessage(name_ + " has used the card: ", false);
     chosen_card_in_hand->Print();
     ConsolePrinter::BreakLine();
@@ -31,7 +31,7 @@ void Player::ShoutUno()
 Player::Player(const std::string name) : name_(name)
 {}
 
-void Player::AddCardToHand(std::unique_ptr<Card> card)
+void Player::AddCardToHand(std::shared_ptr<Card> card)
 {
     hand_->AddCard(std::move(card));
     shout_uno_ = false;
@@ -45,7 +45,7 @@ void Player::PrintHand() const
         {
             std::cout << std::endl << "       ";
         }
-        hand_->GetCard(i).Print(i);
+        hand_->GetCard(i)->Print(i);
     }
 }
 

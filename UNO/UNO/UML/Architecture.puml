@@ -16,11 +16,11 @@ class Card {
 }
 
 class CardCollection {
-    - cards_ : std::vector<std::unique_ptr<Card>>
-    + void AddCard(std::unique_ptr<Card> card)
-    + std::unique_ptr<Card> DrawTopCard()
-    + std::unique_ptr<Card> DrawRandomCard()
-    + std::unique_ptr<Card> DrawCard(int id)
+    - cards_ : std::vector<std::shared_ptr<Card>>
+    + void AddCard(std::shared_ptr<Card> card)
+    + std::shared_ptr<Card> DrawTopCard()
+    + std::shared_ptr<Card> DrawRandomCard()
+    + std::shared_ptr<Card> DrawCard(int id)
     + Card& GetCard(int id)
     + Card& GetTopCard()
     + void Shuffle()
@@ -39,14 +39,14 @@ class Deck {
 class Deck extends CardCollection
 
 class CardFactory{
-    + std::unique_ptr<Card> CreateWildPlusCard(int cards_to_draw) const
-    + std::unique_ptr<Card> CreateNumberCard(card_color color, int number) const
-    + std::unique_ptr<Card> CreateReverseCard(card_color color) const
-    + std::unique_ptr<Card> CreatePlusCard(card_color color, int cards_to_draw) const
-    + std::unique_ptr<Card> CreateDiscardPlusCard(card_color color, int cards_to_draw) const
-    + std::unique_ptr<Card> CreateSkipCard(card_color color) const
-    + std::unique_ptr<Card> CreateWildCard() const
-    + std::unique_ptr<Card> CreateSwapCard() const
+    + std::shared_ptr<Card> CreateWildPlusCard(int cards_to_draw) const
+    + std::shared_ptr<Card> CreateNumberCard(card_color color, int number) const
+    + std::shared_ptr<Card> CreateReverseCard(card_color color) const
+    + std::shared_ptr<Card> CreatePlusCard(card_color color, int cards_to_draw) const
+    + std::shared_ptr<Card> CreateDiscardPlusCard(card_color color, int cards_to_draw) const
+    + std::shared_ptr<Card> CreateSkipCard(card_color color) const
+    + std::shared_ptr<Card> CreateWildCard() const
+    + std::shared_ptr<Card> CreateSwapCard() const
 }
 
 class WildCard {
@@ -147,7 +147,7 @@ class Player {
     - shout_uno_ : bool
     - void PlayCard(int card_id, ITurnActionHandler* turn_handler)
     + Player(std::string name)
-    + void AddCardToHand(std::unique_ptr<Card> card)
+    + void AddCardToHand(std::shared_ptr<Card> card)
     + void PrintHand() const
     + std::unique_ptr<CardCollection> MoveHand()
     + std::string& GetName()
@@ -208,11 +208,11 @@ class TurnManager {
     + void StartTurn(int player_id_turn);
     + void DrawCardsForPlayer(Player& player, int number_of_cards = 1);
     + void PrintPlayerTurn(Player& player) const;
-    + Card& GetDiscardPileTopCard() const;
+    + std::shared_ptr<Card> GetDiscardPileTopCard() const;
     + bool GetGameEnded() const;
-    + void DiscardCardToPile(std::unique_ptr<Card> card) const;
+    + void DiscardCardToPile(std::shared_ptr<Card> card) const;
     + std::shared_ptr<Deck> ReturnMovedDeck();
-    + bool IsCardValidToPlay(const Card&) override;
+    + bool IsCardValidToPlay(std::shared_ptr<Card> Card) override;
     + void HandleChangeGameDirection() override;
     + void HandleDrawCardForNextPlayer(int number_of_cards) override;
     + void HandleSetNewTurnColor(card_color color, bool show_message) override;
@@ -222,16 +222,16 @@ class TurnManager {
     + void PrintCurrentTurn(Player& player) override;
     + void HandleSwapHands() override;
     + void HandleDrawFromDiscardPileForNextPlayer(int draw_from_pile) override;
-    + void HandlePlayerUsedCard(Player& player, std::unique_ptr<Card> card) override;
+    + void HandlePlayerUsedCard(Player& player, std::shared_ptr<Card> card) override;
     + void HandleClearConsole() override;
     + void HandleShoutUno() override;
 }
 
 interface ITurnActionHandler {
-    + virtual bool IsCardValidToPlay(const Card&) = 0;
+    + virtual bool IsCardValidToPlay(std::shared_ptr<Card>) = 0;
     + virtual void HandleChangeGameDirection() = 0;
     + virtual void HandleEndTurn() = 0;
-    + virtual void HandlePlayerUsedCard(Player& player, std::unique_ptr<Card> card) = 0;
+    + virtual void HandlePlayerUsedCard(Player& player, std::shared_ptr<Card> card) = 0;
     + virtual void HandleDrawCardForNextPlayer(int number_of_cards) = 0;
     + virtual void HandleDrawCardForCurrentPlayer(int number_of_cards) = 0;
     + virtual void HandleSetNewTurnColor(card_color color, bool show_message) = 0;

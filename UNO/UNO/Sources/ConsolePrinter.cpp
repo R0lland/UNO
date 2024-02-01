@@ -16,7 +16,7 @@ void ConsolePrinter::ShowMessage(std::string message, const bool break_line)
     }
 }
 
-void ConsolePrinter::ShowActionMessage(std::string message, const bool break_line)
+void ConsolePrinter::ShowActionMessage(const std::string message, const bool break_line)
 {
     std::cout << "- ";
     ShowMessage(message, break_line);

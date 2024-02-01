@@ -3,41 +3,41 @@
 #include <chrono>
 #include <random>
 
-void CardCollection::AddCard(std::unique_ptr<Card> card)
+void CardCollection::AddCard(std::shared_ptr<Card> card)
 {
     cards_.push_back(std::move(card));
 }
 
-std::unique_ptr<Card> CardCollection::DrawTopCard()
+std::shared_ptr<Card> CardCollection::DrawTopCard()
 {
-    std::unique_ptr<Card> card = std::move(cards_.back());
+    std::shared_ptr<Card> card = std::move(cards_.back());
     cards_.pop_back();
     return card;
 }
 
-std::unique_ptr<Card> CardCollection::DrawRandomCard()
+std::shared_ptr<Card> CardCollection::DrawRandomCard()
 {
     const int card_id = rand() % GetSize();
-    std::unique_ptr<Card> card = std::move(cards_[card_id]);
+    std::shared_ptr<Card> card = std::move(cards_[card_id]);
     cards_.erase(cards_.begin() + card_id);
     return card;
 }
 
-std::unique_ptr<Card> CardCollection::DrawCard(const int id)
+std::shared_ptr<Card> CardCollection::DrawCard(const int id)
 {
-    std::unique_ptr<Card> card = std::move(cards_[id]);
+    std::shared_ptr<Card> card = std::move(cards_[id]);
     cards_.erase(cards_.begin() + id);
     return card;
 }
 
-Card& CardCollection::GetCard(const int id) const
+std::shared_ptr<Card> CardCollection::GetCard(const int id) const
 {
-    return *cards_[id];
+    return cards_[id];
 }
 
-Card& CardCollection::GetTopCard() const
+std::shared_ptr<Card> CardCollection::GetTopCard() const
 {
-    return *cards_.back();
+    return cards_.back();
 }
 
 int CardCollection::GetSize() const

@@ -45,12 +45,12 @@ public:
     void StartTurn(int player_id_turn);
     void DrawCardsForPlayer(Player& player, int number_of_cards = 1) const;
     void PrintPlayerTurn(Player& player) const;
-    Card& GetDiscardPileTopCard() const;
+    std::shared_ptr<Card> GetDiscardPileTopCard() const;
     bool GetGameEnded() const;
-    void DiscardCardToPile(std::unique_ptr<Card> card) const;
+    void DiscardCardToPile(std::shared_ptr<Card> card) const;
     std::shared_ptr<Deck> ReturnMovedDeck();
     
-    bool IsCardValidToPlay(const Card&) override;
+    bool IsCardValidToPlay(std::shared_ptr<Card> card) override;
     void HandleChangeGameDirection() override;
     void HandleDrawCardForNextPlayer(int number_of_cards) override;
     void HandleSetNewTurnColor(card_color color, bool show_message) override;
@@ -60,7 +60,7 @@ public:
     void PrintCurrentTurn(Player& player) override;
     void HandleSwapHands() override;
     void HandleDrawFromDiscardPileForNextPlayer(int draw_from_pile) override;
-    void HandlePlayerUsedCard(Player& player, std::unique_ptr<Card> card) override;
+    void HandlePlayerUsedCard(Player& player, std::shared_ptr<Card> card) override;
     void HandleClearConsole() override;
     void HandleShoutUno() override;
 };

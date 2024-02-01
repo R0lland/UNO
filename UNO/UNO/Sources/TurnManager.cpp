@@ -11,9 +11,9 @@
 TurnManager::TurnManager()
 {}
 
-bool TurnManager::IsCardValidToPlay(const Card& card)
+bool TurnManager::IsCardValidToPlay(const std::shared_ptr<Card> card)
 {
-   if (card.GetCanBeUsedAnyTurn() || card.GetColor() == current_turn_color_ || card.GetDisplayValue() == GetDiscardPileTopCard().GetDisplayValue() ||
+   if (card->GetCanBeUsedAnyTurn() || card->GetColor() == current_turn_color_ || card->GetDisplayValue() == GetDiscardPileTopCard()->GetDisplayValue() ||
        current_turn_color_ == card_color::WILD ||  current_turn_color_ == card_color::NONE)
    {
        return true;
@@ -26,7 +26,7 @@ void TurnManager::Initialize(std::vector<std::shared_ptr<Player>> players, std::
     players_ = std::move(players);
     deck_ = std::move(deck);
     DiscardCardToPile(deck_->DrawTopCard());
-    SetTurnColor(GetDiscardPileTopCard().GetColor());
+    SetTurnColor(GetDiscardPileTopCard()->GetColor());
     current_turn_ = 0;
     StartTurn(0);
 }
@@ -108,7 +108,7 @@ void TurnManager::SetTurnColor(const card_color color)
 
 void TurnManager::ReShuffleDeckWithDiscardPile() const
 {
-    std::unique_ptr<Card> last_card = discard_pile_->DrawTopCard();
+    std::shared_ptr<Card> last_card = discard_pile_->DrawTopCard();
     const int total_cards_in_pile = discard_pile_->GetSize();
     for (int i = 0; i < total_cards_in_pile; i++)
     {
@@ -186,7 +186,7 @@ std::shared_ptr<Deck> TurnManager::ReturnMovedDeck()
     return std::move(deck_);
 }
 
-void TurnManager::HandlePlayerUsedCard(Player& player, std::unique_ptr<Card> card)
+void TurnManager::HandlePlayerUsedCard(Player& player, std::shared_ptr<Card> card)
 {
     if (player.HandIsEmpty() && player.HasShoutedUno())
     {
@@ -226,7 +226,7 @@ void TurnManager::HandleDrawCardForNextPlayer(const int number_of_cards)
     DrawCardsForPlayer(*players_[GetNextPlayerId()], number_of_cards);
 }
 
-void TurnManager::DiscardCardToPile(std::unique_ptr<Card> card) const
+void TurnManager::DiscardCardToPile(std::shared_ptr<Card> card) const
 {
     discard_pile_->AddCard(std::move(card));
 }
@@ -328,7 +328,7 @@ void TurnManager::PrintPlayerTurn(Player& player) const
     ConsolePrinter::ShowMessage("PILE SIZE: " + std::to_string(discard_pile_->GetSize()));
     ConsolePrinter::ShowMessage("PILE TOP: ", false);
     ColorUtils::PrintColor(current_turn_color_);
-    ConsolePrinter::ShowMessage(" " + GetDiscardPileTopCard().GetDisplayValue());
+    ConsolePrinter::ShowMessage(" " + GetDiscardPileTopCard()->GetDisplayValue());
     ConsolePrinter::BreakLine();
     ColorUtils::PrintTextWithColor("CARDS: ", "aqua");
     player.PrintHand();
@@ -338,7 +338,7 @@ void TurnManager::PrintPlayerTurn(Player& player) const
     ConsolePrinter::BreakLine();
 }
 
-Card& TurnManager::GetDiscardPileTopCard() const
+std::shared_ptr<Card> TurnManager::GetDiscardPileTopCard() const
 {
     return discard_pile_->GetTopCard();
 }

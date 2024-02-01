@@ -18,7 +18,7 @@ private:
     void ShoutUno();
 public:
     explicit Player(std::string name);
-    void AddCardToHand(std::unique_ptr<Card> card);
+    void AddCardToHand(std::shared_ptr<Card> card);
     void PrintHand() const;
     std::unique_ptr<CardCollection> MoveHand();
     std::string& GetName();

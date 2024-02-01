@@ -15,7 +15,7 @@ public:
     explicit Card(card_color color);
     card_color GetColor() const;
     bool GetCanBeUsedAnyTurn() const;
-    std::string GetDisplayValue() const;
+    std::string& GetDisplayValue();
     void Print() const;
     void Print(int id) const;
     virtual void InvokeAction(ITurnActionHandler* turn_handler);

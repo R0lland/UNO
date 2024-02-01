@@ -8,42 +8,42 @@
 #include "SwapHandsCard.h"
 #include "WildPlusCard.h"
 
-std::unique_ptr<Card> CardFactory::CreateWildPlusCard(int cards_to_draw) const
+std::shared_ptr<Card> CardFactory::CreateWildPlusCard(int cards_to_draw) const
 {
-    return std::make_unique<WildPlusCard>(cards_to_draw);
+    return std::make_shared<WildPlusCard>(cards_to_draw);
 }
 
-std::unique_ptr<Card> CardFactory::CreateNumberCard(card_color color, int number) const
+std::shared_ptr<Card> CardFactory::CreateNumberCard(card_color color, int number) const
 {
-    return std::make_unique<NumberCard>(color, number);
+    return std::make_shared<NumberCard>(color, number);
 }
 
-std::unique_ptr<Card> CardFactory::CreateReverseCard(card_color color) const
+std::shared_ptr<Card> CardFactory::CreateReverseCard(card_color color) const
 {
-    return std::make_unique<ReverseCard>(color);
+    return std::make_shared<ReverseCard>(color);
 }
 
-std::unique_ptr<Card> CardFactory::CreatePlusCard(card_color color, int cards_to_draw) const
+std::shared_ptr<Card> CardFactory::CreatePlusCard(card_color color, int cards_to_draw) const
 {
-    return std::make_unique<PlusCard>(color,cards_to_draw);
+    return std::make_shared<PlusCard>(color,cards_to_draw);
 }
 
-std::unique_ptr<Card> CardFactory::CreateDiscardPlusCard(card_color color, int cards_to_draw) const
+std::shared_ptr<Card> CardFactory::CreateDiscardPlusCard(card_color color, int cards_to_draw) const
 {
-    return std::make_unique<DiscardPlusCard>(color,cards_to_draw);
+    return std::make_shared<DiscardPlusCard>(color,cards_to_draw);
 }
 
-std::unique_ptr<Card> CardFactory::CreateSkipCard(card_color color) const
+std::shared_ptr<Card> CardFactory::CreateSkipCard(card_color color) const
 {
-    return std::make_unique<SkipCard>(color);
+    return std::make_shared<SkipCard>(color);
 }
 
-std::unique_ptr<Card> CardFactory::CreateWildCard() const
+std::shared_ptr<Card> CardFactory::CreateWildCard() const
 {
-    return std::make_unique<WildCard>();
+    return std::make_shared<WildCard>();
 }
 
-std::unique_ptr<Card> CardFactory::CreateSwapCard() const
+std::shared_ptr<Card> CardFactory::CreateSwapCard() const
 {
-    return std::make_unique<SwapHandsCard>();
+    return std::make_shared<SwapHandsCard>();
 }
