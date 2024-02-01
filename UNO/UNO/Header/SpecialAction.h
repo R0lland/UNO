@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <string>
 
-class ITurnCardActionHandler;
+class ITurnActionHandler;
 class Player;
 
 class SpecialAction
@@ -14,5 +14,5 @@ public:
     int GetId() const;
     void Print() const;
     virtual bool IsActionValidToUse(Player& player);
-    virtual void InvokeAction(ITurnCardActionHandler* turn_handler);
+    virtual void InvokeAction(ITurnActionHandler* turn_handler);
 };

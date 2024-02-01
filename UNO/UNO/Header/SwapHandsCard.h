@@ -5,5 +5,5 @@ class SwapHandsCard : public Card
 {
 public:
     SwapHandsCard();
-    void InvokeAction(ITurnCardActionHandler* turn_handler) override;
+    void InvokeAction(ITurnActionHandler* turn_handler) override;
 };

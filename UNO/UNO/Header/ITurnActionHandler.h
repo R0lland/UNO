@@ -4,7 +4,7 @@
 #include "Card.h"
 #include "Player.h"
 
-class ITurnCardActionHandler
+class ITurnActionHandler
 {
 public:
     virtual bool IsCardValidToPlay(const Card&) = 0;

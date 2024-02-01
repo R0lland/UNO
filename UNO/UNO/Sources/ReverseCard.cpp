@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "ITurnCardActionHandler.h"
+#include "ITurnActionHandler.h"
 
 
 ReverseCard::ReverseCard(const card_color color) 
@@ -11,7 +11,7 @@ ReverseCard::ReverseCard(const card_color color)
         display_card_value_ = "Reverse";
 }
 
-void ReverseCard::InvokeAction(ITurnCardActionHandler* turn_handler)
+void ReverseCard::InvokeAction(ITurnActionHandler* turn_handler)
 {
         turn_handler->HandleChangeGameDirection();
 }

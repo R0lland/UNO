@@ -2,7 +2,7 @@
 
 #include "ColorUtils.h"
 #include "InputOutputHelper.h"
-#include "ITurnCardActionHandler.h"
+#include "ITurnActionHandler.h"
 
 WildCard::WildCard() : Card(card_color::WILD)
 {
@@ -10,7 +10,7 @@ WildCard::WildCard() : Card(card_color::WILD)
     can_be_used_any_turn_ = true;
 }
 
-void WildCard::InvokeAction(ITurnCardActionHandler* turn_handler)
+void WildCard::InvokeAction(ITurnActionHandler* turn_handler)
 {
     ColorUtils::PrintAllColorsWithId();
     std::string display_message = "Choose one of the colors: ";

@@ -5,5 +5,5 @@ class WildCard : public Card
 {
 public:
     WildCard();
-    void InvokeAction(ITurnCardActionHandler* turn_handler) override;
+    void InvokeAction(ITurnActionHandler* turn_handler) override;
 };

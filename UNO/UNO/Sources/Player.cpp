@@ -6,14 +6,14 @@
 
 #include "ConsolePrinter.h"
 #include "InputOutputHelper.h"
-#include "ITurnCardActionHandler.h"
+#include "ITurnActionHandler.h"
 
 bool Player::CanShoutUno() const
 {
     return hand_->GetSize() == 2;
 }
 
-void Player::PlayCard(const int card_id, ITurnCardActionHandler* turn_handler)
+void Player::PlayCard(const int card_id, ITurnActionHandler* turn_handler)
 {
     std::unique_ptr<Card> chosen_card_in_hand = hand_->DrawCard(card_id);
     Card& chosen_card = *chosen_card_in_hand;
@@ -84,7 +84,7 @@ bool Player::HasShoutedUno() const
     return shout_uno_;
 }
 
-void Player::ChooseAction(ITurnCardActionHandler* turn_handler)
+void Player::ChooseAction(ITurnActionHandler* turn_handler)
 {
     bool action_validated = false;
     while (!action_validated)

@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "ITurnCardActionHandler.h"
+#include "ITurnActionHandler.h"
 
 NumberCard::NumberCard(const card_color color, const int number)
     : Card(color), number_(number)
@@ -15,7 +15,7 @@ int NumberCard::GetNumber() const
   return number_;
 }
 
-void NumberCard::InvokeAction(ITurnCardActionHandler* turn_handler)
+void NumberCard::InvokeAction(ITurnActionHandler* turn_handler)
 {
     
 }

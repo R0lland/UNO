@@ -12,7 +12,7 @@ class Card {
       + std::string GetDisplayValue() const
       + void Print()
       + void Print(int id)
-      + virtual void InvokeAction(ITurnCardActionHandler* turn_handler)
+      + virtual void InvokeAction(ITurnActionHandler* turn_handler)
 }
 
 class CardCollection {
@@ -51,42 +51,42 @@ class CardFactory{
 
 class WildCard {
     + WildCard()
-    + void InvokeAction(ITurnCardActionHandler* turn_handler) override
+    + void InvokeAction(ITurnActionHandler* turn_handler) override
 }
 
 class SwapHandCard{
     + SwapHandsCard()
-    + void InvokeAction(ITurnCardActionHandler* turn_handler) override
+    + void InvokeAction(ITurnActionHandler* turn_handler) override
 }
 
 class WildPlusCard{
     - number_of_cards_to_draw_ : int
     + WildPlusCard()
-    + void InvokeAction(ITurnCardActionHandler* turn_handler) override
+    + void InvokeAction(ITurnActionHandler* turn_handler) override
 }
 
 class PlusCard {
     - number_of_cards_to_draw_ : int;
     + PlusCard(card_color color, int number_of_cards_to_draw)
-    + void InvokeAction(ITurnCardActionHandler* turn_handler) override
+    + void InvokeAction(ITurnActionHandler* turn_handler) override
 }
 
 class ReverseCard {
      + ReverseCard(card_color color)
-     + void InvokeAction(ITurnCardActionHandler* turn_handler) override
+     + void InvokeAction(ITurnActionHandler* turn_handler) override
 }
 
 class NumberCard {
     - number_ : int
     + NumberCard(card_color color, int number)
     + int GetNumber() const
-    + void InvokeAction(ITurnCardActionHandler* turn_handler) override
+    + void InvokeAction(ITurnActionHandler* turn_handler) override
 }
 
 class DiscardPlusCard {
     - number_of_cards_to_draw_ : int
     + DiscardPlusCard(card_color color, int number_of_cards_to_draw)
-    + void InvokeAction(ITurnCardActionHandler* turn_handler) override
+    + void InvokeAction(ITurnActionHandler* turn_handler) override
 }
 
 class DiscardPlusCard extends Card
@@ -104,27 +104,37 @@ class SpecialActions {
     + int GetId() const
     + void Print() const
     + virtual bool IsActionValidToUse(Player& player)
-    + virtual void InvokeAction(ITurnCardActionHandler* turn_handler)
+    + virtual void InvokeAction(ITurnActionHandler* turn_handler)
 }
 
 class ShoutUnoAction {
     + ShoutUnoAction(int id, std::string display_value)
     + bool IsActionValidToUse(Player& player) override
-    + void InvokeAction(ITurnCardActionHandler* turn_handler) override
+    + void InvokeAction(ITurnActionHandler* turn_handler) override
 }
 
 class DrawCardAction {
     + DrawCardAction(int id, std::string display_value)
     + bool IsActionValidToUse(Player& player) override
-    + void InvokeAction(ITurnCardActionHandler* turn_handler) override
+    + void InvokeAction(ITurnActionHandler* turn_handler) override
 }
 
 class ClearConsoleAction {
      + ClearConsoleAction(int id, std::string display_value)
      + bool IsActionValidToUse(Player& player) override
-     + void InvokeAction(ITurnCardActionHandler* turn_handler) override
+     + void InvokeAction(ITurnActionHandler* turn_handler) override
 }
 
+class SpecialActionsCollection {
+    - special_actions_ : std::vector<std::unique_ptr<SpecialAction>>;
+    
+    + SpecialActionsCollection();
+    + static int GetStartingSpecialActionsId();
+    + int GetLastSpecialActionsId() const;
+    + int GetNumberOfSpecialAction() const;
+    + void UseAction(ITurnActionHandler* turn_handler, int id) const;
+    + void PrintActions(Player& player) const;
+}
 
 class ShoutUnoAction extends SpecialActions
 class ClearConsoleAction extends SpecialActions
@@ -135,7 +145,7 @@ class Player {
     - hand_ : std::unique_ptr<CardCollection>
     - special_actions_ : std::unique_ptr<SpecialActionsCollection>
     - shout_uno_ : bool
-    - void PlayCard(int card_id, ITurnCardActionHandler* turn_handler)
+    - void PlayCard(int card_id, ITurnActionHandler* turn_handler)
     + Player(std::string name)
     + void AddCardToHand(std::unique_ptr<Card> card)
     + void PrintHand() const
@@ -145,7 +155,7 @@ class Player {
     + int GetHandSize() const
     + bool HandIsEmpty() const
     + bool HasShoutedUno() const
-    + void ChooseAction(ITurnCardActionHandler* turn_handler)
+    + void ChooseAction(ITurnActionHandler* turn_handler)
     + void ShowSpecialActions()
     + bool CanShoutUno() const
     + void ShoutUno()
@@ -218,7 +228,7 @@ class TurnManager {
     + void HandleShoutUno() override;
 }
 
-interface ITurnCardActionHandler {
+interface ITurnActionHandler {
     + virtual bool IsCardValidToPlay(const Card&) = 0;
     + virtual void HandleChangeGameDirection() = 0;
     + virtual void HandleEndTurn() = 0;
@@ -234,7 +244,7 @@ interface ITurnCardActionHandler {
     + virtual void HandleShoutUno() = 0;
 }
 
-class TurnManager extends ITurnCardActionHandler
+class TurnManager extends ITurnActionHandler
 
 class NameGenerator {
     - names_ : std::vector<std::string>;
@@ -257,18 +267,26 @@ enum direction {
     REVERTED = -1
 }
 
-Card -- ITurnCardActionHandler
-SpecialActions -- ITurnCardActionHandler
 Card - card_color
 
-TurnManager -- direction
+GameManager *-- TurnManager
 
-GameManager --- TurnManager
+TurnManager - direction
 
-CardFactory - Deck
+CardFactory *- Deck
 
-Deck - TurnManager
+Deck .. GameManager
+NameGenerator - GameManager
 
+GameManager o-- Player
+
+TurnManager .. CardCollection
+
+Player *-- SpecialActionsCollection
+Player *-- CardCollection
+
+CardCollection *-- Card
+SpecialActionsCollection *-- SpecialActions
 
 
 'https://plantuml.com/class-diagram

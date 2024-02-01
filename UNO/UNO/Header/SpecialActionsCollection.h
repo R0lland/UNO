@@ -13,6 +13,6 @@ public:
     static int GetStartingSpecialActionsId();
     int GetLastSpecialActionsId() const;
     int GetNumberOfSpecialAction() const;
-    void UseAction(ITurnCardActionHandler* turn_handler, int id) const;
+    void UseAction(ITurnActionHandler* turn_handler, int id) const;
     void PrintActions(Player& player) const;
 };

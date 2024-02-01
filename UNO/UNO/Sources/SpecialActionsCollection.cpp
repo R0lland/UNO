@@ -27,7 +27,7 @@ int SpecialActionsCollection::GetNumberOfSpecialAction() const
     return static_cast<int>(special_actions_.size());
 }
 
-void SpecialActionsCollection::UseAction(ITurnCardActionHandler* turn_handler, const int id) const
+void SpecialActionsCollection::UseAction(ITurnActionHandler* turn_handler, const int id) const
 {
     for (const std::unique_ptr<SpecialAction>& special_action : special_actions_)
     {

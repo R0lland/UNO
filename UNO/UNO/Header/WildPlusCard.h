@@ -8,5 +8,5 @@ private:
 
 public:
     WildPlusCard(int number_of_cards_to_draw);
-    void InvokeAction(ITurnCardActionHandler* turn_handler) override;
+    void InvokeAction(ITurnActionHandler* turn_handler) override;
 };

@@ -3,7 +3,7 @@
 
 #include "CardData.h"
 
-class ITurnCardActionHandler;
+class ITurnActionHandler;
 
 class Card
 {
@@ -18,5 +18,5 @@ public:
     std::string GetDisplayValue() const;
     void Print();
     void Print(int id);
-    virtual void InvokeAction(ITurnCardActionHandler* turn_handler);
+    virtual void InvokeAction(ITurnActionHandler* turn_handler);
 };

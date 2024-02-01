@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "Deck.h"
-#include "ITurnCardActionHandler.h"
+#include "ITurnActionHandler.h"
 #include "Player.h"
 
 enum direction
@@ -13,7 +13,7 @@ enum direction
     REVERTED = -1
 };
 
-class TurnManager : ITurnCardActionHandler
+class TurnManager : ITurnActionHandler
 {
     std::vector<std::unique_ptr<Player>> players_;
     std::unique_ptr<Deck> deck_ = std::make_unique<Deck>();

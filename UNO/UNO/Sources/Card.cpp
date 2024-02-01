@@ -35,7 +35,7 @@ void Card::Print(int id)
     ConsolePrinter::ShowMessage(" " + display_card_value_ + " | ", false);
 }
 
-void Card::InvokeAction(ITurnCardActionHandler* turn_handler)
+void Card::InvokeAction(ITurnActionHandler* turn_handler)
 {
     
 }

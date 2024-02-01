@@ -16,7 +16,7 @@ bool SpecialAction::IsActionValidToUse(Player& player)
     return true;
 }
 
-void SpecialAction::InvokeAction(ITurnCardActionHandler* turn_handler)
+void SpecialAction::InvokeAction(ITurnActionHandler* turn_handler)
 {
     
 }

@@ -1,6 +1,6 @@
 ﻿#include "SwapHandsCard.h"
 
-#include "ITurnCardActionHandler.h"
+#include "ITurnActionHandler.h"
 
 SwapHandsCard::SwapHandsCard() : Card(card_color::NONE)
 {
@@ -8,7 +8,7 @@ SwapHandsCard::SwapHandsCard() : Card(card_color::NONE)
     can_be_used_any_turn_ = true;
 }
 
-void SwapHandsCard::InvokeAction(ITurnCardActionHandler* turn_handler)
+void SwapHandsCard::InvokeAction(ITurnActionHandler* turn_handler)
 {
     turn_handler->HandleSwapHands();
 }

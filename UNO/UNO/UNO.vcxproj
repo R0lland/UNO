@@ -974,7 +974,7 @@
       <AdditionalIncludeDirectories>Header\</AdditionalIncludeDirectories>
       <LinkCompiled>true</LinkCompiled>
     </ClCompile>
-    <ClCompile Include="Sources\ITurnCardActionHandler.cpp">
+    <ClCompile Include="Sources\ITurnActionHandler.cpp">
       <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <Optimization>Disabled</Optimization>
@@ -2104,7 +2104,7 @@
     <ClInclude Include="Header\GameConfig.h" />
     <ClInclude Include="Header\GameManager.h" />
     <ClInclude Include="Header\InputOutputHelper.h" />
-    <ClInclude Include="Header\ITurnCardActionHandler.h" />
+    <ClInclude Include="Header\ITurnActionHandler.h" />
     <ClInclude Include="Header\NameGenerator.h" />
     <ClInclude Include="Header\NumberCard.h" />
     <ClInclude Include="Header\Player.h" />

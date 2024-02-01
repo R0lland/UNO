@@ -5,5 +5,5 @@ class SkipCard : public Card
 {
 public:
     explicit SkipCard(card_color color);
-    void InvokeAction(ITurnCardActionHandler* turn_handler) override;
+    void InvokeAction(ITurnActionHandler* turn_handler) override;
 };

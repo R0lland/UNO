@@ -14,7 +14,7 @@ private:
     std::unique_ptr<SpecialActionsCollection> special_actions_ = std::make_unique<SpecialActionsCollection>();
     bool shout_uno_ = false;
     
-    void PlayCard(int card_id, ITurnCardActionHandler* turn_handler);
+    void PlayCard(int card_id, ITurnActionHandler* turn_handler);
     void ShoutUno();
 public:
     explicit Player(std::string name);
@@ -26,7 +26,7 @@ public:
     int GetHandSize() const;
     bool HandIsEmpty() const;
     bool HasShoutedUno() const;
-    void ChooseAction(ITurnCardActionHandler* turn_handler);
+    void ChooseAction(ITurnActionHandler* turn_handler);
     void ShowSpecialActions();
     bool CanShoutUno() const;
     void TryToShoutUno();
