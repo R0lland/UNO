@@ -26,9 +26,9 @@ void GameManager::PrintPlayerHands() const
 {
     for (const std::shared_ptr<Player>& player : players_)
     {
-        std::cout << player->GetName() << std::endl;
+        ConsolePrinter::ShowMessage(player->GetName());
         player->PrintHand();
-        std::cout << std::endl << std::endl;
+        ConsolePrinter::BreakLine(2);
     }
 }
 

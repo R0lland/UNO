@@ -43,7 +43,8 @@ void Player::PrintHand() const
     {
         if (i > 0 && i % 8 == 0)
         {
-            std::cout << std::endl << "       ";
+            ConsolePrinter::BreakLine();
+            ConsolePrinter::ShowMessage("       ",false);
         }
         hand_->GetCard(i)->Print(i);
     }
