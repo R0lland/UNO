@@ -48,7 +48,6 @@ public:
     std::shared_ptr<Card> GetDiscardPileTopCard() const;
     bool GetGameEnded() const;
     void DiscardCardToPile(std::shared_ptr<Card> card) const;
-    std::shared_ptr<Deck> ReturnMovedDeck();
     
     bool IsCardValidToPlay(std::shared_ptr<Card> card) override;
     void HandleChangeGameDirection() override;

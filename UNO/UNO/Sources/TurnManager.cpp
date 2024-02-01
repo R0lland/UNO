@@ -181,11 +181,6 @@ void TurnManager::DrawCardsFromDiscardPileForPlayer(Player& player, const int nu
     }
 }
 
-std::shared_ptr<Deck> TurnManager::ReturnMovedDeck()
-{
-    return std::move(deck_);
-}
-
 void TurnManager::HandlePlayerUsedCard(Player& player, std::shared_ptr<Card> card)
 {
     if (player.HandIsEmpty() && player.HasShoutedUno())
