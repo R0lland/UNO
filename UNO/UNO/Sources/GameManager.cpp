@@ -8,12 +8,8 @@
 
 void GameManager::InitializePlayers()
 {
-    int number_of_players = 0;
     const std::string display_message = "How many player will be joining us, sir? [" + std::to_string(GameConfig::MIN_PLAYERS) + "-" + std::to_string(GameConfig::MAX_PLAYERS) + "]\n";
-    while (!InputOutputHelper::InputNumberInRange(GameConfig::MIN_PLAYERS, GameConfig::MAX_PLAYERS, number_of_players))
-    {
-        number_of_players = InputOutputHelper::ForceGetInput<int>(display_message);
-    }
+    const int number_of_players = InputOutputHelper::GetInputNumberInRange(GameConfig::MIN_PLAYERS, GameConfig::MAX_PLAYERS, display_message);
     CreatePlayers(number_of_players);
 }
 

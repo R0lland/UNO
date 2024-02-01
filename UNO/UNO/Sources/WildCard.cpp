@@ -13,10 +13,7 @@ WildCard::WildCard() : Card(card_color::WILD)
 void WildCard::InvokeAction(ITurnCardActionHandler* turn_handler)
 {
     ColorUtils::PrintAllColorsWithId();
-    int color_id = -1;
-    while (!InputOutputHelper::InputNumberInRange(1, 4, color_id))
-    {
-        color_id = InputOutputHelper::ForceGetInput<int>("Choose one of the colors: ");
-    }
+    std::string display_message = "Choose one of the colors: ";
+    int color_id = InputOutputHelper::GetInputNumberInRange(1, 4, display_message);
     turn_handler->HandleSetNewTurnColor(static_cast<card_color>(color_id), true);
 }

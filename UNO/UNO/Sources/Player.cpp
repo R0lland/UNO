@@ -2,9 +2,9 @@
 
 #include <iostream>
 #include <memory>
+#include <tuple>
 
 #include "ConsolePrinter.h"
-#include "GameConfig.h"
 #include "InputOutputHelper.h"
 #include "ITurnCardActionHandler.h"
 
@@ -21,6 +21,12 @@ void Player::PlayCard(const int card_id, ITurnCardActionHandler* turn_handler)
     chosen_card.Print();
     ConsolePrinter::BreakLine();
     turn_handler->HandlePlayerUsedCard(*this, std::move(chosen_card_in_hand));
+}
+
+void Player::ShoutUno()
+{
+    ConsolePrinter::ShowActionMessage(name_ + " has shouted UNO!");
+    shout_uno_ = true;
 }
 
 Player::Player(const std::string name) : name_(name)
@@ -83,13 +89,11 @@ void Player::ChooseAction(ITurnCardActionHandler* turn_handler)
     bool action_validated = false;
     while (!action_validated)
     {
-        int action_id = -1;
-        while (!InputOutputHelper::InputNumberInRange(0, GetHandSize() - 1, action_id) &&
-            !InputOutputHelper::InputNumberInRange(special_actions_->GetStartingSpecialActionsId(), special_actions_->GetLastSpecialActionsId(), action_id))
-        {
-            action_id = InputOutputHelper::ForceGetInput<int>(
-                name_ + ", choose one card from your Deck or a special action: ");
-        }
+        std::string display_message = name_ + ", choose one card from your Deck or a special action: ";
+        std::vector<std::tuple<int, int>> ranges{};
+        ranges.emplace_back(std::make_tuple(0, GetHandSize() - 1));
+        ranges.emplace_back(std::make_tuple(special_actions_->GetStartingSpecialActionsId(), special_actions_->GetLastSpecialActionsId()));
+        const int action_id = InputOutputHelper::GetInputNumberInRanges(ranges, display_message);
         if (action_id >= special_actions_->GetStartingSpecialActionsId())
         {
             action_validated = true;
@@ -106,12 +110,11 @@ void Player::ChooseAction(ITurnCardActionHandler* turn_handler)
     }
 }
 
-void Player::ShoutUno()
+void Player::TryToShoutUno()
 {
     if (CanShoutUno() && !HasShoutedUno())
     {
-        ConsolePrinter::ShowActionMessage(name_ + " has shouted UNO!");
-        shout_uno_ = true;
+        ShoutUno();
     }
 }
 

@@ -216,7 +216,7 @@ void TurnManager::HandleClearConsole()
 
 void TurnManager::HandleShoutUno()
 {
-    players_[current_player_id_]->ShoutUno();
+    players_[current_player_id_]->TryToShoutUno();
     players_[current_player_id_]->ChooseAction(this);
 }
 

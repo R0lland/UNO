@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <iostream>
 #include <string>
+#include <vector>
 
 class InputOutputHelper
 {
@@ -9,6 +10,8 @@ public:
     static TData ForceGetInput(const std::string& message);
 
     static bool InputNumberInRange(int min, int max, int number);
+    static int GetInputNumberInRange(int min, int max, const std::string& message);
+    static int GetInputNumberInRanges(std::vector<std::tuple<int, int>> ranges, const std::string& message);
 };
 
 template <typename TData>

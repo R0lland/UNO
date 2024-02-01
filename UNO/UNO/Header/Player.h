@@ -15,6 +15,7 @@ private:
     bool shout_uno_ = false;
     
     void PlayCard(int card_id, ITurnCardActionHandler* turn_handler);
+    void ShoutUno();
 public:
     explicit Player(std::string name);
     void AddCardToHand(std::unique_ptr<Card> card);
@@ -28,5 +29,5 @@ public:
     void ChooseAction(ITurnCardActionHandler* turn_handler);
     void ShowSpecialActions();
     bool CanShoutUno() const;
-    void ShoutUno();
+    void TryToShoutUno();
 };
