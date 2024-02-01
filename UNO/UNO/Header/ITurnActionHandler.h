@@ -7,7 +7,7 @@
 class ITurnActionHandler
 {
 public:
-    virtual bool IsCardValidToPlay(std::shared_ptr<Card> card) = 0;
+    virtual bool IsCardValidToPlay(const Card& card) = 0;
     virtual void HandleChangeGameDirection() = 0;
     virtual void HandleEndTurn() = 0;
     virtual void HandlePlayerUsedCard(Player& player, std::shared_ptr<Card> card) = 0;

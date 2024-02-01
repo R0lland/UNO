@@ -17,7 +17,7 @@ bool Card::GetCanBeUsedAnyTurn() const
     return can_be_used_any_turn_;
 }
 
-std::string& Card::GetDisplayValue()
+std::string Card::GetDisplayValue() const
 {
     return display_card_value_;
 }

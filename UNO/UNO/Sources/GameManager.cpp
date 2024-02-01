@@ -18,7 +18,7 @@ void GameManager::CreatePlayers(const int number_of_players)
     name_generator_->GenerateNames();
     for (int i = 0; i < number_of_players; i++)
     {
-        players_.emplace_back(std::make_unique<Player>(name_generator_->GetName()));
+        players_.emplace_back(std::make_shared<Player>(name_generator_->GetName()));
     }
 }
 
@@ -36,15 +36,15 @@ void GameManager::DealInitialCards() const
 {
     for (const std::shared_ptr<Player>& player : players_)
     {
-        DrawCardsForPlayer(player, GameConfig::NUMBER_OF_CARDS_TO_DEAL);
+        DrawCardsForPlayer(*player, GameConfig::NUMBER_OF_CARDS_TO_DEAL);
     }
 }
 
-void GameManager::DrawCardsForPlayer(const std::shared_ptr<Player>& player, const int number_of_cards) const
+void GameManager::DrawCardsForPlayer(Player& player, const int number_of_cards) const
 {
     for (int i = 0; i < number_of_cards; i++)
     {
-        player->AddCardToHand(deck_->DrawTopCard());
+        player.AddCardToHand(deck_->DrawTopCard());
     }
 }
 

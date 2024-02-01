@@ -49,7 +49,7 @@ public:
     bool GetGameEnded() const;
     void DiscardCardToPile(std::shared_ptr<Card> card) const;
     
-    bool IsCardValidToPlay(std::shared_ptr<Card> card) override;
+    bool IsCardValidToPlay(const Card& card) override;
     void HandleChangeGameDirection() override;
     void HandleDrawCardForNextPlayer(int number_of_cards) override;
     void HandleSetNewTurnColor(card_color color, bool show_message) override;

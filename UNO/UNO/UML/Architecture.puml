@@ -171,7 +171,7 @@ class GameManager {
     - void InitializePlayers()
     - void CreatePlayers(int number_of_players)
     - void DealInitialCards() const
-    - void DrawCardsForPlayer(const std::shared_ptr<Player>& player, int number_of_cards = 1) const
+    - void DrawCardsForPlayer(Player& player, int number_of_cards = 1) const
     - void StartTurns()
     - void InitializeData()
     
@@ -211,7 +211,8 @@ class TurnManager {
     + std::shared_ptr<Card> GetDiscardPileTopCard() const;
     + bool GetGameEnded() const;
     + void DiscardCardToPile(std::shared_ptr<Card> card) const;
-    + bool IsCardValidToPlay(std::shared_ptr<Card> Card) override;
+    
+    + bool IsCardValidToPlay(const Card& Card) override;
     + void HandleChangeGameDirection() override;
     + void HandleDrawCardForNextPlayer(int number_of_cards) override;
     + void HandleSetNewTurnColor(card_color color, bool show_message) override;
@@ -227,7 +228,7 @@ class TurnManager {
 }
 
 interface ITurnActionHandler {
-    + virtual bool IsCardValidToPlay(std::shared_ptr<Card>) = 0;
+    + virtual bool IsCardValidToPlay(const Card& card) = 0;
     + virtual void HandleChangeGameDirection() = 0;
     + virtual void HandleEndTurn() = 0;
     + virtual void HandlePlayerUsedCard(Player& player, std::shared_ptr<Card> card) = 0;

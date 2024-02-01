@@ -101,7 +101,7 @@ void Player::ChooseAction(ITurnActionHandler* turn_handler)
         }
         else
         {
-            action_validated = turn_handler->IsCardValidToPlay(hand_->GetCard(action_id));
+            action_validated = turn_handler->IsCardValidToPlay(*hand_->GetCard(action_id));
             if (action_validated)
             {
                 PlayCard(action_id, turn_handler);

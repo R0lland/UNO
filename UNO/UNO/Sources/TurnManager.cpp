@@ -11,9 +11,9 @@
 TurnManager::TurnManager()
 {}
 
-bool TurnManager::IsCardValidToPlay(const std::shared_ptr<Card> card)
+bool TurnManager::IsCardValidToPlay(const Card& card)
 {
-   if (card->GetCanBeUsedAnyTurn() || card->GetColor() == current_turn_color_ || card->GetDisplayValue() == GetDiscardPileTopCard()->GetDisplayValue() ||
+   if (card.GetCanBeUsedAnyTurn() || card.GetColor() == current_turn_color_ || card.GetDisplayValue() == GetDiscardPileTopCard()->GetDisplayValue() ||
        current_turn_color_ == card_color::WILD ||  current_turn_color_ == card_color::NONE)
    {
        return true;
@@ -46,7 +46,7 @@ void TurnManager::ShowPlayers() const
 {
     std::string direction_arrow = current_direction_ == NORMAL ? "->" : "<-";
     std::string player_name;
-    for (int i = 0; i < players_.size(); i++)
+    for (size_t i = 0; i < players_.size(); i++)
     {
         if (i >= players_.size() - 1)
         {
