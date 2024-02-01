@@ -15,8 +15,8 @@ enum direction
 
 class TurnManager : ITurnActionHandler
 {
-    std::vector<std::unique_ptr<Player>> players_;
-    std::unique_ptr<Deck> deck_ = std::make_unique<Deck>();
+    std::vector<std::shared_ptr<Player>> players_;
+    std::shared_ptr<Deck> deck_ = std::make_unique<Deck>();
     std::unique_ptr<CardCollection> discard_pile_ = std::make_unique<CardCollection>();
     card_color current_turn_color_;
     direction current_direction_ = NORMAL;
@@ -41,14 +41,14 @@ class TurnManager : ITurnActionHandler
     
 public:
     TurnManager();
-    void Initialize(std::vector<std::unique_ptr<Player>> players, std::unique_ptr<Deck> deck);
+    void Initialize(std::vector<std::shared_ptr<Player>> players, std::shared_ptr<Deck> deck);
     void StartTurn(int player_id_turn);
     void DrawCardsForPlayer(Player& player, int number_of_cards = 1) const;
     void PrintPlayerTurn(Player& player) const;
     Card& GetDiscardPileTopCard() const;
     bool GetGameEnded() const;
     void DiscardCardToPile(std::unique_ptr<Card> card) const;
-    std::unique_ptr<Deck> ReturnMovedDeck();
+    std::shared_ptr<Deck> ReturnMovedDeck();
     
     bool IsCardValidToPlay(const Card&) override;
     void HandleChangeGameDirection() override;

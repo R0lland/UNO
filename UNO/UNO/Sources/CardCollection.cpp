@@ -30,12 +30,12 @@ std::unique_ptr<Card> CardCollection::DrawCard(const int id)
     return card;
 }
 
-Card& CardCollection::GetCard(const int id)
+Card& CardCollection::GetCard(const int id) const
 {
     return *cards_[id];
 }
 
-Card& CardCollection::GetTopCard()
+Card& CardCollection::GetTopCard() const
 {
     return *cards_.back();
 }

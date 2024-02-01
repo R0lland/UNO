@@ -21,7 +21,7 @@ bool TurnManager::IsCardValidToPlay(const Card& card)
     return false;
 }
 
-void TurnManager::Initialize(std::vector<std::unique_ptr<Player>> players, std::unique_ptr<Deck> deck)
+void TurnManager::Initialize(std::vector<std::shared_ptr<Player>> players, std::shared_ptr<Deck> deck)
 {
     players_ = std::move(players);
     deck_ = std::move(deck);
@@ -181,7 +181,7 @@ void TurnManager::DrawCardsFromDiscardPileForPlayer(Player& player, const int nu
     }
 }
 
-std::unique_ptr<Deck> TurnManager::ReturnMovedDeck()
+std::shared_ptr<Deck> TurnManager::ReturnMovedDeck()
 {
     return std::move(deck_);
 }

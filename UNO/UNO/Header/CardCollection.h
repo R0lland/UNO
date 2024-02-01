@@ -13,8 +13,8 @@ public:
     std::unique_ptr<Card> DrawTopCard();
     std::unique_ptr<Card> DrawRandomCard();
     std::unique_ptr<Card> DrawCard(int id);
-    Card& GetCard(int id);
-    Card& GetTopCard();
+    Card& GetCard(int id) const;
+    Card& GetTopCard() const;
     void Shuffle();
     void ClearCollection();
     [[nodiscard]] int GetSize() const;

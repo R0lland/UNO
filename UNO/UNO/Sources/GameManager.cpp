@@ -24,7 +24,7 @@ void GameManager::CreatePlayers(const int number_of_players)
 
 void GameManager::PrintPlayerHands() const
 {
-    for (const std::unique_ptr<Player>& player : players_)
+    for (const std::shared_ptr<Player>& player : players_)
     {
         std::cout << player->GetName() << std::endl;
         player->PrintHand();
@@ -34,13 +34,13 @@ void GameManager::PrintPlayerHands() const
 
 void GameManager::DealInitialCards() const
 {
-    for (const std::unique_ptr<Player>& player : players_)
+    for (const std::shared_ptr<Player>& player : players_)
     {
         DrawCardsForPlayer(player, GameConfig::NUMBER_OF_CARDS_TO_DEAL);
     }
 }
 
-void GameManager::DrawCardsForPlayer(const std::unique_ptr<Player>& player, const int number_of_cards) const
+void GameManager::DrawCardsForPlayer(const std::shared_ptr<Player>& player, const int number_of_cards) const
 {
     for (int i = 0; i < number_of_cards; i++)
     {

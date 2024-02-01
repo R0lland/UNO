@@ -162,8 +162,8 @@ class Player {
 }
 
 class GameManager {
-    - deck_ : std::unique_ptr<Deck> 
-    - players_ : std::vector<std::unique_ptr<Player>>
+    - deck_ : std::shared_ptr<Deck> 
+    - players_ : std::vector<std::shared_ptr<Player>>
     - name_generator_ : std::unique_ptr<NameGenerator> 
     - turn_manager_ : std::unique_ptr<TurnManager>
 
@@ -171,7 +171,7 @@ class GameManager {
     - void InitializePlayers()
     - void CreatePlayers(int number_of_players)
     - void DealInitialCards() const
-    - void DrawCardsForPlayer(const std::unique_ptr<Player>& player, int number_of_cards = 1) const
+    - void DrawCardsForPlayer(const std::shared_ptr<Player>& player, int number_of_cards = 1) const
     - void StartTurns()
     - void InitializeData()
     
@@ -179,8 +179,8 @@ class GameManager {
 }
 
 class TurnManager {
-    - players_ : std::vector<std::unique_ptr<Player>>
-    - deck_ : std::unique_ptr<Deck> 
+    - players_ : std::vector<std::shared_ptr<Player>>
+    - deck_ : std::shared_ptr<Deck> 
     - discard_pile_ : std::unique_ptr<CardCollection> 
     - current_turn_color_ : card_color
     - current_direction_ = direction
@@ -204,14 +204,14 @@ class TurnManager {
     - void DrawCardsFromDiscardPileForPlayer(Player& player, int number_of_cards = 1) const;
     
     + TurnManager();
-    + void Initialize(std::vector<std::unique_ptr<Player>> players, std::unique_ptr<Deck> deck);
+    + void Initialize(std::vector<std::shared_ptr<Player>> players, std::unique_ptr<Deck> deck);
     + void StartTurn(int player_id_turn);
     + void DrawCardsForPlayer(Player& player, int number_of_cards = 1);
     + void PrintPlayerTurn(Player& player) const;
     + Card& GetDiscardPileTopCard() const;
     + bool GetGameEnded() const;
     + void DiscardCardToPile(std::unique_ptr<Card> card) const;
-    + std::unique_ptr<Deck> ReturnMovedDeck();
+    + std::shared_ptr<Deck> ReturnMovedDeck();
     + bool IsCardValidToPlay(const Card&) override;
     + void HandleChangeGameDirection() override;
     + void HandleDrawCardForNextPlayer(int number_of_cards) override;
