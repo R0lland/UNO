@@ -16,9 +16,8 @@ bool Player::CanShoutUno() const
 void Player::PlayCard(const int card_id, ITurnActionHandler* turn_handler)
 {
     std::unique_ptr<Card> chosen_card_in_hand = hand_->DrawCard(card_id);
-    Card& chosen_card = *chosen_card_in_hand;
     ConsolePrinter::ShowActionMessage(name_ + " has used the card: ", false);
-    chosen_card.Print();
+    chosen_card_in_hand->Print();
     ConsolePrinter::BreakLine();
     turn_handler->HandlePlayerUsedCard(*this, std::move(chosen_card_in_hand));
 }

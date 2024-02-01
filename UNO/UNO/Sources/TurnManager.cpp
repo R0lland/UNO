@@ -303,7 +303,7 @@ void TurnManager::HandleChangeGameDirection()
     current_direction_ = current_direction_ == NORMAL ? REVERTED : NORMAL;
 }
 
-void TurnManager::DrawCardsForPlayer(Player& player, const int number_of_cards)
+void TurnManager::DrawCardsForPlayer(Player& player, const int number_of_cards) const
 {
     for (int i = 0; i < number_of_cards; i++)
     {

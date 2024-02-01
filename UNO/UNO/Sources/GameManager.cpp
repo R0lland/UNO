@@ -48,10 +48,9 @@ void GameManager::DrawCardsForPlayer(const std::unique_ptr<Player>& player, cons
     }
 }
 
-void GameManager::StartGame()
+void GameManager::StartTurns()
 {
     PrintPlayerHands();
-    
     turn_manager_->Initialize(std::move(players_),  std::move(deck_));
 }
 
@@ -67,7 +66,7 @@ void GameManager::InitializeGame()
     while (!turn_manager_->GetGameEnded())
     {
         InitializeData();
-        StartGame();
+        StartTurns();
         deck_ = turn_manager_->ReturnMovedDeck();
     }
 }

@@ -26,7 +26,7 @@ public:
     static int constexpr SKIP_CARD_NUMBER_TO_SKIP = 2;
 
     //Deal Cards
-    static int constexpr NUMBER_OF_CARDS_TO_DEAL = 2;
+    static int constexpr NUMBER_OF_CARDS_TO_DEAL = 7;
     static int constexpr NUMBER_OF_CARDS_TO_DRAW_IF_PLAYER_DIDNT_SHOUT_UNO = 2;
 
     //Special Actions

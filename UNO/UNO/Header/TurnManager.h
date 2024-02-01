@@ -43,7 +43,7 @@ public:
     TurnManager();
     void Initialize(std::vector<std::unique_ptr<Player>> players, std::unique_ptr<Deck> deck);
     void StartTurn(int player_id_turn);
-    void DrawCardsForPlayer(Player& player, int number_of_cards = 1);
+    void DrawCardsForPlayer(Player& player, int number_of_cards = 1) const;
     void PrintPlayerTurn(Player& player) const;
     Card& GetDiscardPileTopCard() const;
     bool GetGameEnded() const;

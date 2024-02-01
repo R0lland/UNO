@@ -22,13 +22,13 @@ std::string Card::GetDisplayValue() const
     return display_card_value_;
 }
 
-void Card::Print()
+void Card::Print() const
 {
     ColorUtils::PrintColor(color_);
     ConsolePrinter::ShowMessage(" " + display_card_value_, false);
 }
 
-void Card::Print(int id)
+void Card::Print(const int id) const
 {
     ConsolePrinter::ShowMessage("[" + std::to_string(id) + "] ", false);
     ColorUtils::PrintColor(color_);

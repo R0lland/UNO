@@ -2085,7 +2085,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="UML\UNO_uml.puml" />
+    <Content Include="UML\Architecture.puml" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header\ShoutUnoAction.h" />

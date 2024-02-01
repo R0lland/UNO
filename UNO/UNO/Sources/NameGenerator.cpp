@@ -17,14 +17,14 @@ void NameGenerator::GenerateNames()
     names_.clear();
     names_ = {
         "Mateus",
-        "Tony",
+        "Diego",
         "Caio",
         "Rafael",
         "Albano",
         "Taveiros",
         "Bruno",
         "Joao",
-        "Peter",
+        "Ezio",
         "Nave",
         "Rofli"
     };
