@@ -17,7 +17,6 @@ public:
     virtual void HandleSkipNextPlayer() = 0;
     virtual void HandleSwapHands() = 0;
     virtual void HandleDrawFromDiscardPileForNextPlayer(int number_of_cards) = 0;
-    virtual void PrintCurrentTurn(Player& player) = 0;
     virtual void HandleClearConsole() = 0;
     virtual void HandleShoutUno() = 0;
 };

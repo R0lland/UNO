@@ -43,6 +43,7 @@ class TurnManager : ITurnActionHandler
     void PrintPlayerTurn(Player& player) const;
     std::shared_ptr<Card> GetDiscardPileTopCard() const;
     void DiscardCardToPile(std::shared_ptr<Card> card) const;
+    void PrintCurrentTurn(Player& player);
     
 public:
     TurnManager();
@@ -56,7 +57,6 @@ public:
     void HandleEndTurn() override;
     void HandleSkipNextPlayer() override;
     void HandleDrawCardForCurrentPlayer(int number_of_cards) override;
-    void PrintCurrentTurn(Player& player) override;
     void HandleSwapHands() override;
     void HandleDrawFromDiscardPileForNextPlayer(int draw_from_pile) override;
     void HandlePlayerUsedCard(Player& player, std::shared_ptr<Card> card) override;

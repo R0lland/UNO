@@ -208,6 +208,7 @@ class TurnManager {
     - void PrintPlayerTurn(Player& player) const;
     - std::shared_ptr<Card> GetDiscardPileTopCard() const;
     - void DiscardCardToPile(std::shared_ptr<Card> card) const;
+    - void PrintCurrentTurn(Player& player) override;
     
     + TurnManager();
     + void Initialize(std::vector<std::shared_ptr<Player>> players, std::unique_ptr<Deck> deck);
@@ -220,7 +221,6 @@ class TurnManager {
     + void HandleEndTurn() override;
     + void HandleSkipNextPlayer() override;
     + void HandleDrawCardForCurrentPlayer(int number_of_cards) override;
-    + void PrintCurrentTurn(Player& player) override;
     + void HandleSwapHands() override;
     + void HandleDrawFromDiscardPileForNextPlayer(int draw_from_pile) override;
     + void HandlePlayerUsedCard(Player& player, std::shared_ptr<Card> card) override;
@@ -239,7 +239,6 @@ interface ITurnActionHandler {
     + virtual void HandleSkipNextPlayer() = 0;
     + virtual void HandleSwapHands() = 0;
     + virtual void HandleDrawFromDiscardPileForNextPlayer(int number_of_cards) = 0;
-    + virtual void PrintCurrentTurn(Player& player) = 0;
     + virtual void HandleClearConsole() = 0;
     + virtual void HandleShoutUno() = 0;
 }
