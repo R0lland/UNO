@@ -17,15 +17,15 @@ void NameGenerator::GenerateNames()
     names_.clear();
     names_ = {
         "Mateus",
-        "Diego",
         "Caio",
         "Rafael",
-        "Albano",
+        "Pedro",
         "Taveiros",
         "Bruno",
-        "Joao",
-        "Ezio",
-        "Nave",
-        "Rofli"
+        "Joao Wang",
+        "Ezio Otaku",
+        "Nave Enum",
+        "Rofli",
+        "Moises"
     };
 }

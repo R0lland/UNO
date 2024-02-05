@@ -2,9 +2,9 @@
 'https://plantuml.com/sequence-diagram
 
 class Card {
-      - color_ : card_color
-      - display_card_value_ : std::string
-      - can_be_used_any_turn_ : bool
+      # color_ : card_color
+      # display_card_value_ : std::string
+      # can_be_used_any_turn_ : bool
 
       + Card(card_color color)
       + card_color GetColor() const
@@ -16,7 +16,7 @@ class Card {
 }
 
 class CardCollection {
-    - cards_ : std::vector<std::shared_ptr<Card>>
+    # cards_ : std::vector<std::shared_ptr<Card>>
     + void AddCard(std::shared_ptr<Card> card)
     + std::shared_ptr<Card> DrawTopCard()
     + std::shared_ptr<Card> DrawRandomCard()
@@ -32,8 +32,9 @@ class CardCollection {
 class Deck {
     - card_factory_ : std::unique_ptr<CardFactory>
     
+    - void GenerateCardsFromColor(card_color color)
     + void Generate()
-    + void GenerateCardsFromColor(card_color color)
+    
 }
 
 class Deck extends CardCollection
@@ -202,15 +203,15 @@ class TurnManager {
     - void ShowPlayersAvailableToSwapHands() const;
     - void SwapHandsBetweenPlayers(Player& player1, Player& player2) const;
     - void DrawCardsFromDiscardPileForPlayer(Player& player, int number_of_cards = 1) const;
+    - void StartTurn(int player_id_turn);
+    - void DrawCardsForPlayer(Player& player, int number_of_cards = 1);
+    - void PrintPlayerTurn(Player& player) const;
+    - std::shared_ptr<Card> GetDiscardPileTopCard() const;
+    - void DiscardCardToPile(std::shared_ptr<Card> card) const;
     
     + TurnManager();
     + void Initialize(std::vector<std::shared_ptr<Player>> players, std::unique_ptr<Deck> deck);
-    + void StartTurn(int player_id_turn);
-    + void DrawCardsForPlayer(Player& player, int number_of_cards = 1);
-    + void PrintPlayerTurn(Player& player) const;
-    + std::shared_ptr<Card> GetDiscardPileTopCard() const;
     + bool GetGameEnded() const;
-    + void DiscardCardToPile(std::shared_ptr<Card> card) const;
     
     + bool IsCardValidToPlay(const Card& Card) override;
     + void HandleChangeGameDirection() override;

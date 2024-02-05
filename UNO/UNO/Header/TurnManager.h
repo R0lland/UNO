@@ -38,17 +38,17 @@ class TurnManager : ITurnActionHandler
     void ShowPlayersAvailableToSwapHands() const;
     void SwapHandsBetweenPlayers(Player& player1, Player& player2) const;
     void DrawCardsFromDiscardPileForPlayer(Player& player, int number_of_cards = 1) const;
-    
-public:
-    TurnManager();
-    void Initialize(std::vector<std::shared_ptr<Player>> players, std::shared_ptr<Deck> deck);
     void StartTurn(int player_id_turn);
     void DrawCardsForPlayer(Player& player, int number_of_cards = 1) const;
     void PrintPlayerTurn(Player& player) const;
     std::shared_ptr<Card> GetDiscardPileTopCard() const;
-    bool GetGameEnded() const;
     void DiscardCardToPile(std::shared_ptr<Card> card) const;
     
+public:
+    TurnManager();
+    void Initialize(std::vector<std::shared_ptr<Player>> players, std::shared_ptr<Deck> deck);
+    bool GetGameEnded() const;
+   
     bool IsCardValidToPlay(const Card& card) override;
     void HandleChangeGameDirection() override;
     void HandleDrawCardForNextPlayer(int number_of_cards) override;
