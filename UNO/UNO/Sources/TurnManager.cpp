@@ -250,10 +250,15 @@ void TurnManager::HandleSkipNextPlayer()
     next_player_move_ = GameConfig::SKIP_CARD_NUMBER_TO_SKIP;
 }
 
-void TurnManager::HandleDrawCardForCurrentPlayer(int number_of_cards)
+void TurnManager::HandleDrawCardForCurrentPlayer(const int number_of_cards)
 {
-    ConsolePrinter::ShowActionMessage( players_[current_player_id_]->GetName() + " Draws " + std::to_string(number_of_cards) + " card");
-    DrawCardsForPlayer(*players_[current_player_id_], number_of_cards);
+    Player& current_player = *players_[current_player_id_];
+    ConsolePrinter::ShowActionMessage( current_player.GetName() + " Draws " + std::to_string(number_of_cards) + " card");
+    if (current_player.GetName() == "Moises")
+    {
+        ConsolePrinter::ShowActionMessage("Moises nao consegue");
+    }
+    DrawCardsForPlayer(current_player, number_of_cards);
 }
 
 void TurnManager::PrintCurrentTurn(Player& player)
